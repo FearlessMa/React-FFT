@@ -1,0 +1,98 @@
+
+
+.log{
+  height: 64px;
+  display: flex;
+  align-items:center;
+  padding:10px;
+
+  :first-child{
+    width: 30%;
+  }
+
+  :last-child{
+    flex: 1;
+    padding: 10px;
+    color: #ffffff;
+    transition: all 300ms linear;
+  }
+
+  .logCollapsed{
+    flex:0;
+    width: 0;
+    font-size: 0;
+  }
+}
+
+div.header{
+  padding: 0;
+  background: #ffffff;
+  color: #000;
+
+  .icon{
+    padding: 15px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
+
+.headerUser{
+  float: right;
+  margin-right:20px ;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+
+  .userAvatar{
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .userName{
+    display: inline-block;
+    padding: 0 10px;
+    //border-bottom: 2px solid transparent;
+  }
+  //.userName:hover{
+  //  color:#108ee9;
+  //  border-bottom: 2px solid #108ee9;
+  //  //background-color: rgba();
+  //}
+}
+
+.headerUser:hover{
+  color:#108ee9;
+  border-bottom: 2px solid #108ee9;
+  //background-color: rgba();
+}
+.headerUser:hover .userAvatar{
+  background-color:#108ee9;
+  //background-color: rgba();
+}
+
+
+a{
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+}
+.ant-menu-item-selected>span>a{
+  color: #ffffff;
+}
+.ant-menu-item-active>span>a{
+  color: #ffffff;
+}
+a:focus{
+  text-decoration: none;
+}
+a:link{
+  color: rgba(255, 255, 255, 0.65);
+}
+a:hover{
+  color: #ffffff;
+}
+a:visited{
+  color: rgba(255, 255, 255, 0.65);
+}
+a:active {
+  color: rgba(255, 255, 255, 0.65);
+}
