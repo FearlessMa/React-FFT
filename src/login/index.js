@@ -55,7 +55,10 @@ export default class LoginComponent extends React.Component{
     }
 
     componentWillMount(){
-        this.context.router.history.replace("/");
+        const sessionAuth = sessionStorage.getItem('isAuthenticated');
+        if(sessionAuth){
+            this.context.router.history.replace("/home");
+        }
     }
 
     componentWillReceiveProps(nextProps){
@@ -66,9 +69,8 @@ export default class LoginComponent extends React.Component{
         }
         if(nextProps.login.isLogin){
             sessionStorage.setItem('isAuthenticated',true);
-
-            console.log('this.props************');
-            console.log(this.props);
+            // console.log('this.props************');
+            // console.log(this.props);
             this.context.router.history.replace("/home");
         }
     }

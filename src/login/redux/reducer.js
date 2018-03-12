@@ -2,7 +2,7 @@
 
 import { LOGIN, LOGINERR, ISLOADING, ISAUTHEN, CLEARERRMSG } from "./actionTypes";
 import {LOGOUT} from "../../home/index";
-
+import { STOREMENULIST } from './../../routers';
 const storeInitValues = {
         isLogin : false,
         isLoading:false,
@@ -44,6 +44,8 @@ const loginReducer = (state=storeInitValues,action)=>{
             return Object.assign({},{...state},{
                 userData: {}
             });
+        case STOREMENULIST :
+            return Object.assign({},{...state},{userData:action.userData});
         default :
             return state;
     }

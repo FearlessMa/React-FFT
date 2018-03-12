@@ -60,26 +60,34 @@ export default class MenuContainer extends React.Component{
                     if(item.menuId ===fItem.parentMenuId ){
                         item.childeList.push(fItem);
                     }
+                    return null ;
                 });
                 item.childeList.sort(this.compare);
                 this.treeMenuList(item.childeList,filterList)
             }
+            return null ;
         });
         return treeList
     }
 
     componentDidMount(){
-        console.log('menuprops');
-        console.log(this.props);
-        if(this.props.userData.data){
+        // console.log('menuprops');
+        // console.log(this.props);
+        let sessionUserData = sessionStorage.getItem('userData');
+        if((this.props.userData.data!==undefined) && !sessionUserData){
             let menuList = this.tranTreeList(this.props.userData.data.menulist) ;
             const userData = this.props.userData;
-            userData.data.menuList = menuList;
-            sessionStorage.setItem('menuList',JSON.stringify(userData));
+            sessionStorage.setItem('userData',JSON.stringify(userData));
             let defaultKey = menuList.find((item)=>item.menuName === '首页');
             this.setState({
                 menuList,
                 defaultKey:`${defaultKey.menuId}`
+            });
+        }else{
+            // debugger;
+            let menuList = this.tranTreeList(this.props.userData.data.menulist) ;
+            this.setState({
+                menuList
             });
         }
     }
@@ -118,7 +126,7 @@ const menuChild = (item)=>{
             {
                 item.childeList.map((cItem)=>{
                     if(cItem.childeList){
-                        menuChild(cItem)
+                        return menuChild(cItem)
                     }else{
                         return (
                             <MenuItem key={cItem.menuId}>
