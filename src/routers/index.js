@@ -14,10 +14,10 @@ const RouterIndex = ()=>{
         return (
             <Router>
                 <Switch>
-                    <Route exact path={'/'} component={LoginComponent} />
-                    <PrivateRoute  path={'/home'} component={HomeComponent} />
+                    <Route exact path={'/login'} component={LoginComponent} />
+                    <PrivateRoute  path={'/'} component={HomeComponent} />
                     {/*<Route path={'/home'} component={HomeComponent} />*/}
-                    <Redirect to={'/'}/>
+                    <Redirect from={'/'} to={'/login'}/>
                 </Switch>
             </Router>
         );
@@ -63,7 +63,7 @@ class PrivateRoute extends React.Component{
                     <Component {...props}/>
                 ) : (
                     <Redirect to={{
-                        pathname: '/',
+                        pathname: '/login',
                     }}/>
                 )
             )}/>

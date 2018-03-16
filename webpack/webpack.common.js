@@ -26,10 +26,10 @@ module.exports = {
                         options : {
                             presets : [['env'],['react'],['stage-0']],
                             plugins : [
-                                ["import", { libraryName: "antd", style: "css" }],
                                 'transform-decorators-legacy',
                                 "transform-remove-strict-mode",
-                                "react-hot-loader/babel"
+                                "react-hot-loader/babel",
+                                ["import", { libraryName: "antd", style: "css" }]
                             ]
                         }
                     }
@@ -44,7 +44,11 @@ module.exports = {
                 }
             },
             {
-                test : /\.(css|scss|less)$/,
+                test : /\.(css)$/,
+                loader : ['style-loader', 'css-loader']
+            },
+            {
+                test : /\.(less)$/,
                 loader : ['style-loader', 'css-loader', 'less-loader']
             },
             {

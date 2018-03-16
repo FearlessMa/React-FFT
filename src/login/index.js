@@ -57,7 +57,7 @@ export default class LoginComponent extends React.Component{
     componentWillMount(){
         const sessionAuth = sessionStorage.getItem('isAuthenticated');
         if(sessionAuth){
-            this.context.router.history.replace("/home");
+            this.context.router.history.replace("/");
         }
     }
 
@@ -71,7 +71,7 @@ export default class LoginComponent extends React.Component{
             sessionStorage.setItem('isAuthenticated',true);
             // console.log('this.props************');
             // console.log(this.props);
-            this.context.router.history.replace("/home");
+            this.context.router.history.replace("/");
         }
     }
 

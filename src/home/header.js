@@ -41,9 +41,11 @@ export default class HeaderComponent extends React.Component {
         router:PropTypes.object
     }
 
-    // constructor(...arg) {
-    //     super(...arg);
-    // }
+    constructor(...arg) {
+        super(...arg);
+        console.log('HeaderProps');
+        console.log(...arg);
+    }
 
     toLink = (url,key)=>{
         return ()=>{

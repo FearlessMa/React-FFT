@@ -40,6 +40,7 @@ export default class MenuContainer extends React.Component{
         let treeList = [];
         let filterList = [];
         filterList =list.filter((item)=>{
+            item.action = item.action.replace(/\./g,'/');
             if(item.parentMenuId ==="Root"){
                 treeList.push(item);
             }
@@ -111,7 +112,7 @@ const menuList = (menuList)=>{
                 <MenuItem key={item.menuId}>
                     <Icon type={item.tab}/>
                     <span>
-                        <Link className={'.a1'} to={'/home/homeIndex'}  >{item.menuName}</Link>
+                        <a href={'#/'+item.action}  >{item.menuName}</a>
                     </span>
 
                 </MenuItem>
@@ -130,7 +131,8 @@ const menuChild = (item)=>{
                     }else{
                         return (
                             <MenuItem key={cItem.menuId}>
-                                <Link to={'/home/adf'}>{cItem.menuName}</Link>
+                            <a href={'#/'+cItem.action}>{cItem.menuName}</a>
+                                {/*<Link to={cItem.action}>{cItem.menuName}</Link>*/}
                             </MenuItem>
                         )
                     }
@@ -152,12 +154,12 @@ const  MenuComponent = (props)=>{
             {/*<MenuItem key={'1sw'}>*/}
                 {/*<Icon type="desktop" />*/}
                 {/*<span>*/}
-                    {/*<Link to={'/home/homeIndex'} style={{color:'#ffffff'}}>首页</Link>*/}
+                    {/*<Link to={'/'} style={{color:'#ffffff'}}>首页</Link>*/}
                 {/*</span>*/}
             {/*</MenuItem>*/}
             {/*<SubMenu title={<span><Icon type="mail" /><span>系统管理</span></span>} key={1}>*/}
                 {/*<MenuItem>*/}
-                    {/*<Link to={'/home/adf'}>权限管理*/}
+                    {/*<Link to={'/systemManager/organManager'}>权限管理*/}
                     {/*</Link>*/}
                 {/*</MenuItem>*/}
                 {/*<MenuItem>*/}
@@ -169,11 +171,11 @@ const  MenuComponent = (props)=>{
                     {/*</Link>*/}
                 {/*</MenuItem>*/}
                 {/*<MenuItem>*/}
-                    {/*<Link to={'/home/rjs'}>用户管理*/}
+                    {/*<Link to={'/'}>用户管理*/}
                     {/*</Link>*/}
                 {/*</MenuItem>*/}
                 {/*<MenuItem>*/}
-                    {/*<Link to={'/home/rjs'}>机构管理*/}
+                    {/*<Link to={'/systemManager/organManager'}>机构管理*/}
                     {/*</Link>*/}
                 {/*</MenuItem>*/}
                 {/*<MenuItem>*/}

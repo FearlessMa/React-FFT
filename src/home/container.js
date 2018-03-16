@@ -2,30 +2,37 @@
  * Created by MHC on 2018/1/25.
  */
 import React from 'react';
-import { Switch, withRouter} from 'react-router-dom';
+import { Switch, withRouter, Route, Redirect} from 'react-router-dom';
 
-// import Adf from 'js/tpl/antdFrom';
-// import AJs from 'js/tpl/antdJS';
-// import RJs from 'js/tpl/reactJS';
-// import HomeIndex from 'js/homeIndex/homeIndex';
+import {OrganLayout} from '../systemManager/organManager';
+// import OrganCreateContainer from '../systemManager/organManager/create'
 
-const FlexStyle = {
-    flex:1,
-    padding:'10px',
-    margin:'15px',
-    backgroundColor:'#fff',
-};
 
 const AllRoutes = (props)=>{
+    console.log('containerprops');
+    console.log(props);
+    console.log(props.match.path);
     return(
-        <div style={FlexStyle}>
+        <div className='containerFlex'>
             <Switch>
-                {/*<Route exact path={`${props.match.path}`} component={HomeIndex}/>*/}
-                {/*<Route path={`${props.match.path}/adf`} component={Adf}/>*/}
-                {/*<Route path={`${props.match.path}/ajs`} component={AJs}/>*/}
-                {/*<Route path={`${props.match.path}/rjs`} component={RJs}/>*/}
+                <Route exact path={`${props.match.path}`} component={HomeIndex}/>
+                <Route path={`${props.match.path}123/99/89`} component={Adf}/>
+                {/*<Route path={`/systemManager/organManager/create`} component={OrganCreateContainer}/>*/}
+                {/*<Route path={`/systemManager/organManager/:orgId`} component={Adf} />*/}
+                <Route path={`/systemManager/organManager`} component={OrganLayout}/>
                 {/*<Redirect to={`${props.match.path}`}/>*/}
             </Switch>
         </div>
     )};
 export default withRouter(AllRoutes) ;
+
+const HomeIndex = ()=>(
+    <div>homeindex</div>
+)
+const Adf = (props)=>{
+    console.log('Adfprops');
+    console.log(props);
+    console.log(props.match.params.orgId);
+    return(
+    <div>Adf</div>
+)}

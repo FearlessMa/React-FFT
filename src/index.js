@@ -7,19 +7,18 @@ import ReactDOM from 'react-dom';
 import { AppContainer} from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import { createStore, compose, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
+
 import { createLogger } from 'redux-logger';
 import './index.less';
 import AppRouter from './routers';
 import reducer from './redux/reducers';
 import '../mock';
-import { watchLoginAction } from './redux/sagas';
+import { sagas, sagasRun } from './redux/sagas';
 // import  Test from './test'
 
 const win = window;
 const logger = createLogger();
 //放入异步saga
-const sagas = createSagaMiddleware(watchLoginAction);
 const middleware = [sagas,logger];
 const storeEnhancer = compose(
     applyMiddleware(...middleware),
@@ -36,7 +35,7 @@ const storeEnhancer = compose(
 
 const store = createStore(reducer,storeEnhancer);
 
-sagas.run(watchLoginAction);
+sagasRun();
 
 ReactDOM.render(
     <AppContainer>
