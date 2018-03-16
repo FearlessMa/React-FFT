@@ -13,7 +13,7 @@ message.config({
 });
 
 const mapStateToProps = (state)=>({
-    orgList:state.systemManager.orgListAll.orgList,
+    orgList:state.systemManager.organManager.create.orgList,
     orgCreate:state.systemManager.orgCreate
 });
 const mapDispatchToProps = (dispatch)=>({

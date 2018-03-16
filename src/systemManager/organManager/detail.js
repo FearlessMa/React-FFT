@@ -11,10 +11,24 @@ export default class OrganDetailContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div>OrganDetailContainer</div>
+                <OraganDetailContent/>
             </React.Fragment>
         );
     }
 
 }
+
+const OraganDetailContent = (props)=>{
+
+    return (
+        <React.Fragment>
+            {/*<div className="containerHeader">*/}
+            {/*机构管理*/}
+            {/*</div>*/}
+            <div className="containerContent">
+                <div>OrganDetailContainer</div>
+            </div>
+        </React.Fragment>
+    )
+};
 

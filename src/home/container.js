@@ -2,7 +2,7 @@
  * Created by MHC on 2018/1/25.
  */
 import React from 'react';
-import { Switch, withRouter, Route, Redirect} from 'react-router-dom';
+import { Switch, withRouter, Route} from 'react-router-dom';
 
 import {OrganLayout} from '../systemManager/organManager';
 // import OrganCreateContainer from '../systemManager/organManager/create'

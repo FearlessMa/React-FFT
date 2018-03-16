@@ -22,7 +22,7 @@ export const OrganLayout = ()=>{
     )
 };
 
-const mapStateToProps = (state)=>({organManager:state.systemManager.organManager});
+const mapStateToProps = (state)=>({index:state.systemManager.organManager.index});
 const mapDispatchToProps = (dispatch)=>({
     queryOrgList : ()=>dispatch(requestOrgList())
 });
@@ -31,36 +31,21 @@ class OrganContainer extends React.Component {
     static contextTypes = {
         router: PropTypes.object
     }
+
     constructor(...arg) {
         super(...arg);
-        // this.state = {
-        //     loading:false,
-        // }
     }
-    // componentWillReceiveProps(nextprops){
-    //     console.log('nextprops');
-    //     console.log(nextprops);
-    //     if(!nextprops.organManager.loading){
-    //         this.setState({
-    //             loading:nextprops.organManager.loading
-    //         })
-    //     }
-    // }
+
     componentDidMount(){
-        // console.log('this.props');
-        // console.log(this.props);
         this.props.queryOrgList();
-        // this.setState({
-        //     loading:true
-        // })
     }
 
     toCreate = ()=>{
-        console.log(this.context);
         this.context.router.history.push("/systemManager/organManager/create");
     }
+
     render() {
-        const {orgList, loading } = this.props.organManager;
+        const { loading, orgList } = this.props.index;
         return <OraganContent toCreate={this.toCreate} dataSource={orgList} loading={loading}/>
     }
 

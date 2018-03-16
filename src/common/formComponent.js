@@ -157,7 +157,9 @@ const createFormItem =(getFieldDecorator,item,index,selectData)=>{
                         treeNodeFun(treeData)
                     }
                 </TreeSelect>)
-            )
+            );
+        default :
+            return null
     }
 };
 

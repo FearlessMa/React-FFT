@@ -13,7 +13,7 @@
 * */
 import { combineReducers } from 'redux';
 import {loginReducer} from "../login/redux/reducer";
-import {systemReducer} from '../systemManager/redux/reducer';
+import {systemReducer , organManager} from '../systemManager/redux/reducer';
 // import {logoutReducer} from "../home/redux/reducer";
 
 // const storeInitValues = {
@@ -23,11 +23,15 @@ import {systemReducer} from '../systemManager/redux/reducer';
 //     }
 // }
 
-
+//系统
+const systemManager = combineReducers({
+    organManager : organManager
+});
 
 const reducers = combineReducers({
     login: loginReducer,
-    systemManager: systemReducer
+    systemManager : systemManager
 });
+
 
 export  default reducers ;

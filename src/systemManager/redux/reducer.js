@@ -4,33 +4,36 @@
 
 import {QUERYORGLIST, LOADING, ALLORGLIST, REQUESTERR, ORGCREATE} from "./actionTypes";
 const initValue = {
-    organManager:{
-        orgList:[],
-        loading:false
-    },
-    orgListAll : {
-        orgList:[]
-    }
+        requestErr:{},
+        index:{
+            orgList:[],
+            loading:false,
+        },
+        create:{
+            orgList:[]
+        },
 };
-export const systemReducer = (state=initValue,action)=>{
+export const organManager = (state=initValue,action)=>{
+
     switch(action.type){
         case QUERYORGLIST :
             return Object.assign({},{...state},{
-                organManager:{
+                index:{
                     loading:false,
                     ...action
                 }
             });
         case LOADING :
             return Object.assign({},{...state},{
-                organManager:{
+                index:{
                     loading:true,
+                    orgList:[],
                 }
             });
-            //orgList
+            //create页面
         case ALLORGLIST :
             return Object.assign({},{...state},{
-                orgListAll : {
+                create : {
                     ...action
                 }
             });
