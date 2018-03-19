@@ -2,11 +2,12 @@
  * Created by MHC on 2018/3/13.
  */
 
-import {REQUESTORG, REQUESTALLORG, REQUESTORGCREATE} from "./actionTypes";
+import {REQUESTORG, REQUESTALLORG, REQUESTORGCREATE, REQUESTORGDETAIL, REQUESTORGDELETE } from "./actionTypes";
 
-export const requestOrgList = ()=>(
+export const requestOrgList = (valves)=>(
     {
-        type : REQUESTORG
+        type : REQUESTORG,
+        ...valves
     }
 );
 export const requestAllOrgList = ()=>(
@@ -20,3 +21,13 @@ export const requestOrgCreate = (value)=>(
         ...value
     }
 );
+
+export const requestOrgDetail = (value)=>({
+    type: REQUESTORGDETAIL,
+    ...value
+});
+
+export const requestOrgDelete = (value)=>({
+    type: REQUESTORGDELETE,
+    ...value
+});

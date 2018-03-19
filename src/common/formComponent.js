@@ -14,14 +14,15 @@ const FromCreate =Form.create;
  * From组件接收的props
  *  formList ： 表单数据（必填）Array
  *  formSubmit ： 接受处理表单提交的值 （必填）Function
+ *  layout : 'horizontal','vertical','inline' (horizontal值时填写formItemLayout和formSubBtnLayout）
  *  formItemLayout ：表单输入布局  Obj
  *  formSubBtnLayout ： 提交按钮布局   Obj
- *  formBackBtnLayout ： 返回按钮布局 Obj
  *  messageContent : loading提示的字符串 String
  *  messageSuccess : 请求成功后提示
  *  toBack : 返回按钮的onClick时间 Function
  *  selectData : selectTree组件数据
  *  loading ： 请求成功后清除loading显示 Bool
+ *  moreItemInRow : 是否是一行显示多条item （布局不合适可配置formItemLayout）
  * **/
 
 @FromCreate()
@@ -50,7 +51,7 @@ export class FormComponent extends React.Component{
 
     componentWillReceiveProps(nextProps){
         // let messageSuccess = this.props.messageSuccess ||'成功！';
-        if(nextProps.loading === true){
+        if(!nextProps.loading){
             this.state.hideLoading();
             // notification.success({
             //     message:messageSuccess
@@ -63,53 +64,49 @@ export class FormComponent extends React.Component{
     }
 
     render(){
-        const { getFieldDecorator } = this.props.form;
-        const formItemLayout =this.props.formItemLayout || {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 4,offset:1 },
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 10 },
-            },
-        };
-        const formSubBtnLayout = this.props.formSubBtnLayout ||{
-            xs: { span: 24 },
-            sm: { span: 4,offset:5 },
-        };
-        const formBackBtnLayout =this.props.formBackBtnLayout|| {
-            xs: { span: 24 },
-            sm: { span: 4,offset:1 },
-        };
-        const formList = this.props.formList || [];
-        const toBack = this.props.toBack ||this.toBack;
-        const selectData = this.props.selectData || [];
+        let { layout, form, formItemLayout, formSubBtnLayout,
+            formList, toBack, selectData, btn, moreItemInRow } = this.props;
+        const { getFieldDecorator } = form;
+        formItemLayout = formItemLayout || {};
+        formSubBtnLayout = formSubBtnLayout ||{};
+        formList = formList || [];
+        toBack = toBack ||this.toBack;
+        selectData = selectData || [];
+        moreItemInRow = moreItemInRow || false ;
+        btn = btn || {sub:null,back:null};
+        // alert(moreItemInRow);
         return (
-            <Form onSubmit={this.onSubmit}>
-                {
-                    formList.map((item,i)=>{
-                        return(
-                            <Row key={`${item.id}-${i}`}>
-                                <Col>
-                                    <FormItem {...formItemLayout} label={item.label}>
+            <Form onSubmit={btn.sub?this.onSubmit:null} layout={layout}>
+                {moreItemInRow?<Row>
+                    {
+                        formList.map((item, i) => {
+                            return (
+                                <Col span={11} offset={0} key={`${item.id}-${i}`}>
+                                    <FormItem key={`${item.id}-${i}`} {...formItemLayout} label={item.label}>
                                         {
-                                            createFormItem(getFieldDecorator,item,i,selectData)
+                                            createFormItem(getFieldDecorator, item, i, selectData)
                                         }
                                     </FormItem>
                                 </Col>
-                            </Row>
+                            )
+                        })
+                    }
+                </Row>:
+                    formList.map((item, i) => {
+                        return (
+                                <FormItem key={`${item.id}-${i}`} {...formItemLayout} label={item.label}>
+                                    {
+                                        createFormItem(getFieldDecorator, item, i, selectData)
+                                    }
+                                </FormItem>
                         )
                     })
                 }
-                <Row>
-                    <Col {...formSubBtnLayout}>
-                        <Button  type={'primary'} htmlType={'submit'}>提交</Button>
-                    </Col>
-                    <Col {...formBackBtnLayout}>
-                        <Button onClick={toBack}>返回</Button>
-                    </Col>
-                </Row>
+                    <FormItem {...formSubBtnLayout}>
+                        {btn.sub?<Button  type={'primary'} htmlType={'submit'}>{btn.sub}</Button>:null}
+                        {btn.back?<Button onClick={toBack} style={{marginLeft:30}}>{btn.back}</Button>:null}
+                    </FormItem>
+
             </Form>
         )
     }
@@ -118,12 +115,14 @@ export class FormComponent extends React.Component{
 const createFormItem =(getFieldDecorator,item,index,selectData)=>{
     let disabled = item.disabled || false ;
     if(!item.rules)item.rules={};
+    if(!item.initialValue)item.initialValue='';
     switch(item.tag){
 
         case 'input' :
             return (
                 getFieldDecorator( item.id,{
-                        rules:[item.rules]
+                        rules:[item.rules],
+                        initialValue:item.initialValue
                     }
                 )(<Input type={'text'} disabled={disabled}/>)
             );
@@ -131,7 +130,8 @@ const createFormItem =(getFieldDecorator,item,index,selectData)=>{
         case 'textarea' :
             return (
                 getFieldDecorator( item.id,{
-                        rules:[item.rules]
+                        rules:[item.rules],
+                        initialValue:item.initialValue
                     }
                 )(<TextArea autosize={{minRows:3,maxRows:6}} type={'text'} disabled={disabled}/>)
             );

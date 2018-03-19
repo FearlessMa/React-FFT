@@ -3,10 +3,12 @@
  */
 import createSagaMiddleware from 'redux-saga';
 import { watchLoginAction } from '../login/redux/sagas';
-import {watchQueryOrgList, watchQueryAllOrgList, watchRequestOrgCreate} from '../systemManager/redux/sagas';
+import {watchQueryOrgList, watchQueryAllOrgList, watchRequestOrgCreate, watchRequestOrgDetail,
+    watchRequestOrgDelete
+} from '../systemManager/redux/sagas';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction,watchQueryOrgList,watchQueryAllOrgList,
-    watchRequestOrgCreate]);
+    watchRequestOrgCreate, watchRequestOrgDetail, watchRequestOrgDelete]);
 //
 // export {
 //     watchLoginAction,
@@ -18,4 +20,6 @@ export const sagasRun = ()=>{
     sagas.run(watchQueryOrgList);
     sagas.run(watchQueryAllOrgList);
     sagas.run(watchRequestOrgCreate);
+    sagas.run(watchRequestOrgDetail);
+    sagas.run(watchRequestOrgDelete);
 };

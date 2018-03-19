@@ -14,7 +14,7 @@ module.exports = {
     ,
     output : {
         filename : 'js/[name].[hash].js',
-        path : path.resolve(__dirname,'dist')
+        path : path.resolve(__dirname,'../dist')
     },
     module : {
         rules : [
@@ -77,7 +77,7 @@ module.exports = {
             title:'react all',
             template : path.resolve(__dirname,'../index.html')
         }),
-        new ExtractTextPlugin("css/[name].css"),
-        new CleanWebpackPlugin(['dist'])
+        new ExtractTextPlugin("../dist/css/[name].css"),
+        new CleanWebpackPlugin(['../dist'])
     ]
 };

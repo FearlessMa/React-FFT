@@ -13,8 +13,8 @@ message.config({
 });
 
 const mapStateToProps = (state)=>({
-    orgList:state.systemManager.organManager.create.orgList,
-    orgCreate:state.systemManager.orgCreate
+    create:state.systemManager.organManager.create,
+    loading:state.systemManager.organManager.loading
 });
 const mapDispatchToProps = (dispatch)=>({
     requestAllOrgList: ()=>dispatch(requestAllOrgList()),
@@ -43,11 +43,34 @@ export default class OrganCreateContainer extends React.Component {
         return <OrganLayout
                             formSubmit={this.formSubmit}
                             formList={formList}
-                            selectData={this.props.orgList}
+                            selectData={this.props.create.orgList}
                             loading={this.props.orgCreate}
+                            btn={{back:'返回',sub:'提交'}}
+                            layout={'horizontal'}
+                            formItemLayout={formItemLayout}
+                            formSubBtnLayout={formSubBtnLayout}
+                            // moreItemInRow={true}
                             />
     }
 
+}
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4,offset:1 },
+        // sm: {span:11}
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 10 },
+        // sm:{ span: 13}
+    },
+};
+const formSubBtnLayout = {
+    wrapperCol :{
+        xs: { span: 24 },
+        sm: { span: 10,offset:5 },
+    }
 }
 const formList = [
     {
