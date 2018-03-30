@@ -6,17 +6,20 @@ import { Table, Col, Row, Button, Form } from 'antd';
 import {connect} from 'react-redux';
 import {requestOrgList} from '../redux/actions';
 import './index.less';
-import PropTypes from 'prop-types';
 import { Switch, Route} from 'react-router-dom';
-import OrganCreateContainer from './create';
+import OrganCreateContainer from './createANDedit';
 import {DetailLayout} from './detail';
 import { TableComponent } from '../../common/tableComponent';
 import {FormComponent } from '../../common/formComponent';
+import {ViewMembers} from "./viewMembers";
+
 export const OrganLayout = ()=>{
     return(
         <Switch>
             <Route path={`/systemManager/organManager/create`} component={OrganCreateContainer}/>
-            <Route path={`/systemManager/organManager/:orgId`} component={DetailLayout}/>
+            <Route path={`/systemManager/organManager/edit/:orgId`} component={OrganCreateContainer}/>
+            <Route path={`/systemManager/organManager/detail/:orgId`} component={DetailLayout}/>
+            <Route path={`/systemManager/organManager/viewMembers/:orgId/:name`} component={ViewMembers}/>
             <Route exact path={`/systemManager/organManager/`} component={OrganContainer}/>
         </Switch>
     )
@@ -31,10 +34,6 @@ const mapDispatchToProps = (dispatch)=>({
 });
 @connect(mapStateToProps,mapDispatchToProps)
 class OrganContainer extends React.Component {
-    static contextTypes = {
-        router: PropTypes.object
-    }
-
     constructor(...arg) {
         super(...arg);
     }
@@ -44,17 +43,29 @@ class OrganContainer extends React.Component {
     }
 
     toCreate = ()=>{
-        this.context.router.history.push("/systemManager/organManager/create");
+        this.props.history.push("/systemManager/organManager/create");
     }
 
     formSubmit = (values)=>{
         console.log(values);
         this.props.queryOrgList(values)
     }
+    //分页
+    paginationOnChange =(pagination)=>{
+        this.props.queryOrgList({current:pagination.current,pageSize:pagination.pageSize});
+    }
 
     render() {
-        const { orgList } = this.props.index;
-        return <OraganContent formSubmit={this.formSubmit} toCreate={this.toCreate} dataSource={orgList} {...this.props}/>
+        let orgList=[];
+        let pagination = {};
+        try{
+            orgList = this.props.index.data.orgList;
+            pagination = this.props.index.data.pagination;
+        }catch (e){}
+        return <OraganContent formSubmit={this.formSubmit} btnClick={this.toCreate}
+                              dataSource={orgList} pagination={pagination}
+                              onChange={this.paginationOnChange}
+                              {...this.props}/>
     }
 
 }
@@ -63,7 +74,7 @@ const columns = [
     {
         title : '机构名称',
         dataIndex : 'name',
-        render: (text,record)=> <a href={`#/systemManager/organManager/${record.orgId}`}>{text}</a>,
+        render: (text,record)=> <a href={`#/systemManager/organManager/detail/${record.orgId}`}>{text}</a>,
     },
     {
         title : '真实机构号',
@@ -110,6 +121,14 @@ const searchComponentData = [
         tag: 'input',
     },
 ];
+
+/** TableComponent
+ *  componentTitle : 标题
+ *  btnName ： 按钮名称
+ *  btnClick : 按钮事件
+ *  其他为antd的table属性
+ *
+ * **/
 const OraganContent = (props)=>{
 
     return (
@@ -120,16 +139,15 @@ const OraganContent = (props)=>{
                         <FormComponent formList={searchComponentData}
                                        btn={{sub:'搜索'}}
                                        layout={'inline'}
-                                       messageContent={'搜索中...'}
-                                       loading={props.loading}
                                        formSubmit={props.formSubmit}
                         />
                     </Col>
                 </Row>
             </div>
             <div className="containerContent">
-                <TableComponent  componentTitle={'机构列表'} BtnName={'创建机构'}
+                <TableComponent  componentTitle={'机构列表'} btnName={'创建机构'}
                                  columns={columns} bordered={true} rowKey={'orgId'}
+                                 btnClick={props.btnClick} pagination={props.pagination}
                                  {...props}/>
             </div>
         </React.Fragment>

@@ -2,18 +2,15 @@
  * Created by MHC on 2018/2/14.
  */
 //redux
-const LOGIN = 'login';
-//请求失败错误
-const LOGINERR = 'loginErr';
-//
-const LOGIN_ERR = 'login_err';
-const ISLOADING = 'isLoading';
-const ISAUTHEN = 'isAuthenticated';
-const CLEARERRMSG = 'clearErrMsg';
-//redux-saga
-const LOGIN_REQUEST = 'login_request'
+export const LOGIN = 'login';
+export const LOADING = 'loading';
+// 登录验证失败
+export const LOGIN_ERR = 'loginErr';
+// 请求错误
+export const REQUEST_ERR = 'requestErr';
+export const IS_AUTHEN = 'isAuthenticated';
+export const CLEAR_ERR_MSG = 'clearErrMsg';
+//saga
+export const LOGIN_REQUEST = 'loginRequest'
 
 
-export { LOGIN, LOGIN_REQUEST, LOGINERR,
-    LOGIN_ERR,ISLOADING, ISAUTHEN, CLEARERRMSG
-};

@@ -18,7 +18,8 @@ import { sagas, sagasRun } from './redux/sagas';
 
 const win = window;
 const logger = createLogger();
-//放入异步saga
+//异步saga
+//TODO 打生产包需要去掉logger和mock
 const middleware = [sagas,logger];
 const storeEnhancer = compose(
     applyMiddleware(...middleware),
@@ -26,14 +27,8 @@ const storeEnhancer = compose(
 );
 
 
-// const storeInitValues = {
-//     login : {
-//         isLogin : false,
-//         userData : {}
-//     }
-// }
 
-const store = createStore(reducer,storeEnhancer);
+export const store = createStore(reducer,storeEnhancer);
 
 sagasRun();
 

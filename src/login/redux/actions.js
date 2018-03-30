@@ -1,30 +1,24 @@
 /**
  * Created by MHC on 2018/2/14.
  */
-import { LOGIN_REQUEST, ISLOADING, ISAUTHEN, CLEARERRMSG } from "./actionTypes";
+import {LOGIN_REQUEST, IS_AUTHEN, CLEAR_ERR_MSG} from "./actionTypes";
 
-
-const loginAction = (userName,password)=>({
-    type : LOGIN_REQUEST,
+// 登录
+export const loginAction = (userName, password) => ({
+    type: LOGIN_REQUEST,
     userName,
     password
 });
 
-const loadingAction = ()=>({
-    type : ISLOADING,
-});
-
-const authenticatedAction = (isAuthenticated1)=>{
+// 认证
+export const authenticatedAction = (isAuthenticated1) => {
     return {
-        type:ISAUTHEN,
+        type: IS_AUTHEN,
         isLogin: isAuthenticated1
     }
 };
-
-const clearErrMsgAction = ()=>({
-    type : CLEARERRMSG
+// 清除错误信息
+export const clearErrMsgAction = () => ({
+    type: CLEAR_ERR_MSG
 });
 
-
-
-export { loginAction, loadingAction, authenticatedAction, clearErrMsgAction };

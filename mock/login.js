@@ -4,91 +4,90 @@
 
 import Mock from 'mockjs';
 
+const templateRoot =Mock.mock({
+    'array|3':[{
+        action:'',
+        'menuId|+1':[100,200,300],
+        createTime:'@now()',
+        'menuName|+1':[
+            '首页',
+            '系统管理',
+            '其他业务模块',
+        ],
+        parentMenuId:'Root',
+        sort:'@increment()',
+        'tab|+1':[
+            'home',
+            'mail',
+        ],
+        updateTime: '@now()'
+    }]
+});
+const permChildTemplate = Mock.mock({
+    'array|6':[{
+        'action|+1':[
+            'systemManager/powerManager',
+            'systemManager/menuManager',
+            'systemManager/roleManager',
+            'systemManager/userManager',
+            'systemManager.organManager',
+            'systemManager/pathManager'
+        ],
+        menuId: '@increment()',
+        createTime:'@now()',
+        'menuName|+1':[
+            '权限管理',
+            '菜单管理',
+            '角色管理',
+            '用户管理',
+            '机构管理',
+            'Path管理'
+        ],
+        parentMenuId:200,
+        sort:'@increment()',
+        tab: "",
+        updateTime: '@now()'
+    }]
+});
+const permChildTemplate1 = Mock.mock({
+    'array|6':[{
+        'action|+1':[
+            '权限管理',
+            '菜单管理',
+            '角色管理',
+            '用户管理',
+            'systemManager.organManager',
+            '结构权限管理'
+        ],
+        menuId: '@increment()',
+        createTime:'@now()',
+        'menuName|+1':[
+            '权限管理',
+            '菜单管理',
+            '角色管理',
+            '用户管理',
+            '机构管理',
+            '结构权限管理'
+        ],
+        parentMenuId:300,
+        sort:'@increment()',
+        tab: "",
+        updateTime: '@now()'
+    }]
+});
+export const menuList =  [
+    ...templateRoot.array,
+    ...permChildTemplate.array,
+    ...permChildTemplate1.array
+];
 export const loginMock =Mock.mock('/login',function (option) {
-    console.log(option);
     const {username,password} = JSON.parse(option.body);
     if(username==='admin'&& password==='12345'){
-        let templateRoot =Mock.mock({
-            'array|3':[{
-                action:'',
-                'menuId|+1':[100,200,300],
-                createTime:'@now()',
-                'menuName|+1':[
-                    '首页',
-                    '系统管理',
-                    '其他业务模块',
-                ],
-                parentMenuId:'Root',
-                sort:'@increment()',
-                'tab|+1':[
-                    'home',
-                    'mail',
-                ],
-                updateTime: '@now()'
-            }]
-        });
-        let permChildTemplate = Mock.mock({
-            'array|6':[{
-                'action|+1':[
-                    '权限管理',
-                    '菜单管理',
-                    '角色管理',
-                    '123.99.89',
-                    'systemManager.organManager',
-                    '结构权限管理'
-                ],
-                menuId: '@increment()',
-                createTime:'@now()',
-                'menuName|+1':[
-                    '权限管理',
-                    '菜单管理',
-                    '角色管理',
-                    '用户管理',
-                    '机构管理',
-                    '结构权限管理'
-                ],
-                parentMenuId:200,
-                sort:'@increment()',
-                tab: "",
-                updateTime: '@now()'
-            }]
-        });
-        let permChildTemplate1 = Mock.mock({
-            'array|6':[{
-                'action|+1':[
-                    '权限管理',
-                    '菜单管理',
-                    '角色管理',
-                    '用户管理',
-                    'systemManager.organManager',
-                    '结构权限管理'
-                ],
-                menuId: '@increment()',
-                createTime:'@now()',
-                'menuName|+1':[
-                    '权限管理',
-                    '菜单管理',
-                    '角色管理',
-                    '用户管理',
-                    '机构管理',
-                    '结构权限管理'
-                ],
-                parentMenuId:300,
-                sort:'@increment()',
-                tab: "",
-                updateTime: '@now()'
-            }]
-        });
-
         return {
             message:'登陆成功',
             code:200,
             data:{
-                "menulist": [
-                    ...templateRoot.array,
-                    ...permChildTemplate.array,
-                    ...permChildTemplate1.array
-                ],
+                "menulist":menuList,
                 "user": {
                     "avatar": null,
                     "createTime": 1514969826000,
@@ -116,4 +115,5 @@ export const loginMock =Mock.mock('/login',function (option) {
             code:'401'
         }
     }
-})
+});
+

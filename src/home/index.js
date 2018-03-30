@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Layout } from 'antd';
+import {Layout} from 'antd';
 import MenuList from './menu';
 import HeaderComponent from './header'
 import AntdLog from 'img/AntdLog.svg';
@@ -11,41 +10,40 @@ import {LOGOUT} from "./redux/actionTypes";
 
 export {logoutAction, LOGOUT}
 
-const { Sider, Content } = Layout;
+const {Sider, Content} = Layout;
 
 
-
-export default class HomeIndex extends React.Component{
-    constructor(...arg){
+export class HomeComponent extends React.Component {
+    constructor(...arg) {
         super(...arg);
-        this.state={
-            collapsed:false
+        this.state = {
+            collapsed: false
         }
     }
 
-    toggle=()=>{
+    toggle = () => {
         this.setState({
-            collapsed:!this.state.collapsed
+            collapsed: !this.state.collapsed
         });
         console.log(this.props);
     }
 
-    render(){
-        const {collapsed }= this.state;
+    render() {
+        const {collapsed} = this.state;
         return (
             <Layout>
-                <Sider tigger={null}  collapsed={collapsed}>
+                <Sider tigger={null} collapsed={collapsed}>
                     <div className="log">
                         <img src={AntdLog} alt="log"/>
-                        {!collapsed?<div>Ant Design</div>:null}
+                        {!collapsed ? <div>Ant Design</div> : null}
                         {/*<div className={collapsed?'logCollapsed':null}>Ant Design</div>*/}
                     </div>
-                    <MenuList inlineCollapsed={collapsed}/>
+                    <MenuList inlineCollapsed={collapsed} {...this.props}/>
                 </Sider>
                 <Layout>
-                    <HeaderComponent toggle={this.toggle} collapsed={collapsed}/>
-                    <Content style={{display:'flex'}}>
-                        <Container/>
+                    <HeaderComponent toggle={this.toggle} collapsed={collapsed} {...this.props}/>
+                    <Content style={{display: 'flex'}}>
+                        <Container {...this.props}/>
                     </Content>
                 </Layout>
             </Layout>

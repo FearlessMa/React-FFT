@@ -4,190 +4,205 @@
  */
 import React from 'react';
 import {Menu, Icon, message} from 'antd';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // import {Link} from 'react-router-dom';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {tranTreeData} from '../common'
 
 const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
 const MenuItem = Menu.Item;
 
-const mapStateToProps = (state)=>state.login;
+const mapStateToProps = state => ({login: state.login});
 
 @connect(mapStateToProps)
-export default class MenuContainer extends React.Component{
-    static contextTypes = {
-        router:PropTypes.object
-    }
-    constructor(...arg){
-        super(...arg);
-        this.state = {
-            collapse: this.props.inlineCollapsed,
-            menuList: [],
-            defaultKey:'100'
-        }
-    }
-
-    // toLink = ()=>{
-    //     this.context.router.history.push('/antdForm');
+export default class MenuContainer extends React.Component {
+    // static contextTypes = {
+    //     router: PropTypes.object
+    // }
+    // static defaultValue = {
+    //     activeKey: sessionStorage.getItem('activeKey')
     // }
 
-    //转为树形数据结构
-    compare = (arr1,arr2)=>arr1.sort-arr2.sort;
-
-    tranTreeList = (list)=>{
-        if(!Array.isArray(list))message.error('数据错误，请联系管理员！');
-        let treeList = [];
-        let filterList = [];
-        filterList =list.filter((item)=>{
-            item.action = item.action.replace(/\./g,'/');
-            if(item.parentMenuId ==="Root"){
-                treeList.push(item);
-            }
-            //排序
-            treeList.sort(this.compare);
-            return item.parentMenuId !=="Root"
-        });
-        return this.treeMenuList(treeList,filterList);
+    constructor(...arg) {
+        super(...arg);
+        this.state = {
+            collapse: false,
+            menuList: [],
+            defaultKey: '',
+            openKeys: [''],
+            selectedKeys: [''],
+            rootSubmenuKeys: [''],
+            currentPath:''
+    }
     }
 
-    //转为树形数据结构
-    treeMenuList = (treeList ,filterList)=>{
-        treeList.map((item)=>{
-            let isIncludeChildern = filterList.find((value)=>item.menuId===value.parentMenuId);
-            if(isIncludeChildern){
-                item.childeList = [];
-                filterList.map((fItem)=>{
-                    if(item.menuId ===fItem.parentMenuId ){
-                        item.childeList.push(fItem);
-                    }
-                    return null ;
-                });
-                item.childeList.sort(this.compare);
-                this.treeMenuList(item.childeList,filterList)
-            }
-            return null ;
-        });
-        return treeList
-    }
-
-    componentDidMount(){
-        // console.log('menuprops');
-        // console.log(this.props);
+    componentWillMount() {
+        let selectedKeys = sessionStorage.getItem('selectedKeys');
+        let openKeys = sessionStorage.getItem('openKeys');
         let sessionUserData = sessionStorage.getItem('userData');
-        if((this.props.userData.data!==undefined) && !sessionUserData){
-            let menuList = this.tranTreeList(this.props.userData.data.menulist) ;
-            const userData = this.props.userData;
-            sessionStorage.setItem('userData',JSON.stringify(userData));
-            let defaultKey = menuList.find((item)=>item.menuName === '首页');
+        let menuList = [];
+        //第一层菜单
+        let rootSubmenuKeys = [];
+
+        if (this.props.login.userData !== undefined && !sessionUserData) {
+            // 菜单数据
+            menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
+            // 存储菜单
+            sessionStorage.setItem('userData', JSON.stringify(this.props.login.userData));
+            // 设置默认选中
+            let indexItem = menuList.find((item) => item.menuName === '首页');
+            const initPath = `${indexItem.menuId}-${indexItem.action}`;
+            // 存储第一层菜单
+            menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
             this.setState({
                 menuList,
-                defaultKey:`${defaultKey.menuId}`
+                defaultKey: initPath,
+                currentPath: `${indexItem.action}`,
+                selectedKeys: [initPath],
+                openKeys: [initPath],
+                rootSubmenuKeys
             });
-        }else{
-            // debugger;
-            let menuList = this.tranTreeList(this.props.userData.data.menulist) ;
+        }
+        else {
+            menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
+            menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
+            let indexItem = menuList.find((item) => item.menuName === '首页');
+            //设置首页为默认页面
+            const defaultKey = [`${indexItem.menuId}-${indexItem.action}`];
+            // session里没有存储就设置首页
+            if (!selectedKeys || !openKeys) {
+                selectedKeys = defaultKey;
+                openKeys = defaultKey;
+            } else {
+                selectedKeys = selectedKeys.split(',');
+                openKeys = openKeys.split(',');
+            }
             this.setState({
-                menuList
+                menuList,
+                selectedKeys,
+                openKeys,
+                rootSubmenuKeys
             });
         }
     }
 
-    render(){
-        const { menuList, defaultKey } = this.state;
+    toLink = (e) => {
+        console.log(e);
+        //设置选中菜单
+        this.setState({
+            selectedKeys: e.keyPath
+        });
+        sessionStorage.setItem('selectedKeys', e.keyPath);
+        //当前path与跳转path是否相同
+        let path = '';
+        try {
+            path = e.key.replace(/\./g, '/').split('-').pop();
+        } catch (e) {
+        }
+        const currentPath = this.state.currentPath;
+        if (path !== currentPath) {
+            this.setState({currentPath: path});
+            this.props.history.push(`/${path}`);
+        }
+    }
+
+    onOpenChange = (openKeys) => {
+        console.log('openKeys');
+        console.log(openKeys);
+        console.log('this.state.openKeys');
+        console.log(this.state.openKeys);
+        console.log(this.state.rootSubmenuKeys);
+        const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
+        if (this.state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+            this.setState({ openKeys });
+        } else {
+            this.setState({
+                openKeys: latestOpenKey ? [latestOpenKey] : [],
+            });
+        }
+        // this.setState({
+        //     openKeys
+        // });
+        sessionStorage.setItem('openKeys', openKeys);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.inlineCollapsed != this.state.collapse) {
+            this.setState({
+                collapse: nextProps.inlineCollapsed
+            })
+        }
+    }
+
+    render() {
+        const {menuList, defaultKey} = this.state;
         return (
-            <MenuComponent menuList={menuList} defaultKey={defaultKey}/>
+            <MenuComponent menuList={menuList} defaultKey={defaultKey} {...this.props}
+                           toLink={this.toLink} onOpenChange={this.onOpenChange}
+                           openKeys={this.state.openKeys} selectedKeys={this.state.selectedKeys}
+                           collapse={this.state.collapse}/>
         );
     }
 }
 
-const menuList = (menuList)=>{
-    return menuList.map((item)=>{
-        if(item.childeList){
-            return (
-                menuChild(item)
-            );
-        }else{
-            return(
-                <MenuItem key={item.menuId}>
-                    <Icon type={item.tab}/>
-                    <span>
-                        <a href={'#/'+item.action}  >{item.menuName}</a>
-                    </span>
 
-                </MenuItem>
-            )
-        }
-    });
-}
-
-const menuChild = (item)=>{
-    return (
-        <SubMenu title={<span><Icon type={item.tab} /><span>{item.menuName}</span></span>} key={item.menuId}>
-            {
-                item.childeList.map((cItem)=>{
-                    if(cItem.childeList){
-                        return menuChild(cItem)
-                    }else{
-                        return (
-                            <MenuItem key={cItem.menuId}>
-                            <a href={'#/'+cItem.action}>{cItem.menuName}</a>
-                                {/*<Link to={cItem.action}>{cItem.menuName}</Link>*/}
-                            </MenuItem>
-                        )
-                    }
-
-                })
+const MenuComponent = (props) => {
+    const {toLink} = props;
+    const menuList = (menuList) => {
+        return menuList.map((item) => {
+            if (item.children) {
+                return (
+                    menuChild(item)
+                );
+            } else {
+                return (
+                    <Menu.Item key={`${item.menuId}-${item.action}`}>
+                        {/*<div>*/}
+                        <Icon type={item.tab}/>
+                        <span>{item.menuName}</span>
+                        {/*</div>*/}
+                    </Menu.Item>
+                )
             }
-        </SubMenu>
-    )
-}
+        });
+    }
+    const menuChild = (item) => {
+        return (
+            <SubMenu title={<span><Icon type={item.tab}/><span>{item.menuName}</span></span>}
+                     key={`${item.menuId}-${item.action}`}>
+                {
+                    item.children.map((cItem) => {
+                        if (cItem.children) {
+                            return menuChild(cItem)
+                        } else {
+                            return (
+                                <Menu.Item key={`${item.menuId}-${cItem.action}`}>
+                                    <a href={`#/${cItem.action.replace(/\./g, '/')}`}>{cItem.menuName}</a>
+                                </Menu.Item>
+                            )
+                        }
 
-const  MenuComponent = (props)=>{
+                    })
+                }
+            </SubMenu>
+        )
+    }
+
+    //
+    const open = props.collapse ? {} : {
+        openKeys: props.openKeys
+    };
     return (
-        <Menu mode={'inline'} theme={'dark'}
+        <Menu mode={props.collapse ? 'vertical' : 'inline'} theme={'dark'} onClick={toLink}
               defaultSelectedKeys={[props.defaultKey]}
+              selectedKeys={props.selectedKeys}
+              {...open}
+              onOpenChange={props.onOpenChange}
         >
             {
                 menuList(props.menuList)
             }
-            {/*<MenuItem key={'1sw'}>*/}
-                {/*<Icon type="desktop" />*/}
-                {/*<span>*/}
-                    {/*<Link to={'/'} style={{color:'#ffffff'}}>首页</Link>*/}
-                {/*</span>*/}
-            {/*</MenuItem>*/}
-            {/*<SubMenu title={<span><Icon type="mail" /><span>系统管理</span></span>} key={1}>*/}
-                {/*<MenuItem>*/}
-                    {/*<Link to={'/systemManager/organManager'}>权限管理*/}
-                    {/*</Link>*/}
-                {/*</MenuItem>*/}
-                {/*<MenuItem>*/}
-                    {/*<Link to={'/home/ajs'}>菜单管理*/}
-                    {/*</Link>*/}
-                {/*</MenuItem>*/}
-                {/*<MenuItem>*/}
-                    {/*<Link to={'/home/rjs'}>角色管理*/}
-                    {/*</Link>*/}
-                {/*</MenuItem>*/}
-                {/*<MenuItem>*/}
-                    {/*<Link to={'/'}>用户管理*/}
-                    {/*</Link>*/}
-                {/*</MenuItem>*/}
-                {/*<MenuItem>*/}
-                    {/*<Link to={'/systemManager/organManager'}>机构管理*/}
-                    {/*</Link>*/}
-                {/*</MenuItem>*/}
-                {/*<MenuItem>*/}
-                    {/*<Link to={'/home/rjs'}>接口权限管理*/}
-                    {/*</Link>*/}
-                {/*</MenuItem>*/}
-            {/*</SubMenu>*/}
-            {/*<SubMenu title={<span><Icon type="mail" /><span>其他业务模块</span></span>} key={2}>*/}
-                {/*<MenuItem>1.1</MenuItem>*/}
-                {/*<MenuItem>1.2</MenuItem>*/}
-                {/*<MenuItem>1.3</MenuItem>*/}
-            {/*</SubMenu>*/}
         </Menu>
     )
 }

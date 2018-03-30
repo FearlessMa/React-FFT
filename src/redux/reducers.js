@@ -2,36 +2,27 @@
  * Created by MHC on 2018/2/13.
  */
 
-/*
-*   store = {
-*       login : {
-*           isLogin : bool,
-*           userData : {}
-*       },
-*   }
-*
-* */
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import {loginReducer} from "../login/redux/reducer";
-import {systemReducer , organManager} from '../systemManager/redux/reducer';
-// import {logoutReducer} from "../home/redux/reducer";
-
-// const storeInitValues = {
-//     login : {
-//         isLogin : false,
-//         userData : {}
-//     }
-// }
+import {
+    pathManager, organManager, menuManager, powerManager, roleManager,
+    userManager
+} from '../systemManager/redux/reducer';
 
 //系统
 const systemManager = combineReducers({
-    organManager : organManager
+    organManager: organManager,
+    pathManager: pathManager,
+    menuManager: menuManager,
+    powerManager: powerManager,
+    roleManager: roleManager,
+    userManager: userManager
 });
 
 const reducers = combineReducers({
     login: loginReducer,
-    systemManager : systemManager
+    systemManager: systemManager
 });
 
 
-export  default reducers ;
+export default reducers;

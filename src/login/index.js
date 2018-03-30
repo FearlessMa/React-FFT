@@ -2,85 +2,71 @@
  * Created by MHC on 2018/2/14.
  */
 import React from 'react';
-import { Input, Button, Icon, Form, message } from 'antd';
-import PropTypes from 'prop-types';
+import {Input, Button, Icon, Form, message} from 'antd';
 import {connect} from 'react-redux';
-
-import Log  from 'img/AntdLog.svg';
+import Log from 'img/AntdLog.svg';
 import Antd from 'img/Antd.svg';
 import './index.less';
-import {loginAction, loadingAction, clearErrMsgAction } from "./redux/actions";
+import {loginAction, clearErrMsgAction} from "./redux/actions";
 import {loginReducer} from "./redux/reducer";
-import {LOGINERR} from "./redux/actionTypes";
+import {LOGIN_ERR} from "./redux/actionTypes";
 
 
 const FormItem = Form.Item;
-// const loginData = [
-//     {
-//         icon : 'user',
-//         placeholder : 'username'
-//     },
-//     {
-//         icon : 'lock',
-//         placeholder : 'password'
-//     },
-// ];
-const FromCreate =Form.create;
 
-const mapStateToProps = (state)=>state;
-const mapDispatchToProps = (dispatch)=>{
-    return {
-        onLogin : (userName,password)=>dispatch(loginAction(userName,password)),
-        isLoading:()=>dispatch(loadingAction()),
-        clearErrMsg: ()=>dispatch(clearErrMsgAction())
-    }
-};
+const FromCreate = Form.create;
 
-@connect(mapStateToProps,mapDispatchToProps)
-export default class LoginComponent extends React.Component{
-    static contextTypes = {
-        router : PropTypes.object
-    }
+const mapStateToProps = state => ({
+    loading: state.login.loading,
+    login: state.login
+});
+const mapDispatchToProps = dispatch => ({
+    onLogin: (userName, password) => dispatch(loginAction(userName, password)),
+    clearErrMsg: () => dispatch(clearErrMsgAction())
+});
 
-    constructor(...arg){
+@connect(mapStateToProps, mapDispatchToProps)
+export default class LoginComponent extends React.Component {
+
+    constructor(...arg) {
         super(...arg);
         this.state = {
-            isLoading:false
+            isLoading: false
         }
     }
 
-    toLogin = (values)=>{
-        this.props.isLoading();
-        this.props.onLogin(values.userName,values.password);
+    toLogin = (values) => {
+        this.props.onLogin(values.userName, values.password);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         const sessionAuth = sessionStorage.getItem('isAuthenticated');
-        if(sessionAuth){
-            this.context.router.history.replace("/");
+        const userData = sessionStorage.getItem('userData');
+        if (sessionAuth && userData) {
+            this.props.history.push("/");
         }
     }
 
-    componentWillReceiveProps(nextProps){
-        const {type } =nextProps.login.userData;
-        if(type === LOGINERR){
+    componentWillReceiveProps(nextProps) {
+        const {type} = nextProps.login.userData;
+        //验证失败提示
+        if (type === LOGIN_ERR) {
             message.error(nextProps.login.userData.message);
             this.props.clearErrMsg();
         }
-        if(nextProps.login.isLogin){
-            sessionStorage.setItem('isAuthenticated',true);
-            // console.log('this.props************');
-            // console.log(this.props);
-            this.context.router.history.replace("/");
+        // 登录成功后存储登录状态
+        if (nextProps.login.isLogin) {
+            sessionStorage.setItem('isAuthenticated', true);
+            this.props.history.push("/");
         }
     }
 
-    render(){
-            return (
-                <React.Fragment>
-                    <Login {...this.props.login} toLogin={this.toLogin}/>
-                </React.Fragment>
-            );
+    render() {
+        return (
+            <React.Fragment>
+                <Login {...this.props} toLogin={this.toLogin}/>
+            </React.Fragment>
+        );
     }
 
 
@@ -91,35 +77,23 @@ class Login extends React.Component {
 
     constructor(...arg) {
         super(...arg);
-        this.state = {
-            loading: false,
-        }
     }
 
-    onSubmit = (e)=>{
+    onSubmit = (e) => {
         e.preventDefault();
+        console.log(this.props.loading);
         this.setState({
             loading: true
         });
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.props.toLogin(values);
-            }else{
-                this.setState({
-                    loading : false
-                })
             }
         });
     }
 
-    componentWillReceiveProps(nextProps){
-            this.setState({
-                loading:nextProps.isLoading
-            });
-    }
-
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const {getFieldDecorator} = this.props.form;
         return (
             <React.Fragment>
                 <Form onSubmit={this.onSubmit} className="login-form">
@@ -129,36 +103,36 @@ class Login extends React.Component {
                     </div>
                     <FormItem>
                         {
-                            getFieldDecorator( 'userName',{
-                                    rules:[{
+                            getFieldDecorator('userName', {
+                                    rules: [{
                                         required: true,
                                         message: '请输入你的用户名！'
                                     }],
-                                    initialValue:'admin'
+                                    initialValue: 'admin'
                                 }
                             )(<Input type={'text'}
-                                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />}
+                                     prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
                                      placeholder={'Username'}/>)
                         }
                     </FormItem>
                     <FormItem>
                         {
-                            getFieldDecorator( 'password',{
-                                    rules:[{
+                            getFieldDecorator('password', {
+                                    rules: [{
                                         required: true,
                                         message: '请输入你的密码！'
                                     }],
-                                    initialValue:'12345'
+                                    initialValue: '12345'
                                 }
                             )(<Input type={'password'}
-                                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)'}} />}
+                                     prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
                                      placeholder={'Password'}/>)
                         }
                     </FormItem>
                     <FormItem>
-                        <Button loading={this.state.loading} type={'primary'}
+                        <Button loading={this.props.loading} type={'primary'}
                                 htmlType={'submit'}
-                                style={{width:'100%'}}>Login In</Button>
+                                style={{width: '100%'}}>Login In</Button>
                     </FormItem>
                 </Form>
             </React.Fragment>

@@ -7,7 +7,8 @@ import { FormComponent } from '../../common/formComponent';
 import {requestOrgDetail,requestOrgDelete} from '../redux/actions';
 import { Row, Col, Button, Modal } from 'antd';
 import { Switch, Route, Redirect} from 'react-router-dom';
-import viewMembers from "./viewMembers";
+import {ViewMembers , ALS} from "./viewMembers";
+import {message} from "antd/lib/index";
 
 
 
@@ -15,9 +16,9 @@ import viewMembers from "./viewMembers";
 export const DetailLayout = ()=>{
     return (
         <Switch>
-            <Route path={`/systemManager/organManager/viewMembers`} component={viewMembers}/>
-            <Route path={`/systemManager/organManager/:orgId`} component={OrganDetailContainer}/>
-            <Redirect to={`/systemManager/organManager/:orgId`} />
+            {/*<Route exact path={`/systemManager/organManager/viewMembers`} component={ALS}/>*/}
+            <Route path={`/systemManager/organManager/detail/:orgId`} component={OrganDetailContainer}/>
+            {/*<Redirect to={`/systemManager/organManager/detail/:orgId`} />*/}
             {/*<Route exact path={`/systemManager/organManager/`} component={OrganContainer}/>*/}
         </Switch>
     )
@@ -28,7 +29,7 @@ const mapStateToProps = (state)=>({
     loading:state.systemManager.organManager.loading
 });
 const mapDispatchToProps = (dispatch)=>({
-    orgDetail : (orgId)=>dispatch(requestOrgDetail(orgId)),
+    orgDetailSaga : (orgId)=>dispatch(requestOrgDetail(orgId)),
     orgDeleteSaga : (orgId)=>dispatch(requestOrgDelete(orgId)),
 });
 
@@ -37,7 +38,8 @@ class OrganDetailContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
         this.state={
-            visible:false
+            visible:false,
+            // hideLoading:()=>{}
         }
     }
 
@@ -46,11 +48,23 @@ class OrganDetailContainer extends React.Component {
         if(isNaN(orgId)){
             alert('错误');
         }
-        this.props.orgDetail({orgId});
+        this.props.orgDetailSaga({orgId});
+        // const hideLoading = message.loading('正在获取数据...', 0);
+        // this.setState({
+        //     hideLoading
+        // })
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     if (!nextProps.loading) {
+    //         this.state.hideLoading();
+    //     }
+    // }
+
     //删除机构
     orgDelete = (orgId,name)=>{
         let orgDeleteSaga = this.props.orgDeleteSaga;
+        // const that = this;
         Modal.confirm({
             title: `是否删除${name}?`,
             content: '删除后将无法返回',
@@ -59,46 +73,43 @@ class OrganDetailContainer extends React.Component {
             cancelText: '取消',
             onOk() {
                 orgDeleteSaga({orgId});
+                // const hideLoading = message.loading('正在删除...', 0);
+                // that.setState({
+                //     hideLoading
+                // })
             },
             onCancel() {
-                console.log(name);
+                console.log(name);//TODO
             },
         });
     }
-    //状态切换模块显示
+    //Modal组件状态切换显示
     toggleModal = ()=>{
         this.setState({
             visible:!this.state.visible
         })
     }
-    //切换状态
+    //切换状态 TODO
     toggleStatus=(values)=>{
         console.log(values)
     }
 
     //查看人员
-    ViewMembers = (orgId)=>{
-        // this.props.history.push(`/systemManager/organManager/viewMembers/${orgId}`);
-        let data = {
-            orgId,
-            name:'123'
-        };
-        // let match = {
-         let pathname='/systemManager/organManager/viewMembers';
-
-        // }
-        this.props.history.push({
-            pathname,
-            state:{
-                name:"inbox",
-                myas:"哈哈"
-            }
-        });
+    ViewMembers = (orgId,name)=>{
+        this.props.history.push(`/systemManager/organManager/viewMembers/${orgId}/${name}`);
+        // const data = {
+        //     pathname:'/systemManager/organManager/viewMembers',
+        //     state:{
+        //         orgId,
+        //         name
+        //     }
+        // };
+        // this.props.history.push(data);
     }
-query
+
     //编辑权限
     toEdit=(orgId)=>{
-
+        this.props.history.push(`/systemManager/organManager/edit/${orgId}`)
     }
 
     render() {
@@ -127,8 +138,6 @@ const formItemLayout = {
 };
 
 const OraganDetailContent = (props)=>{
-    console.log('***********props');
-    console.log(props);
     let data = props.detail.detailData.data.org;
     const formList = [
         {
@@ -209,10 +218,10 @@ const OraganDetailContent = (props)=>{
                 />
                 <Row>
                     <Col offset={3} className='detailBtn'>
-                       <Button onClick={()=>{props.ViewMembers(data.orgId)}}>查看人员</Button>
-                       <Button onClick={()=>{props.orgDelete(data.orgId,data.name)}}>删除</Button>
+                       <Button onClick={()=>{props.ViewMembers(data.orgId,data.name)}}>查看人员</Button>
+                       <Button type={'danger'} onClick={()=>{props.orgDelete(data.orgId,data.name)}}>删除</Button>
                        <Button onClick={props.toggleModal}>状态</Button>
-                       <Button onClick={()=>{props.toEdit(data.orgId)}}>修改</Button>
+                       <Button type={'primary'} onClick={()=>{props.toEdit(data.orgId)}}>修改</Button>
                        <Button onClick={()=>{props.history.push('/systemManager/organManager')}}>返回</Button>
                     </Col>
                 </Row>
