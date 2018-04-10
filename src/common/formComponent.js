@@ -58,16 +58,6 @@ export class FormComponent extends React.Component{
     //
     // }
 
-    // componentWillReceiveProps(nextProps){
-    //     // let messageSuccess = this.props.messageSuccess ||'成功！';
-    //     if(!nextProps.loading){
-    //         this.state.hideLoading();
-    //         // notification.success({
-    //         //     message:messageSuccess
-    //         // });
-    //     }
-    // }
-
     toBack = ()=>{
         window.history.go(-1);
     }

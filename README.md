@@ -115,17 +115,17 @@ const dispatchCallback = (data,action)=>{
 ##### 2.2.1 参数说明
  * Form组件接收的props
  *  formList ： 表单数据（必填）Array
- *  formSubmit ： 接受处理表单提交的值 （btn.sub填写formSubmit必填）Function
- *  selectData : selectTree组件数据 (必须树形结构，可以使tranTreeData(可转换树形结构的数据，子属性key,父属性key,显示的key)转换树形结构）Array
- *  treeSelectProps : selectTree组件配置 Obj
+ *  formSubmit ： 接受处理表单提交的值 （btn.sub填写后，formSubmit必填）Function
+ *  selectData : selectTree组件数据 (数据结构必须树形结构，可以使tranTreeData转换成树形结构，tranTreeData(可转换树形结构的数据，子属性key,父属性key,显示的key)转换树形结构）Array
+ *  treeSelectProps : selectTree组件配置 Obj 详情antd组件的selectTree
  *  treeData : Tree组件数据
  *  btn : {{back:'返回',sub:'提交'}} 显示按钮 Object
  *  layout : 'horizontal','vertical','inline' (horizontal值时填写formItemLayout和formSubBtnLayout）
  *  formItemLayout ：表单输入布局  Obj
  *  formSubBtnLayout ： 提交按钮布局   Obj
- *  toBack : 返回按钮的onClick时间 Function
- *  moreItemInRow : 是否是一行显示多条item （布局不合适可配置formItemLayout） Object
- *  onChange : 可以调用e.target获得当前表单的值
+ *  toBack : 返回按钮的onClick回调 默认调用window.history.go(-1)   Fun
+ *  moreItemInRow : 是否是一行显示多条item （布局不合适，可配置formItemLayout调整布局） Object
+ *  onChange : 可以调用e.target获得当前表单的值     Fun
  *  checkbox : checkboxData 需要使用tranCheckboxData(数组数据,label属性key，value属性key)
  
 ##### 2.2.2 使用方法
@@ -144,6 +144,28 @@ const formList = [
     }
 ]
 
+
+```
+tranTreeData
+
+ * 转为树形结构最终代码
+ * selectData: 数据数组         例如 orgList      Array
+ * id: 数据id                 例如  'orgId'       String
+ * parentId : 数据parentId    例如  'parentOrgId'              String
+ * name : 组件显示的name属性     例如    'orgName'                  String
+```
+//数据结构
+[
+     {
+         id:'xxx',
+         name:'xxx',
+         parentId:'xxx',
+         children:[]
+     }
+]
+
+//使用方法
+menuList = tranTreeData(props.index.data.menuList, 'menuId', 'parentMenuId', 'menuName');
 
 ```
 

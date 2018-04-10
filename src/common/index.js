@@ -5,8 +5,7 @@
 import React from 'react';
 import {FormComponent, tranCheckboxData} from './formComponent';
 import {TableComponent} from './tableComponent';
-import {tranTreeList, tranTreeData} from './tranTreeData';
-import {axiosPost,errorModal,requestErrModal} from './axios';
+import { tranTreeData} from './tranTreeData';
+import {axiosPost} from './axios';
 
-export {FormComponent, TableComponent, tranTreeList, tranTreeData,
-    tranCheckboxData, axiosPost, errorModal,requestErrModal }
+export {FormComponent, TableComponent, tranTreeData, tranCheckboxData, axiosPost}
