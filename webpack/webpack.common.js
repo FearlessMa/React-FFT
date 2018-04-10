@@ -7,11 +7,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = {
+let entryIndex = '';
+if (process.env.NODE_ENV === "production"){
+     entryIndex = path.join(__dirname, '../src/index.js');
+}
+if(process.env.NODE_ENV === "development"){
+     entryIndex = [ 'react-hot-loader/patch',path.join(__dirname, '../src/index.js')];
+}
 
-    entry:
-        ['babel-polyfill', 'react-hot-loader/patch', path.join(__dirname, '../src/index.js')]
-    ,
+
+module.exports = {
+    entry:entryIndex,
     output: {
         filename: 'js/[name].[hash].js',
         path: path.resolve(__dirname, '../dist')
@@ -29,19 +35,21 @@ module.exports = {
                                 'transform-decorators-legacy',
                                 "transform-remove-strict-mode",
                                 "react-hot-loader/babel",
-                                ["import", {libraryName: "antd", style: true}]
+                                ["import", {libraryName: "antd", style: true}],
+                                //"transform-runtime"与'babel-polyfill'一样
+                                [
+                                    "transform-runtime",
+                                    {
+                                        "helpers": false,
+                                        "polyfill": false,
+                                        "regenerator": true,
+                                        "moduleName": "babel-runtime"
+                                    }
+                                ]
                             ]
                         }
                     }
                 ]
-            },
-            {
-                test: /\.js$/,
-                loader: 'eslint-loader',
-                include: [path.resolve(__dirname, '../src')], // 指定检查的目录
-                options: { // 这里的配置项参数将会被传递到 eslint 的 CLIEngine
-                    formatter: require('eslint-friendly-formatter') // 指定错误报告的格式规范
-                }
             },
             {
                 test: /\.(css)$/,
@@ -99,3 +107,4 @@ module.exports = {
         new CleanWebpackPlugin(['../dist'])
     ]
 };
+

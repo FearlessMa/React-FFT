@@ -4,12 +4,12 @@
 antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数，mockJS。
 * dist目录下为打包后文件，目前预览使用
 ## 生产版本打包
-目前生成版本需手动去掉src/index.js中的mockJS和redux-saga-logger插件。
+生产版本打(需注释掉src/index.production.js中引入的mockJs)
 ## 1.使用离线字体
 ### 1.1配置方法
 ##### 1.1.1修改antd
 ```
-在node_modules/antd/dist下添加fonts/iconfont/antd官网下载的离线字体包（本项目根目录下fonts里为3.4版本字体）
+在node_modules/antd/dist下添加fonts/iconfont/antd官网下载的离线字体包（本项目根目录下fonts/iconfont里为3.4版本字体）
 修改node_modules/antd/lib/style/theme/default.less
 代码70行左右修改为以下
 @icon-url: "~antd/dist/fonts/iconfont/iconfont";

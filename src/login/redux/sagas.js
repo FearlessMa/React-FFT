@@ -12,12 +12,9 @@ import {clearLoadingAction} from "./actions";
 import sha256 from 'js-sha256';
 
 export function* watchLoginAction() {
-    // yield * takeLatest(LOGIN_REQUEST,loginRequest)
     while (true) {
         const action = yield take(LOGIN_REQUEST);
         const {userName, password} = action;
-
-        // yield fork(loginRequest, action);
         yield fork(requestData, {
             action: {username: userName, password:sha256(password)},
             type: LOGIN,
@@ -32,21 +29,4 @@ export function* watchLoginAction() {
 
 const errLogin = () => {
     store.dispatch(clearLoadingAction())
-
 };
-
-// function* loginRequest(action) {
-//     const {userName, password} = action;
-//     try {
-//         yield put({type: LOADING});
-//         const res = yield call(axios.post, '/login', {username: userName, password});
-//         const data = res.data;
-//         if (data.code === 200) {
-//             yield put({type: LOGIN, ...data})
-//         } else {
-//             yield put({type: LOGIN_ERR, ...data})
-//         }
-//     } catch (err) {
-//         yield put({type: REQUEST_ERR, ...err})
-//     }
-// }

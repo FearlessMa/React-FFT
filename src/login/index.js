@@ -89,7 +89,6 @@ class Login extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        console.log(this.props.loading);
         this.setState({
             loading: true
         });
