@@ -167,8 +167,6 @@ const MenuManagerContent = (props) => {
                         <FormComponent formList={searchComponentData}
                                        btn={{sub: '搜索'}}
                                        layout={'inline'}
-                                       messageContent={'搜索中...'}
-                                       loading={props.loading}
                                        formSubmit={props.formSubmit}
                         />
                     </Col>
