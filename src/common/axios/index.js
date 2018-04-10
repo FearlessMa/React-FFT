@@ -123,14 +123,14 @@ export function alertModal(title = '成功', content = 'succ', type = 'success',
  * }
  * succCallback : 请求成功后回调函数 Fun
  * succPut : 请求成功后dispatch(action)到reducer
- * callback: code!==200是回调函数
+ * callback: 请求完成后可发送dispatch(action)
  * **/
 
 //显示loading前判断是否有loading正在显示
 window.hasLoading = false;
 
 //执行异步
-export function* requestData(config = {action, url, type, loadingMsg, dispatchLoading}, succCallback, callback) {
+export function* requestData(config = {action, url, type, loadingMsg, dispatchLoading}, succCallback, dispatchCallback) {
     let {action, url, type, loadingMsg, dispatchLoading} = config;
     loadingMsg = loadingMsg || '正在获取数据...';
     let hideLoading = () => {
@@ -152,7 +152,7 @@ export function* requestData(config = {action, url, type, loadingMsg, dispatchLo
             // succPut?yield put(succPut):null;
 
         }
-        callback ? callback(data, action) : null;
+        dispatchCallback ? dispatchCallback(data, action) : null;
         hideLoading();
         window.hasLoading = false;
     } catch (err) {

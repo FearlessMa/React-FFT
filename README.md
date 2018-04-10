@@ -85,21 +85,25 @@ const res = {
     loadingMsg ： 请求开始时 提示框的显示信息 （默认值：正在获取数据...）
     dispatchLoading : 是否向store发送type:loading
  }
- * succCallback : 请求成功后回调函数 Fun
- * callback: code!==200时回调函数
+ * succCallback : 请求成功后且data.code=200时回调函数 Fun 默认接受两个参数data.message为请求返回结果message，action为此次saga的action。
+ * dispatchCallback: 请求完成后可发送dispatch(action),dispatchCallback默认接受两个参数data为请求返回结果，action为此次saga的action。
 
 ```
-export function* watchRequestOrgCreate() {
+export function* watchRequestPathDelete() {
     while (true) {
-        const action = yield take(REQUEST_ORG_CREATE);
+        const action = yield take(REQUEST_PATH_DELETE);
         yield fork(requestData, {
             action,
-            url: '/org/create',
-            type: ORG_CREATE,
-            loadingMsg: '正在提交...'
-        }, createSucc);
+            url:'/resPath/delete',
+            type:PATH_DELETE,
+            loadingMsg:'Path删除中...'
+        },succCallback,dispatchCallback);
     }
 }
+ const dispatchCallback = (data,action)=>{
+    store.dispatch(clearPathDeleteData());
+    store.dispatch(requestPathManager());
+ };
 ```
 
 ### 2.2FormComponent组件
