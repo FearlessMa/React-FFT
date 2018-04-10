@@ -1,9 +1,9 @@
-#说明
+# 说明
 
 ## 知识点需求
 antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数
 
-##1.使用离线字体
+## 1.使用离线字体
 1.1修改antd
 ```
 在node_modules/antd/dist下添加fonts/iconfont/antd官网下载的离线字体包（本项目根目录下fonts里为3.4版本字体）
@@ -47,11 +47,11 @@ antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,g
 
 ```
 
-##2.基于antd封装的公共组件
+## 2.基于antd封装的公共组件
 
-###2.1 saga与axios封装
+### 2.1 saga与axios封装
 
-####2.1.1 接口返回数据类型 
+#### 2.1.1 接口返回数据类型 
 ```
 const res = {
     message: '提示信息',
