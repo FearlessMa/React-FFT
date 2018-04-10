@@ -20,32 +20,20 @@ const mapDispatchToProps = dispatch => ({
 export class PathDetailContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-    }
-
-    componentDidMount() {
         const pathId = this.props.match.params.pathId;
+        this.pathId = pathId;
         if (isNaN(pathId)) {
             this.props.history.push('/systemManager/pathManager');
         }
         this.props.pathDetailSaga({pathId});
-        // const hideLoading = message.loading('正在获取数据...', 0);
-        // this.setState({
-        //     hideLoading
-        // })
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (!nextProps.loading) {
-    //         this.state.hideLoading();
-    //     }
-    // }
 
     toBack = () => {
         this.props.history.push('/systemManager/pathManager');
     }
 
     deletePermPath = (record) => {
-        const pathId = this.props.match.params.pathId;
+        const pathId = this.pathId;
         const removePermSaga = this.props.removePermSaga;
         Modal.confirm({
             title: `是否解绑${record.permName}?`,
@@ -62,7 +50,7 @@ export class PathDetailContainer extends React.Component {
         });
     }
 
-    toEdit = ()=>{
+    toEdit = () => {
         const pathId = this.props.match.params.pathId;
         this.props.history.push(`/systemManager/pathManager/edit/${pathId}`);
     }
@@ -119,7 +107,8 @@ const PathDetailContent = (props) => {
         // if(props.detail.code != 200){
         //     message.error('未查询到数据');
         // }
-    } catch (err) {}
+    } catch (err) {
+    }
     const formList = [
         {
             label: '请求path',

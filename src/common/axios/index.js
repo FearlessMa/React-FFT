@@ -57,6 +57,18 @@ const config = {
                 }
             );
         }
+        if (Number(data.code) === 404) {
+            Modal.error(
+                {
+                    title: '资源不存在',
+                    content: data.message,
+                    okText: '确认',
+                    onOk: () => {
+                        window.history.go(-1);
+                    }
+                }
+            );
+        }
         if (Number(data.code) === 500) {
             Modal.error(
                 {

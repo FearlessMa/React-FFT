@@ -3,47 +3,34 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import { FormComponent } from '../../common/formComponent';
-import {requestOrgDetail,requestOrgDelete} from '../redux/actions';
-import { Row, Col, Button, Modal } from 'antd';
-import { Switch, Route, Redirect} from 'react-router-dom';
-import {ViewMembers , ALS} from "./viewMembers";
+import {FormComponent} from '../../common/formComponent';
+import {requestOrgDetail, requestOrgDelete} from '../redux/actions';
+import {Row, Col, Button, Modal} from 'antd';
+import {Switch, Route, Redirect} from 'react-router-dom';
+import {ViewMembers, ALS} from "./viewMembers";
 import {message} from "antd/lib/index";
 
-
-
-
-export const DetailLayout = ()=>{
-    return (
-        <Switch>
-            {/*<Route exact path={`/systemManager/organManager/viewMembers`} component={ALS}/>*/}
-            <Route path={`/systemManager/organManager/detail/:orgId`} component={OrganDetailContainer}/>
-            {/*<Redirect to={`/systemManager/organManager/detail/:orgId`} />*/}
-            {/*<Route exact path={`/systemManager/organManager/`} component={OrganContainer}/>*/}
-        </Switch>
-    )
-}
-
-const mapStateToProps = (state)=>({
-    detail:state.systemManager.organManager.detail,
-    loading:state.systemManager.organManager.loading
+const mapStateToProps = (state) => ({
+    detail: state.systemManager.organManager.detail,
+    loading: state.systemManager.organManager.loading
 });
-const mapDispatchToProps = (dispatch)=>({
-    orgDetailSaga : (orgId)=>dispatch(requestOrgDetail(orgId)),
-    orgDeleteSaga : (orgId)=>dispatch(requestOrgDelete(orgId)),
+const mapDispatchToProps = (dispatch) => ({
+    orgDetailSaga: (orgId) => dispatch(requestOrgDetail(orgId)),
+    orgDeleteSaga: (orgId) => dispatch(requestOrgDelete(orgId)),
 });
 
-@connect(mapStateToProps,mapDispatchToProps)
-class OrganDetailContainer extends React.Component {
+@connect(mapStateToProps, mapDispatchToProps)
+export class OrganDetailContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        const orgId = Number(this.props.match.params.orgId);
-        if(isNaN(orgId)){
-            alert('错误');
+        const orgId = this.props.match.params.orgId;
+        if (isNaN(orgId)) {
+            message.error('数据错误', 1);
+            this.props.history.push('/systemManager/organManager');
         }
         this.props.orgDetailSaga({orgId});
-        this.state={
-            visible:false,
+        this.state = {
+            visible: false,
         }
     }
 
@@ -57,7 +44,7 @@ class OrganDetailContainer extends React.Component {
 
 
     //删除机构
-    orgDelete = (orgId,name)=>{
+    orgDelete = (orgId, name) => {
         let orgDeleteSaga = this.props.orgDeleteSaga;
         // const that = this;
         Modal.confirm({
@@ -75,23 +62,23 @@ class OrganDetailContainer extends React.Component {
         });
     }
     //Modal组件状态切换显示
-    toggleModal = ()=>{
+    toggleModal = () => {
         this.setState({
-            visible:!this.state.visible
+            visible: !this.state.visible
         })
     }
     //切换状态 TODO
-    toggleStatus=(values)=>{
+    toggleStatus = (values) => {
         console.log(values)
     }
 
     //查看人员
-    ViewMembers = (orgId,name)=>{
+    ViewMembers = (orgId, name) => {
         this.props.history.push(`/systemManager/organManager/viewMembers/${orgId}/${name}`);
     }
 
     //编辑权限
-    toEdit=(orgId)=>{
+    toEdit = (orgId) => {
         this.props.history.push(`/systemManager/organManager/edit/${orgId}`)
     }
 
@@ -99,7 +86,7 @@ class OrganDetailContainer extends React.Component {
         return (
             <React.Fragment>
                 <OraganDetailContent toggleModal={this.toggleModal} visible={this.state.visible}
-                                     orgDelete={this.orgDelete}  toggleStatus={this.toggleStatus}
+                                     orgDelete={this.orgDelete} toggleStatus={this.toggleStatus}
                                      ViewMembers={this.ViewMembers} toEdit={this.toEdit}
                                      {...this.props}
                 />
@@ -111,87 +98,92 @@ class OrganDetailContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: { span: 24 },
-        sm: {span:11}
+        xs: {span: 24},
+        sm: {span: 11}
     },
     wrapperCol: {
-        xs: { span: 24 },
-        sm:{ span: 13}
+        xs: {span: 24},
+        sm: {span: 13}
     },
 };
 
-const OraganDetailContent = (props)=>{
-    let data = props.detail.detailData.data.org;
+const OraganDetailContent = (props) => {
+    let data = [];
+    try {
+        data = props.detail.detailData.data.org || [];
+    } catch (e) {
+
+    }
     const formList = [
         {
-            label:'真实机构号',
-            id:'realOrgId',
-            initialValue:data.realOrgId,
-            type:'text',
+            label: '真实机构号',
+            id: 'realOrgId',
+            initialValue: data.realOrgId,
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
         {
-            label:'机构名称',
-            id:'name',
-            initialValue:data.name,
-            type:'text',
+            label: '机构名称',
+            id: 'name',
+            initialValue: data.name,
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
         {
-            label:'机构简称',
-            id:'shortName',
-            initialValue:data.shortName,
-            type:'text',
+            label: '机构简称',
+            id: 'shortName',
+            initialValue: data.shortName,
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
         {
-            label:'上级机构',
-            id:'parentOrgName',
-            initialValue:data.parentOrgName,
-            type:'text',
+            label: '上级机构',
+            id: 'parentOrgName',
+            initialValue: data.parentOrgName,
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
         {
-            label:'创建时间',
-            id:'createTime',
+            label: '创建时间',
+            id: 'createTime',
             initialValue: new Date(data.createTime).toLocaleString(),
-            type:'text',
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
         {
-            label:'更新时间',
-            id:'updateTime',
+            label: '更新时间',
+            id: 'updateTime',
             initialValue: new Date(data.updateTime).toLocaleString(),
-            type:'text',
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
         {
-            label:'地址',
-            id:'updateTime',
-            initialValue:data.address,
-            type:'text',
+            label: '地址',
+            id: 'updateTime',
+            initialValue: data.address,
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
         {
-            label:'状态',
-            id:'updateTime',
-            initialValue:data.status,
-            type:'text',
+            label: '状态',
+            id: 'updateTime',
+            initialValue: data.status,
+            type: 'text',
             tag: 'input',
-            disabled:true
+            disabled: true
         },
     ];
     return (
         <React.Fragment>
             <div className="containerHeader">
-            机构管理
+                机构管理
             </div>
             <div className="containerContent">
                 <FormComponent
@@ -201,11 +193,19 @@ const OraganDetailContent = (props)=>{
                 />
                 <Row>
                     <Col offset={3} className='detailBtn'>
-                       <Button onClick={()=>{props.ViewMembers(data.orgId,data.name)}}>查看人员</Button>
-                       <Button type={'danger'} onClick={()=>{props.orgDelete(data.orgId,data.name)}}>删除</Button>
-                       <Button onClick={props.toggleModal}>状态</Button>
-                       <Button type={'primary'} onClick={()=>{props.toEdit(data.orgId)}}>修改</Button>
-                       <Button onClick={()=>{props.history.push('/systemManager/organManager')}}>返回</Button>
+                        <Button onClick={() => {
+                            props.ViewMembers(data.orgId, data.name)
+                        }}>查看人员</Button>
+                        <Button type={'danger'} onClick={() => {
+                            props.orgDelete(data.orgId, data.name)
+                        }}>删除</Button>
+                        <Button onClick={props.toggleModal}>状态</Button>
+                        <Button type={'primary'} onClick={() => {
+                            props.toEdit(data.orgId)
+                        }}>修改</Button>
+                        <Button onClick={() => {
+                            props.history.push('/systemManager/organManager')
+                        }}>返回</Button>
                     </Col>
                 </Row>
                 <Modal
@@ -214,9 +214,15 @@ const OraganDetailContent = (props)=>{
                     onCancel={props.toggleModal}
                     footer={null}
                 >
-                    {data.status!=='NORMAL'?<Button onClick={()=>{props.toggleStatus('NORMAL')}} style={{marginRight:30}}>开启</Button>:null}
-                    {data.status!=='LOCKED'?<Button onClick={()=>{props.toggleStatus('LOCKED')}} style={{marginRight:30}}>锁定</Button>:null}
-                    {data.status!=='CANCEL'?<Button  onClick={()=>{props.toggleStatus('CANCEL')}} >作废</Button>:null}
+                    {data.status !== 'NORMAL' ? <Button onClick={() => {
+                        props.toggleStatus('NORMAL')
+                    }} style={{marginRight: 30}}>开启</Button> : null}
+                    {data.status !== 'LOCKED' ? <Button onClick={() => {
+                        props.toggleStatus('LOCKED')
+                    }} style={{marginRight: 30}}>锁定</Button> : null}
+                    {data.status !== 'CANCEL' ? <Button onClick={() => {
+                        props.toggleStatus('CANCEL')
+                    }}>作废</Button> : null}
                 </Modal>
             </div>
         </React.Fragment>

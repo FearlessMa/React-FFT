@@ -2,11 +2,11 @@
  * Created by MHC on 2018/3/22.
  */
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {Row, Col, Button} from 'antd';
 import {FormComponent, TableComponent, tranTreeData} from '../../common';
 import {connect} from 'react-redux';
-import {clearPowerDeleteData, requestPowerDelete, requestPowerList} from "../redux/actions";
+import { requestPowerDelete, requestPowerList} from "../redux/actions";
 import {Modal} from "antd/lib/index";
 import {PowerCreateContainer} from "./createANDedit";
 import {PowerDetailContainer} from "./detail";
@@ -20,6 +20,7 @@ export const PowerManagerLayout = () => {
             <Route path={'/systemManager/powerManager/detail/:permId'} component={PowerDetailContainer}/>
             <Route path={'/systemManager/powerManager/edit/:permId'} component={PowerCreateContainer}/>
             <Route path={'/systemManager/powerManager/config/:permId'} component={PowerConfigContainer}/>
+            <Redirect to={'/systemManager/powerManager'}/>
         </Switch>
     )
 };

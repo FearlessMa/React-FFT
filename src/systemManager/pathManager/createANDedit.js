@@ -23,35 +23,31 @@ const mapDispatchToProps = dispatch => ({
 export class CreatePathContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.state = {
-            componentTitle: 'create',
+        const pathId = this.props.match.params.pathId;
+        this.pathId = pathId;
+        if (pathId) {
+            if (isNaN(pathId)) {
+                this.props.history.push('/systemManager/pathManager');
+            }
+            this.state={
+                componentTitle: 'edit',
+            };
+            this.props.pathDetailSaga({pathId});
+        }else {
+            this.state = {
+                componentTitle: 'create',
+            }
         }
     }
 
     onSubmit = (values) => {
-        const pathId = this.props.match.params.pathId;
+        const pathId = this.pathId;
         if (pathId) {
             this.props.pathEditSaga({...values, pathId});
         } else {
             this.props.pathCreateSaga(values);
         }
     }
-
-    componentDidMount() {
-        const pathId = this.props.match.params.pathId;
-        if (pathId) {
-            if (isNaN(pathId)) {
-                this.props.history.push('/systemManager/pathManager');
-            }
-            this.setState({
-                componentTitle: 'edit',
-            });
-            if (!this.props.detail) {
-                this.props.pathDetailSaga({pathId});
-            }
-        }
-    }
-
 
     render() {
         return (

@@ -2,13 +2,13 @@
  * Created by MHC on 2018/3/13.
  */
 import React from 'react';
-import {Table, Col, Row, Button, Form} from 'antd';
+import {Col, Row} from 'antd';
 import {connect} from 'react-redux';
 import {requestOrgList} from '../redux/actions';
 import './index.less';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import OrganCreateContainer from './createANDedit';
-import {DetailLayout} from './detail';
+import {OrganDetailContainer} from './detail';
 import {TableComponent} from '../../common/tableComponent';
 import {FormComponent} from '../../common/formComponent';
 import {ViewMembers} from "./viewMembers";
@@ -18,9 +18,10 @@ export const OrganLayout = () => {
         <Switch>
             <Route path={`/systemManager/organManager/create`} component={OrganCreateContainer}/>
             <Route path={`/systemManager/organManager/edit/:orgId`} component={OrganCreateContainer}/>
-            <Route path={`/systemManager/organManager/detail/:orgId`} component={DetailLayout}/>
+            <Route path={`/systemManager/organManager/detail/:orgId`} component={OrganDetailContainer}/>
             <Route path={`/systemManager/organManager/viewMembers/:orgId/:name`} component={ViewMembers}/>
             <Route exact path={`/systemManager/organManager/`} component={OrganContainer}/>
+            <Redirect to={`/systemManager/organManager/`}/>
         </Switch>
     )
 };

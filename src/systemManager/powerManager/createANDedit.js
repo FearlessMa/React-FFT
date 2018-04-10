@@ -38,10 +38,6 @@ export class PowerCreateContainer extends React.Component {
             this.props.powerCreateComponentTitle({componentTitle: 'edit'});
             this.props.powerDetailSaga({permId});
         }
-
-        // this.state={
-        //     componentTitle: 'create',
-        // }
         this.props.powerListSaga();
     }
 
@@ -53,12 +49,6 @@ export class PowerCreateContainer extends React.Component {
             this.props.powerCreateSaga(values);
         }
     }
-
-    // componentDidMount() {
-    //     if (!this.props.location.state) {
-    //         this.props.powerListSaga();
-    //     }
-    // }
 
     render() {
         return (

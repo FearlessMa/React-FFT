@@ -20,23 +20,29 @@ const mapDispatchToProps = dispatch => ({
 export class MenuDetailContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
+        const menuId = this.props.match.params.menuId;
+        this.menuId = menuId;
+        if (isNaN(menuId)) {
+            this.props.history.push('/systemManager/menuManager');
+        }
+        this.props.menuDetailSaga({menuId});
     }
 
     toBack = () => {
         this.props.history.push('/systemManager/menuManager');
     }
 
-    componentDidMount(){
-        const menuId = this.props.match.params.menuId;
-        if (isNaN(menuId)) {
-            this.props.history.push('/systemManager/menuManager');
-        }
-        this.props.menuDetailSaga(menuId);
-    }
+    // componentDidMount(){
+    //     const menuId = this.props.match.params.menuId;
+    //     if (isNaN(menuId)) {
+    //         this.props.history.push('/systemManager/menuManager');
+    //     }
+    //     this.props.menuDetailSaga({menuId});
+    // }
 
 
     deletePermMenu = (record) => {
-        const menuId = this.props.match.params.menuId;
+        const menuId = this.menuId;
         const menuRemovePermSaga = this.props.menuRemovePermSaga;
         Modal.confirm({
             title: `是否解绑${record.permName}?`,
@@ -57,7 +63,7 @@ export class MenuDetailContainer extends React.Component {
     }
 
     toEdit=()=>{
-        const menuId = this.props.match.params.menuId;
+        const menuId = this.menuId;
         this.props.history.push(`/systemManager/menuManager/edit/${menuId}`);
     }
 

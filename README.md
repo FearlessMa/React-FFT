@@ -1,7 +1,7 @@
 # 说明
 
 ## 知识点需求
-antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数，mockJ。
+antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数，mockJS。
 * dist目录下为打包后文件，目前预览使用
 ## 生成版本打包
 目前生成版本需手动去掉src/index.js中的mockJS和redux-saga-logger插件。
@@ -70,6 +70,7 @@ const res = {
 401 => 当前未登录 
 402 => 账号或密码错误 
 403 => 无权访问
+404 => 资源不存在
 500 => 系统错误
 
 ```

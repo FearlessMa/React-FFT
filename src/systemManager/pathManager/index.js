@@ -7,7 +7,7 @@ import {FormComponent} from '../../common/formComponent';
 import {TableComponent} from '../../common/tableComponent';
 import {Row, Col, Button} from 'antd';
 import {connect} from 'react-redux';
-import {requestPathDelete, requestPathManager, clearPathDeleteData} from '../redux/actions';
+import {requestPathDelete, requestPathManager} from '../redux/actions';
 import {CreatePathContainer} from './createANDedit';
 import {PathDetailContainer} from './detail';
 import {Modal} from "antd/lib/index";
@@ -19,6 +19,7 @@ export const PathManagerLayout = () => {
             <Route path={'/systemManager/pathManager/create'} component={CreatePathContainer}/>
             <Route path={'/systemManager/pathManager/detail/:pathId'} component={PathDetailContainer}/>
             <Route path={'/systemManager/pathManager/edit/:pathId'} component={CreatePathContainer}/>
+            <Redirect to={'/systemManager/pathManager'}/>
         </Switch>
     )
 }
@@ -30,22 +31,18 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     pathListSaga: (values) => dispatch(requestPathManager(values)),
     pathDeleteSaga: (values) => dispatch(requestPathDelete(values)),
-    clearPathDelete : ()=>dispatch(clearPathDeleteData())
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 class PathContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
+        this.props.pathListSaga();
     }
 
     formSubmit = (values) => {
         console.log(values)
         this.props.pathListSaga(values);
-    }
-
-    componentDidMount() {
-        this.props.pathListSaga();
     }
 
     toCreate = () => {
@@ -77,16 +74,6 @@ class PathContainer extends React.Component {
     //分页
     paginationOnChange = (pagination) => {
         this.props.pathListSaga({current: pagination.current, pageSize: pagination.pageSize});
-    }
-
-    componentWillReceiveProps(nextProps) {
-        let pathDelete = nextProps.index.pathDelete;
-        if (pathDelete) {
-            if(pathDelete.code == 200){
-                this.props.clearPathDelete();
-                this.props.pathListSaga();
-            }
-        }
     }
 
     render() {

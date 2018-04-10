@@ -12,7 +12,7 @@ import {
     POWER_CONFIG_ADD_PATH, REQUEST_POWER_CONFIG_UNBIND, POWER_CONFIG_UNBIND, REQUEST_POWER_CONFIG_UNBOUND_PATH_LIST,
     POWER_CONFIG_UNBOUND_PATH_LIST, REQUEST_POWER_CONFIG_MENU_LIST, POWER_CONFIG_MENU_LIST, REQUEST_USER_LIST,
     USER_LIST, REQUEST_USER_CREATE, USER_CREATE, REQUEST_USER_DETAIL, USER_DETAIL, REQUEST_USER_DELETE, USER_DELETE,
-    REQUEST_USER_CHANGE_STATUS, USER_CHANGE_STATUS, REQUEST_ORG_LIST, REQUEST_ERR, REQUEST_ALL_ORG_LIST, ALL_ORG_LIST,
+    REQUEST_USER_CHANGE_STATUS, USER_CHANGE_STATUS, REQUEST_ORG_LIST, REQUEST_ALL_ORG_LIST, ALL_ORG_LIST,
     REQUEST_ORG_CREATE, ORG_CREATE, REQUEST_ORG_DETAIL, ORG_DETAIL, REQUEST_ORG_DELETE, ORG_DELETE, REQUEST_ORG_MENBERS,
     ORG_MEMBERS, REQUEST_ORG_REMOVE_MENBERS, ORG_REMOVE_MEMBERS, REQUEST_PATH_LIST, PATH_LIST, REQUEST_PATH_CREATE,
     PATH_CREATE, REQUEST_PATH_DETAIL, PATH_DETAIL, REQUEST_PATH_REMOVE_PERM, PATH_REMOVE_PERM, REQUEST_PATH_DELETE,
@@ -25,7 +25,8 @@ import {store} from '../../index';
 
 import {requestData, alertModal, alertNotification} from "../../common/axios";
 import {
-     requestPowerConfig, requestPowerList, requestUserDetail
+    clearPathDeleteData, requestPathManager,
+    requestPowerConfig, requestPowerList, requestUserDetail
 } from "./actions";
 
 // //通知提醒
@@ -321,10 +322,13 @@ export function* watchRequestPathDelete() {
             url:'/resPath/delete',
             type:PATH_DELETE,
             loadingMsg:'Path删除中...'
-        },deleteSuccNot);
+        },deleteSuccNot,succDispatch);
     }
 }
-
+ const succDispatch = ()=>{
+    store.dispatch(clearPathDeleteData());
+    store.dispatch(requestPathManager());
+ };
 
 /*********---------------menuManager-----------------**********/
 
@@ -376,6 +380,7 @@ export function* watchRequestMenuDetail() {
             action,
             url:'/resMenu/detail',
             type:MENU_DETAIL,
+            loadingMsg:'详情查询中...'
         });
     }
 }

@@ -33,17 +33,8 @@ const mapDispatchToProps = dispatch => ({
 export class PowerConfigContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        // this.state = {
-        //     // pathModalVisible: false,
-        //     // pathModalConfirmLoading: false,
-        //     // menuModalVisible: false
-        // };
         this.powerConfig();
     }
-
-    // componentDidMount() {
-    //     this.powerConfig();
-    // }
 
     //config页面的数据获取
     powerConfig = () => {

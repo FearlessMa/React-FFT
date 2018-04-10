@@ -24,13 +24,26 @@ const mapDispatchToProps = dispatch => ({
 export class MenuCreateContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.state = {
-            componentTitle: 'create',
+        const menuId = this.props.match.params.menuId;
+        this.menuId = menuId;
+        if (isNaN(menuId) && menuId !== undefined) {
+            alert('错误');
+            //TODO
+        }
+        if (menuId) {
+            this.props.menuDetailSaga({menuId});
+            this.state = {
+                componentTitle: 'edit',
+            };
+        } else {
+            this.state = {
+                componentTitle: 'create',
+            }
         }
     }
 
     onSubmit = (values) => {
-        const menuId = this.props.match.params.menuId;
+        const menuId = this.menuId;
         if (menuId) {
             this.props.menuEditSaga({menuId, ...values});
         } else {
@@ -38,19 +51,19 @@ export class MenuCreateContainer extends React.Component {
         }
     }
 
-    componentDidMount() {
-        const menuId = this.props.match.params.menuId;
-        if (isNaN(menuId) && menuId !== undefined) {
-            alert('错误');
-            //TODO
-        }
-        if (menuId) {
-            this.props.menuDetailSaga({menuId});
-            this.setState({
-                componentTitle: 'edit',
-            });
-        }
-    }
+    // componentDidMount() {
+    //     const menuId = this.props.match.params.menuId;
+    //     if (isNaN(menuId) && menuId !== undefined) {
+    //         alert('错误');
+    //         //TODO
+    //     }
+    //     if (menuId) {
+    //         this.props.menuDetailSaga({menuId});
+    //         this.setState({
+    //             componentTitle: 'edit',
+    //         });
+    //     }
+    // }
 
     render() {
         return (
@@ -88,8 +101,10 @@ const MenuCreateContent = (props) => {
     const title = props.componentTitle === 'create' ? '创建' : '修改'
     let menuInitValues = [];
     try {
-        menuInitValues = props.menuDetail.data.menu;
-        menuInitValues.sortNumber = menuInitValues.sort;
+        if (props.componentTitle === 'edit') {
+            menuInitValues = props.menuDetail.data.menu;
+            menuInitValues.sortNumber = menuInitValues.sort;
+        }
     } catch (e) {
     }
     const formList = [

@@ -31,14 +31,6 @@ export class PowerDetailContainer extends React.Component {
         this.props.powerDetailSaga({permId});
     }
 
-    // componentDidMount() {
-    //     // const permId = this.props.match.params.permId;
-    //     if (isNaN(this.permId)) {
-    //         this.props.history.push('/systemManager/powerManager');
-    //     }
-    //     this.props.powerDetailSaga({permId:this.permId});
-    // }
-
     toBack = () => {
         this.props.history.push('/systemManager/powerManager');
     }

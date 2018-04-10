@@ -52,7 +52,8 @@ export default class OrganCreateContainer extends React.Component {
         this.props.requestAllOrgList();
         const orgId = this.props.match.params.orgId;
         if (isNaN(orgId) && orgId !== undefined) {
-            alert('错误');
+            message.error('数据错误', 1);
+            this.props.history.push('/systemManager/organManager');
             // TODO
         }
         if (orgId) {

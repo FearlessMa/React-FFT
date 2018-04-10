@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/23.
  */
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {Row, Col} from 'antd';
 import {FormComponent, TableComponent} from '../../common';
 import {connect} from 'react-redux';
@@ -18,6 +18,7 @@ export const RoleManagerLayout = () => {
             <Route path={'/systemManager/roleManager/edit/:roleId'} component={RoleCreateContainer}/>
             <Route path={'/systemManager/roleManager/detail/:roleId'} component={RoleDetailContainer}/>
             <Route exact path={'/systemManager/roleManager'} component={RoleManagerContainer}/>
+            <Redirect to={'/systemManager/roleManager'} />
         </Switch>
     )
 };

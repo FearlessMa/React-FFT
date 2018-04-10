@@ -18,7 +18,7 @@ export const MenuManagerLayout = () => {
             <Route path={`/systemManager/menuManager/create`} component={MenuCreateContainer}/>
             <Route path={`/systemManager/menuManager/detail/:menuId`} component={MenuDetailContainer}/>
             <Route path={`/systemManager/menuManager/edit/:menuId`} component={MenuCreateContainer}/>
-            <Redirect to={'/'}/>
+            <Redirect to={'/systemManager/menuManager'}/>
         </Switch>
     )
 };
