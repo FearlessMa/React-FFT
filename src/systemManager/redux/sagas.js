@@ -19,15 +19,9 @@ import {
     PATH_DELETE, REQUEST_ORG_EDIT, ORG_EDIT, REQUEST_PATH_EDIT, PATH_EDIT, REQUEST_MENU_EDIT, MENU_EDIT,
     POWER_PATH_MODAL_VISIBLE, POWER_MENU_MODAL_VISIBLE, REQUEST_POWER_EDIT, POWER_EDIT, REQUEST_ROLE_EDIT, ROLE_EDIT
 } from "./actionTypes";
-
-// import axios from 'axios';
 import {store} from '../../index';
-
 import {requestData, alertModal, alertNotification} from "../../common/axios";
-import {
-    clearPathDeleteData, requestPathManager,
-    requestPowerConfig, requestPowerList, requestUserDetail
-} from "./actions";
+import {requestPathManager, requestPowerConfig, requestPowerList, requestUserDetail} from "./actions";
 
 // //通知提醒
 // function alertNotification(message = '成功', description = 'success', type = 'success') {
@@ -326,7 +320,6 @@ export function* watchRequestPathDelete() {
     }
 }
  const succDispatch = ()=>{
-    store.dispatch(clearPathDeleteData());
     store.dispatch(requestPathManager());
  };
 

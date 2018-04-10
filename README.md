@@ -100,10 +100,14 @@ export function* watchRequestPathDelete() {
         },succCallback,dispatchCallback);
     }
 }
- const dispatchCallback = (data,action)=>{
-    store.dispatch(clearPathDeleteData());
+
+const succCallback = message => {
+    alertModal('删除成功', message)
+};
+
+const dispatchCallback = (data,action)=>{
     store.dispatch(requestPathManager());
- };
+};
 ```
 
 ### 2.2FormComponent组件
