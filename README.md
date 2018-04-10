@@ -1,8 +1,10 @@
 # 说明
 
 ## 知识点需求
-antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数
-
+antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数，mockJ。
+* dist目录下为打包后文件，目前预览使用
+## 生成版本打包
+目前生成版本需手动去掉src/index.js中的mockJS和redux-saga-logger插件。
 ## 1.使用离线字体
 1.1修改antd
 ```
@@ -47,7 +49,7 @@ antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,g
 
 ```
 
-## 2.基于antd封装的公共组件
+## 2.封装的公共组件与方法
 
 ### 2.1 saga与axios封装
 

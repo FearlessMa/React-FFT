@@ -9,6 +9,7 @@ import {LOGIN, LOGIN_REQUEST, LOGIN_ERR, REQUEST_ERR, CLEAR_LOADING} from './act
 import {requestData} from "../../common/axios";
 import {store} from "../../index";
 import {clearLoadingAction} from "./actions";
+import sha256 from 'js-sha256';
 
 export function* watchLoginAction() {
     // yield * takeLatest(LOGIN_REQUEST,loginRequest)
@@ -18,7 +19,7 @@ export function* watchLoginAction() {
 
         // yield fork(loginRequest, action);
         yield fork(requestData, {
-            action: {username: userName, password},
+            action: {username: userName, password:sha256(password)},
             type: LOGIN,
             url: '/login',
             loadingMsg: 'closed',

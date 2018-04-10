@@ -82,7 +82,7 @@ export const menuList =  [
 ];
 export const loginMock =Mock.mock('/login',function (option) {
     const {username,password} = JSON.parse(option.body);
-    if(username==='admin'&& password==='12345'){
+    if(username==='admin'&& password==='5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5'){
         return {
             message:'登陆成功',
             code:200,
