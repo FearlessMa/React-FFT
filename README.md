@@ -4,7 +4,7 @@
 antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数，mockJS。
 * dist目录下为打包后文件，目前预览使用
 ## 生产版本打包
-生产版本打(需注释掉src/index.production.js中引入的mockJs)
+生产版本打(需注释掉src/index.js中引入的mockJs)
 ## 1.使用离线字体
 ### 1.1配置方法
 ##### 1.1.1修改antd
