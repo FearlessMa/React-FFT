@@ -85,8 +85,8 @@ module.exports = {
         alias: {
             src: path.resolve(__dirname, '../src'),
             css: path.resolve(__dirname, '../css'),
-            img: path.resolve(__dirname, '../img')
-
+            img: path.resolve(__dirname, '../img'),
+            common: path.resolve(__dirname,'../src/common')
         },
         extensions: ['*', '.js', '.css', '.less', '.scss']
     },

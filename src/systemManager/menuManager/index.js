@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import {TableComponent, FormComponent, tranTreeData} from '../../common';
+import {TableComponent, FormComponent, tranTreeData} from 'common';
 import {Button, Row, Col, Modal} from 'antd';
 import {connect} from 'react-redux';
 import {requestMenuDelete, requestMenuList} from "../redux/actions";

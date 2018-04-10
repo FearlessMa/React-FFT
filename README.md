@@ -112,6 +112,9 @@ const dispatchCallback = (data,action)=>{
 
 ### 2.2FormComponent组件
 
+* 引入 import {FormComponent, tranTreeData} from 'common';
+
+
 ##### 2.2.1 参数说明
  * Form组件接收的props
  *  formList ： 表单数据（必填）Array
@@ -154,6 +157,7 @@ tranTreeData
  * parentId : 数据parentId    例如  'parentOrgId'              String
  * name : 组件显示的name属性     例如    'orgName'                  String
 ```
+
 //数据结构
 [
      {
@@ -164,7 +168,8 @@ tranTreeData
      }
 ]
 
-//使用方法
+//使用方法 
+import {tranTreeData} from 'common';
 menuList = tranTreeData(props.index.data.menuList, 'menuId', 'parentMenuId', 'menuName');
 
 ```
