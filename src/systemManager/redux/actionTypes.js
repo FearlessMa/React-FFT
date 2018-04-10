@@ -69,11 +69,17 @@ export const POWER_LIST = 'powerList';
 export const POWER_DELETE = 'powerDelete';
 export const POWER_CREATE = 'powerCreate';
 export const POWER_DETAIL = 'powerDetail';
+export const POWER_EDIT = 'powerEdit';
 export const POWER_CONFIG = 'powerConfig';
 export const POWER_CONFIG_ADD_PATH = 'powerConfigAddPath';
 export const POWER_CONFIG_UNBIND = 'powerConfigUnbind';
 export const POWER_CONFIG_UNBOUND_PATH_LIST = 'powerConfigUnboundPathList';
 export const POWER_CONFIG_MENU_LIST = 'powerConfigMenuList';
+export const POWER_CLEAR_DELETE_DATA = 'powerClearDeleteData';
+export const POWER_PATH_MODAL_VISIBLE = 'powerPathModalVisible';
+export const POWER_MENU_MODAL_VISIBLE = 'powerMenuModalVisible';
+export const POWER_CREATE_COMPONENT_TITLE = 'powerCreateComponentTitle';
+
 
 
 // sagas
@@ -86,6 +92,7 @@ export const REQUEST_POWER_CONFIG_ADD_PATH = 'requestPowerConfigAddPath';
 export const REQUEST_POWER_CONFIG_UNBIND = 'requestPowerConfigUnbind';
 export const REQUEST_POWER_CONFIG_UNBOUND_PATH_LIST = 'requestPowerConfigUnboundPathList';
 export const REQUEST_POWER_CONFIG_MENU_LIST = 'requestPowerConfigMenuList';
+export const REQUEST_POWER_EDIT = 'requestPowerEdit';
 
 /**---------roleManager-----------**/
 // reducer
@@ -93,12 +100,15 @@ export const ROLE_LIST = 'roleList';
 export const ROLE_CREATE = 'roleCreate';
 export const ROLE_DETAIL = 'roleDetail';
 export const ROLE_DELETE = 'roleDelete';
+export const ROLE_COMPONENT_TITLE = 'roleComponentTitle';
+export const ROLE_EDIT = 'roleEdit';
 
 // sagas
 export const REQUEST_ROLE_LIST = 'requestRoleList';
 export const REQUEST_ROLE_CREATE = 'requestRoleCreate';
 export const REQUEST_ROLE_DETAIL = 'requestRoleDetail';
 export const REQUEST_ROLE_DELETE = 'requestRoleDelete';
+export const REQUEST_ROLE_EDIT = 'requestRoleEdit';
 
 /**---------userManager-----------**/
 // reducer

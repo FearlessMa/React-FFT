@@ -30,6 +30,11 @@ export default class LoginComponent extends React.Component {
 
     constructor(...arg) {
         super(...arg);
+        const sessionAuth = sessionStorage.getItem('isAuthenticated');
+        const userData = sessionStorage.getItem('userData');
+        if (sessionAuth && userData) {
+            this.props.history.push("/");
+        }
         this.state = {
             isLoading: false
         }
@@ -37,14 +42,6 @@ export default class LoginComponent extends React.Component {
 
     toLogin = (values) => {
         this.props.onLogin(values.userName, values.password);
-    }
-
-    componentWillMount() {
-        const sessionAuth = sessionStorage.getItem('isAuthenticated');
-        const userData = sessionStorage.getItem('userData');
-        if (sessionAuth && userData) {
-            this.props.history.push("/");
-        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -62,6 +59,17 @@ export default class LoginComponent extends React.Component {
     }
 
     render() {
+        // const {type} = this.props.login.userData;
+        // //验证失败提示
+        // if (type === LOGIN_ERR) {
+        //     message.error(this.props.login.userData.message);
+        //     this.props.clearErrMsg();
+        // }
+        // // 登录成功后存储登录状态
+        // if (this.props.login.isLogin) {
+        //     sessionStorage.setItem('isAuthenticated', true);
+        //     this.props.history.push("/");
+        // }
         return (
             <React.Fragment>
                 <Login {...this.props} toLogin={this.toLogin}/>

@@ -5,31 +5,31 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 
-    entry :
-        ['babel-polyfill', 'react-hot-loader/patch', path.join(__dirname,'../src/index.js')]
+    entry:
+        ['babel-polyfill', 'react-hot-loader/patch', path.join(__dirname, '../src/index.js')]
     ,
-    output : {
-        filename : 'js/[name].[hash].js',
-        path : path.resolve(__dirname,'../dist')
+    output: {
+        filename: 'js/[name].[hash].js',
+        path: path.resolve(__dirname, '../dist')
     },
-    module : {
-        rules : [
+    module: {
+        rules: [
             {
-                test : /\.js$/,
-                use : [
+                test: /\.js$/,
+                use: [
                     {
-                        loader : 'babel-loader',
-                        options : {
-                            presets : [['env'],['react'],['stage-0']],
-                            plugins : [
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [['env'], ['react'], ['stage-0']],
+                            plugins: [
                                 'transform-decorators-legacy',
                                 "transform-remove-strict-mode",
                                 "react-hot-loader/babel",
-                                ["import", { libraryName: "antd", style: "css" }]
+                                ["import", {libraryName: "antd", style: true}]
                             ]
                         }
                     }
@@ -44,40 +44,58 @@ module.exports = {
                 }
             },
             {
-                test : /\.(css)$/,
-                loader : ['style-loader', 'css-loader']
+                test: /\.(css)$/,
+                loader: ['style-loader', 'css-loader']
+            },
+            // {
+            //     test: /\.(less)$/,
+            //     loader: ['style-loader', 'css-loader', 'less-loader']
+            // },
+            {
+                test: /\.(less)$/,
+                use:[
+                    {loader:'style-loader'},
+                    {loader:'css-loader'},
+                    {loader:'less-loader',options: { javascriptEnabled: true }},
+                ]
             },
             {
-                test : /\.(less)$/,
-                loader : ['style-loader', 'css-loader', 'less-loader']
+                test: /\.(png|gif|jpg|jpeg|svg)$/,
+                include: [
+                    path.resolve(__dirname, '../img')
+                ],
+                loader: 'file-loader',
+                options: {
+                    name: 'img/[name].[ext]'
+                }
             },
             {
-                test:/\.(png|gif|jpg|jpeg|svg)$/,
+                test:/\.(eot|svg|ttf|woff|woff2)$/,
                 include:[
-                    path.resolve(__dirname,'../img')
+                    path.resolve(__dirname,'../node_modules/antd')
                 ],
                 loader:'file-loader',
                 options:{
-                    name:'img/[name].[ext]'
+                    name:'fonts/iconfont/[name].[ext]'
                 }
-            },
+            }
         ]
     },
-    resolve : {
-        alias : {
-            src : path.resolve(__dirname,'../src'),
-            css : path.resolve(__dirname,'../css'),
-            img : path.resolve(__dirname,'../img')
+    resolve: {
+        alias: {
+            src: path.resolve(__dirname, '../src'),
+            css: path.resolve(__dirname, '../css'),
+            img: path.resolve(__dirname, '../img')
 
         },
-        extensions : [ '*', '.js', '.css', '.less', '.scss']
+        extensions: ['*', '.js', '.css', '.less', '.scss']
     },
-    plugins:[
+    plugins: [
         new HtmlWebpackPlugin({
-            title:'react all',
-            template : path.resolve(__dirname,'../index.html')
+            title: 'react all',
+            template: path.resolve(__dirname, '../index.html')
         }),
-        new ExtractTextPlugin("../dist/css/[name].css"),
+        // new ExtractTextPlugin("../dist/css/[name].css"),
         new CleanWebpackPlugin(['../dist'])
     ]
 };

@@ -12,7 +12,9 @@ import {
     REQUEST_USER_LIST, REQUEST_USER_CREATE, REQUEST_USER_DETAIL, REQUEST_USER_DELETE, REQUEST_USER_CHANGE_STATUS,
     REQUEST_ALL_ORG_LIST, REQUEST_ORG_CREATE, REQUEST_ORG_DETAIL, REQUEST_ORG_DELETE, REQUEST_ORG_MENBERS,
     REQUEST_ORG_REMOVE_MENBERS, REQUEST_PATH_LIST, REQUEST_PATH_CREATE, REQUEST_PATH_DETAIL, REQUEST_PATH_REMOVE_PERM,
-    REQUEST_PATH_DELETE, PATH_CLEAR_DELETE_DATA, REQUEST_ORG_EDIT, REQUEST_PATH_EDIT, REQUEST_MENU_EDIT
+    REQUEST_PATH_DELETE, PATH_CLEAR_DELETE_DATA, REQUEST_ORG_EDIT, REQUEST_PATH_EDIT, REQUEST_MENU_EDIT,
+    POWER_CLEAR_DELETE_DATA, POWER_PATH_MODAL_VISIBLE, POWER_MENU_MODAL_VISIBLE, POWER_CREATE_COMPONENT_TITLE,
+    REQUEST_POWER_EDIT, ROLE_COMPONENT_TITLE, REQUEST_ROLE_EDIT
 } from "./actionTypes";
 
 /**--------------orgManager------------------**/
@@ -136,6 +138,11 @@ export const requestPowerDelete = values => ({
     type: REQUEST_POWER_DELETE,
     ...values
 });
+//powerClearDelete
+export const clearPowerDeleteData = values => ({
+    type: POWER_CLEAR_DELETE_DATA,
+    ...values
+});
 
 //powerCreate
 export const requestPowerCreate = values => ({
@@ -177,6 +184,26 @@ export const requestPowerConfigMenuList = values => ({
     type: REQUEST_POWER_CONFIG_MENU_LIST,
     ...values
 });
+// pathModalVisible
+export const powerPathModalVisible = values => ({
+    type: POWER_PATH_MODAL_VISIBLE,
+    ...values
+});
+// menuModalVisible
+export const powerMenuModalVisible = values => ({
+    type: POWER_MENU_MODAL_VISIBLE,
+    ...values
+});
+// createANDedit  componentTitle
+export const powerCreateComponentTitle = values => ({
+    type: POWER_CREATE_COMPONENT_TITLE,
+    ...values
+});
+// edit
+export const requestPowerEdit = values => ({
+    type: REQUEST_POWER_EDIT,
+    ...values
+});
 
 
 /**--------------roleManager------------------**/
@@ -199,6 +226,16 @@ export const requestRoleDetail = values => ({
 // delete
 export const requestRoleDelete = values => ({
     type: REQUEST_ROLE_DELETE,
+    ...values
+});
+// roleComponentTitle
+export const roleComponentTitle = values => ({
+    type: ROLE_COMPONENT_TITLE,
+    ...values
+});
+// edit
+export const requestRoleEdit = values => ({
+    type: REQUEST_ROLE_EDIT,
     ...values
 });
 

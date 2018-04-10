@@ -6,9 +6,9 @@ import {Switch, Route} from 'react-router-dom';
 import {Row, Col, Button} from 'antd';
 import {FormComponent, TableComponent, tranTreeData} from '../../common';
 import {connect} from 'react-redux';
-import {requestPowerDelete, requestPowerList} from "../redux/actions";
+import {clearPowerDeleteData, requestPowerDelete, requestPowerList} from "../redux/actions";
 import {Modal} from "antd/lib/index";
-import {PowerCreateContainer} from "./create";
+import {PowerCreateContainer} from "./createANDedit";
 import {PowerDetailContainer} from "./detail";
 import {PowerConfigContainer} from "./config";
 
@@ -18,6 +18,7 @@ export const PowerManagerLayout = () => {
             <Route exact path={'/systemManager/powerManager'} component={PowerManagerContainer}/>
             <Route path={'/systemManager/powerManager/create'} component={PowerCreateContainer}/>
             <Route path={'/systemManager/powerManager/detail/:permId'} component={PowerDetailContainer}/>
+            <Route path={'/systemManager/powerManager/edit/:permId'} component={PowerCreateContainer}/>
             <Route path={'/systemManager/powerManager/config/:permId'} component={PowerConfigContainer}/>
         </Switch>
     )
@@ -30,15 +31,16 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     powerListSaga: values => dispatch(requestPowerList(values)),
-    powerDeleteSaga: values => dispatch(requestPowerDelete(values))
+    powerDeleteSaga: values => dispatch(requestPowerDelete(values)),
+    // clearPowerDeleteData : ()=>dispatch(clearPowerDeleteData())
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 class PowerManagerContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
+        this.props.powerListSaga();
     }
-
 
     onSubmit = values => {
         this.props.powerListSaga(values);
@@ -53,24 +55,24 @@ class PowerManagerContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                console.log(record.permName);
-                console.log(record.permId);
                 powerDeleteSaga({permId: record.permId});
             },
             onCancel() {
-                console.log(record.permId)
+                // console.log(record.permId)
+                // todo
             },
         });
     }
 
-    componentDidMount() {
-        this.props.powerListSaga();
+    toCreate = () => this.props.history.push({pathname: '/systemManager/powerManager/create', state: true})
+
+    toConfig = permId => {
+        this.props.history.push(`/systemManager/powerManager/config/${permId}`)
     }
 
-    toCreate = () => this.props.history.push({pathname:'/systemManager/powerManager/create',state:true})
-
-    toConfig = permId =>{
-        this.props.history.push(`/systemManager/powerManager/config/${permId}`)
+    //分页
+    paginationOnChange = (pagination) => {
+        this.props.powerListSaga({current: pagination.current, pageSize: pagination.pageSize});
     }
 
     render() {
@@ -96,7 +98,7 @@ class PowerManagerContainer extends React.Component {
             {
                 title: '更新时间',
                 dataIndex: 'updateTime',
-                render: (text, record, index) => {
+                render: (text) => {
                     text = new Date(text).toLocaleString().substr(0, 9);
                     return (
                         <span title={text}>{text}</span>
@@ -106,14 +108,15 @@ class PowerManagerContainer extends React.Component {
             {
                 title: '操作',
                 dataIndex: '',
-                render: (text, record, index) => {
+                render: (text, record) => {
                     // let permId = record.permId;
                     return (
                         <div>
-                            <Button style={{marginRight: 5}}>编辑</Button>
+                            <Button style={{marginRight: 5}}
+                            onClick={()=>this.props.history.push(`/systemManager/powerManager/edit/${record.permId}`)}>编辑</Button>
                             <Button onClick={this.deletePower.bind(this, record)} style={{marginRight: 5}}
                                     type={'danger'}>删除</Button>
-                            <Button onClick={this.toConfig.bind(this,record.permId)}>配置</Button>
+                            <Button onClick={this.toConfig.bind(this, record.permId)}>配置</Button>
                         </div>
                     );
                 }
@@ -122,7 +125,9 @@ class PowerManagerContainer extends React.Component {
         return (
             <React.Fragment>
                 <PowerManagerContent btnClick={this.toCreate} columns={columns}
-                                     formSubmit={this.onSubmit} {...this.props}/>
+                                     formSubmit={this.onSubmit} {...this.props}
+                                     onChange={this.paginationOnChange}
+                />
             </React.Fragment>
         );
     }
@@ -145,9 +150,11 @@ const searchComponentData = [
 ];
 
 const PowerManagerContent = (props) => {
+    let pagination = [];
     let dataSource = [];
     try {
-        dataSource = tranTreeData(props.index.powerList.data.permList, 'permId', 'parentPermId','permName');
+        dataSource = tranTreeData(props.index.powerList.data.permList, 'permId', 'parentPermId', 'permName');
+        pagination = props.index.powerList.data.pagination;
     } catch (err) {
 
     }
@@ -169,7 +176,7 @@ const PowerManagerContent = (props) => {
             </div>
             <div className='containerContent'>
                 <TableComponent {...props} btnName={'创建权限'} componentTitle={'权限列表'}
-                                rowKey={'permId'} dataSource={dataSource}/>
+                                rowKey={'permId'} dataSource={dataSource} pagination={pagination}/>
             </div>
         </React.Fragment>
     )

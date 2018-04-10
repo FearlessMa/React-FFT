@@ -22,7 +22,7 @@ const AllRoutes = props => {
                 <Route path={`/systemManager/powerManager`} component={PowerManagerLayout}/>
                 <Route path={`/systemManager/roleManager`} component={RoleManagerLayout}/>
                 <Route path={`/systemManager/userManager`} component={UserManagerLayout}/>
-                {/*<Redirect to={`${props.match.path}`}/>*/}
+                <Redirect to={`${props.match.path}`}/>
             </Switch>
         </div>
     )

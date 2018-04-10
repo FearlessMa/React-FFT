@@ -2,11 +2,9 @@
  * Created by MHC on 2018/3/13.
  */
 
-import {put, call, take, fork} from 'redux-saga/effects';
+import { take, fork} from 'redux-saga/effects';
 import {
-    ORG_LIST, REQUESTERR, ERROR, LOADING, REQUESTPATH, PATHMANAGER, REQUESTPATHCREATE, PATHCREATE,
-    REQUESTPATHDETAIL, PATHDETAIL, REQUESTPATHREMOVEPERM, PATHREMOVEPERM, PATHDELETE, REQUESTPATHDELETE,
-    REQUEST_MENU_LIST, MENU_LIST, REQUEST_MENU_DELETE, MENU_DELETE, REQUEST_MENU_DETAIL, MENU_DETAIL,
+    ORG_LIST, REQUEST_MENU_LIST, MENU_LIST, REQUEST_MENU_DELETE, MENU_DELETE, REQUEST_MENU_DETAIL, MENU_DETAIL,
     REQUEST_MENU_REMOVE_PERM, MENU_REMOVE_PERM, REQUEST_MENU_CREATE, MENU_CREATE, REQUEST_POWER_LIST, POWER_LIST,
     REQUEST_POWER_DELETE, POWER_DELETE, REQUEST_POWER_CREATE, POWER_CREATE, REQUEST_POWER_DETAIL, POWER_DETAIL,
     REQUEST_ROLE_LIST, ROLE_LIST, REQUEST_ROLE_CREATE, ROLE_CREATE, REQUEST_ROLE_DETAIL, ROLE_DETAIL,
@@ -18,12 +16,17 @@ import {
     REQUEST_ORG_CREATE, ORG_CREATE, REQUEST_ORG_DETAIL, ORG_DETAIL, REQUEST_ORG_DELETE, ORG_DELETE, REQUEST_ORG_MENBERS,
     ORG_MEMBERS, REQUEST_ORG_REMOVE_MENBERS, ORG_REMOVE_MEMBERS, REQUEST_PATH_LIST, PATH_LIST, REQUEST_PATH_CREATE,
     PATH_CREATE, REQUEST_PATH_DETAIL, PATH_DETAIL, REQUEST_PATH_REMOVE_PERM, PATH_REMOVE_PERM, REQUEST_PATH_DELETE,
-    PATH_DELETE, REQUEST_ORG_EDIT, ORG_EDIT, REQUEST_PATH_EDIT, PATH_EDIT, REQUEST_MENU_EDIT, MENU_EDIT
+    PATH_DELETE, REQUEST_ORG_EDIT, ORG_EDIT, REQUEST_PATH_EDIT, PATH_EDIT, REQUEST_MENU_EDIT, MENU_EDIT,
+    POWER_PATH_MODAL_VISIBLE, POWER_MENU_MODAL_VISIBLE, REQUEST_POWER_EDIT, POWER_EDIT, REQUEST_ROLE_EDIT, ROLE_EDIT
 } from "./actionTypes";
 
-import axios from 'axios';
+// import axios from 'axios';
+import {store} from '../../index';
 
 import {requestData, alertModal, alertNotification} from "../../common/axios";
+import {
+     requestPowerConfig, requestPowerList, requestUserDetail
+} from "./actions";
 
 // //通知提醒
 // function alertNotification(message = '成功', description = 'success', type = 'success') {
@@ -72,6 +75,9 @@ const deleteSuccModal = (data) => {
 };
 const deleteSuccNot = (data) => {
     alertNotification('删除成功', data)
+};
+const unboundSuccNot = (data) => {
+    alertNotification('解绑成功', data)
 };
 
 /*********---------------organManager-----------------**********/
@@ -442,54 +448,38 @@ export function* watchRequestMenuEdit() {
 export function* watchRequestPowerList() {
     while (true) {
         const action = yield take(REQUEST_POWER_LIST);
-        // yield fork(powerList, action);
         yield fork(requestData,{
             action,
             url:'/perm/list',
             loadingMsg:'数据加载中...',
-            type:POWER_LIST
+            type:POWER_LIST,
+            dispatchLoading:true
         });
     }
 }
 
-// function* powerList(action) {
-//     try {
-//         yield put({type: LOADING});
-//         const res = yield call(axios.post, '/perm/list', {...action});
-//         const data = res.data;
-//         if (data.code === 200) {
-//             yield put({type: POWER_LIST, ...data})
-//         } else {
-//             yield put({type: REQUESTERR, ...data})
-//         }
-//     } catch (err) {
-//         yield put({type: ERROR, ...err})
-//     }
-// }
 
 /**
  *  Path：/perm/delete
  *  Method：POST
  * **/
+const PowerDelete =data=>{
+    alertNotification(`删除成功`,data);
+    // const ss =store.getState();
+    // console.log('ss----');
+    // console.log(ss);
+    store.dispatch(requestPowerList());
+
+};
 export function* watchRequestPowerDelete() {
     while (true) {
         const action = yield take(REQUEST_POWER_DELETE);
-        yield fork(powerDelete, action);
-    }
-}
-
-function* powerDelete(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/delete', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_DELETE, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
+        yield fork(requestData, {
+            action,
+            url:'/perm/delete',
+            type:POWER_DELETE,
+            loadingMsg:'正在删除...',
+        },PowerDelete);
     }
 }
 
@@ -501,22 +491,12 @@ function* powerDelete(action) {
 export function* watchRequestPowerCreate() {
     while (true) {
         const action = yield take(REQUEST_POWER_CREATE);
-        yield fork(powerCreate, action);
-    }
-}
-
-function* powerCreate(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/create', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_CREATE, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
+        yield fork(requestData, {
+            action,
+            url:'/perm/create',
+            type:POWER_CREATE,
+            loadingMsg:'创建中...'
+        },createSucc);
     }
 }
 
@@ -527,24 +507,30 @@ function* powerCreate(action) {
 export function* watchRequestPowerDetail() {
     while (true) {
         const action = yield take(REQUEST_POWER_DETAIL);
-        yield fork(powerDetail, action);
+        yield fork(requestData, {
+            action,
+            url:'/perm/detail',
+            type:POWER_DETAIL,
+        });
     }
 }
 
-function* powerDetail(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/detail', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_DETAIL, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
+/**
+ * Path：/perm/edit
+ * Method：POST
+ **/
+export function* watchRequestPowerEdit() {
+    while (true) {
+        const action = yield take(REQUEST_POWER_EDIT);
+        yield fork(requestData, {
+            action,
+            url:'/perm/edit',
+            type:POWER_EDIT,
+            loadingMsg:'修改中...'
+        },editSucc);
     }
 }
+
 
 /**
  * Path：/perm/config
@@ -553,77 +539,104 @@ function* powerDetail(action) {
 export function* watchRequestPowerConfig() {
     while (true) {
         const action = yield take(REQUEST_POWER_CONFIG);
-        yield fork(powerConfig, action);
+        // yield fork(powerConfig, action);
+        yield fork(requestData, {
+            action,
+            url:'/perm/config',
+            type:POWER_CONFIG,
+            dispatchLoading:true
+        });
     }
 }
 
-function* powerConfig(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/config', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_CONFIG, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* powerConfig(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/perm/config', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: POWER_CONFIG, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 /**
- * 解绑权限 unbind的type与reducer的type关键字冲突
+ * 解绑权限 unbind的type与reducer的type关键字冲突 解绑和添加菜单都调用此接口cancel:true为删除，false为添加
  * Path：/perm/opPermRelation
  * Method：POST
  **/
 
+const PowerConfigUnbind = (data,action) => {
+    alertNotification(`${action.cancel?'解绑':'添加'}成功`,data);
+    //解绑和添加成功后要刷新页面数据
+    store.dispatch(requestPowerConfig({permId:action.permId}));
+    //如果添加成功要关闭modal弹窗
+    if(!action.cancel){
+        store.dispatch({
+            type:POWER_MENU_MODAL_VISIBLE,
+            menuModalVisible:false
+        });
+    }
+}
 export function* watchRequestPowerConfigUnbind() {
     while (true) {
         const action = yield take(REQUEST_POWER_CONFIG_UNBIND);
-        yield fork(powerConfigUnbind, action);
+        // yield fork(powerConfigUnbind, action);
+        yield fork(requestData, {
+            action:action.values,
+            url:'/perm/opPermRelation',
+            type:POWER_CONFIG_UNBIND,
+            loadingMsg:action.values.cancel?'解绑中...':'添加中...'
+        },PowerConfigUnbind);
     }
 }
 
-function* powerConfigUnbind(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/opPermRelation', {...action.values});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_CONFIG_UNBIND, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* powerConfigUnbind(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/perm/opPermRelation', {...action.values});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: POWER_CONFIG_UNBIND, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 
 /**
  * Path：/perm/addPermPaths
  * Method：POST
  **/
+const createSuccCallback = (data,action) => {
+    alertNotification('添加成功',data);
+    store.dispatch({
+        type:POWER_PATH_MODAL_VISIBLE,
+        pathModalVisible:false
+    });
+    store.dispatch(requestPowerConfig({permId:action.permId}));
+};
+
 export function* watchRequestPowerConfigAddPaths() {
     while (true) {
         const action = yield take(REQUEST_POWER_CONFIG_ADD_PATH);
-        yield fork(powerConfigAddPermPaths, action);
-    }
-}
-
-function* powerConfigAddPermPaths(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/addPermPaths', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_CONFIG_ADD_PATH, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
+        // yield fork(powerConfigAddPermPaths, action);
+        yield fork(requestData, {
+            action,
+            url:'/perm/addPermPaths',
+            type:POWER_CONFIG_ADD_PATH,
+            loadingMsg:'添加中...',
+            dispatchLoading:true
+        },
+        createSuccCallback
+        );
     }
 }
 
@@ -634,24 +647,30 @@ function* powerConfigAddPermPaths(action) {
 export function* watchRequestPowerConfigUnboundPathList() {
     while (true) {
         const action = yield take(REQUEST_POWER_CONFIG_UNBOUND_PATH_LIST);
-        yield fork(powerConfigUnboundPowerList, action);
+        // yield fork(powerConfigUnboundPowerList, action);
+        yield fork(requestData, {
+            action,
+            url:'/perm/showPathsToAddPerm',
+            type:POWER_CONFIG_UNBOUND_PATH_LIST,
+            dispatchLoading:true
+        });
     }
 }
 
-function* powerConfigUnboundPowerList(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/showPathsToAddPerm', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_CONFIG_UNBOUND_PATH_LIST, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* powerConfigUnboundPowerList(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/perm/showPathsToAddPerm', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: POWER_CONFIG_UNBOUND_PATH_LIST, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 /**未绑定menu查询 与全部的menu
  * Path：/perm/showMenusToAddPerm
@@ -660,24 +679,30 @@ function* powerConfigUnboundPowerList(action) {
 export function* watchRequestPowerConfigMenuList() {
     while (true) {
         const action = yield take(REQUEST_POWER_CONFIG_MENU_LIST);
-        yield fork(powerConfigMenuList, action);
+        // yield fork(powerConfigMenuList, action);
+        yield fork(requestData, {
+            action,
+            url:'/perm/showMenusToAddPerm',
+            type:POWER_CONFIG_MENU_LIST,
+            dispatchLoading:true
+        });
     }
 }
 
-function* powerConfigMenuList(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/perm/showMenusToAddPerm', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: POWER_CONFIG_MENU_LIST, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* powerConfigMenuList(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/perm/showMenusToAddPerm', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: POWER_CONFIG_MENU_LIST, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 
 /*********---------------roleManager-----------------**********/
@@ -690,24 +715,29 @@ function* powerConfigMenuList(action) {
 export function* watchRequestRoleList() {
     while (true) {
         const action = yield take(REQUEST_ROLE_LIST);
-        yield fork(roleList, action);
+        yield fork(requestData, {
+            action,
+            url:'/role/list',
+            type:ROLE_LIST,
+            dispatchLoading:true,
+        });
     }
 }
 
-function* roleList(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/role/list', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: ROLE_LIST, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* roleList(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/role/list', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: ROLE_LIST, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 /**
  *  Path：/role/create
@@ -717,24 +747,46 @@ function* roleList(action) {
 export function* watchRequestRoleCreate() {
     while (true) {
         const action = yield take(REQUEST_ROLE_CREATE);
-        yield fork(roleCreate, action);
+        yield fork(requestData, {
+            action,
+            url:'/role/create',
+            type:ROLE_CREATE,
+            loadingMsg:'正在提交数据...'
+        },createSucc);
     }
 }
 
-function* roleCreate(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/role/create', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: ROLE_CREATE, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
+/**
+ *  Path：/role/edit
+ *  Method：POST
+ * **/
+
+export function* watchRequestRoleEdit() {
+    while (true) {
+        const action = yield take(REQUEST_ROLE_EDIT);
+        yield fork(requestData, {
+            action,
+            url:'/role/edit',
+            type:ROLE_EDIT,
+            loadingMsg:'正在提交数据...'
+        },editSucc);
     }
 }
+
+// function* roleCreate(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/role/create', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: ROLE_CREATE, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 /**
  * Path：/role/detail
@@ -744,24 +796,29 @@ function* roleCreate(action) {
 export function* watchRequestRoleDetail() {
     while (true) {
         const action = yield take(REQUEST_ROLE_DETAIL);
-        yield fork(roleDetail, action);
+        // yield fork(roleDetail, action);
+        yield fork(requestData, {
+            action,
+            url:'/role/detail',
+            type:ROLE_DETAIL,
+        });
     }
 }
 
-function* roleDetail(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/role/detail', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: ROLE_DETAIL, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* roleDetail(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/role/detail', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: ROLE_DETAIL, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 /**
  * Path：/role/delete
@@ -771,24 +828,29 @@ function* roleDetail(action) {
 export function* watchRequestRoleDelete() {
     while (true) {
         const action = yield take(REQUEST_ROLE_DELETE);
-        yield fork(roleDelete, action);
+        yield fork(requestData, {
+            action,
+            url:'/role/delete',
+            type:ROLE_DELETE,
+            loadingMsg:'正在删除用户...'
+        },deleteSuccNot);
     }
 }
 
-function* roleDelete(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/role/delete', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: ROLE_DELETE, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* roleDelete(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/role/delete', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: ROLE_DELETE, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 /*********---------------userManager-----------------**********/
 
@@ -800,24 +862,15 @@ function* roleDelete(action) {
 export function* watchRequestUserList() {
     while (true) {
         const action = yield take(REQUEST_USER_LIST);
-        yield fork(userList, action);
+        yield fork(requestData, {
+            action,
+            url:'/user/list',
+            type:USER_LIST,
+            dispatchLoading:true
+        });
     }
 }
 
-function* userList(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/user/list', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: USER_LIST, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
 
 /**
  * Path：/user/create
@@ -826,25 +879,14 @@ function* userList(action) {
 export function* watchRequestUserCreate() {
     while (true) {
         const action = yield take(REQUEST_USER_CREATE);
-        yield fork(userCreate, action);
+        yield fork(requestData, {
+            action,
+            url:'/user/create',
+            loadingMsg:'用户创建中...',
+            type:USER_CREATE
+        },createSucc);
     }
 }
-
-function* userCreate(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/user/create', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: USER_CREATE, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
-
 
 /**
  * Path：/user/detail
@@ -853,22 +895,11 @@ function* userCreate(action) {
 export function* watchRequestUserDetail() {
     while (true) {
         const action = yield take(REQUEST_USER_DETAIL);
-        yield fork(userDetail, action);
-    }
-}
-
-function* userDetail(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/user/detail', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: USER_DETAIL, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
+        yield fork(requestData, {
+            action,
+            url:'/user/detail',
+            type:USER_DETAIL
+        });
     }
 }
 
@@ -879,22 +910,12 @@ function* userDetail(action) {
 export function* watchRequestUserDelete() {
     while (true) {
         const action = yield take(REQUEST_USER_DELETE);
-        yield fork(userDelete, action);
-    }
-}
-
-function* userDelete(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/user/delete', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: USER_DELETE, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
+        yield fork(requestData, {
+            action,
+            url:'/user/delete',
+            type:USER_DELETE,
+            loadingMsg:'角色正在删除中...'
+        },deleteSuccNot);
     }
 }
 
@@ -906,24 +927,33 @@ function* userDelete(action) {
 export function* watchRequestUserChangeStatus() {
     while (true) {
         const action = yield take(REQUEST_USER_CHANGE_STATUS);
-        yield fork(userChangeStatus, action);
+        yield fork(requestData, {
+            action,
+            url:'/user/changeStatus',
+            type:USER_CHANGE_STATUS,
+            loadingMsg:'状态修改中...'
+        },userChangeStatus);
     }
+}
+const userChangeStatus = (message,action)=>{
+    alertNotification('修改成功',`${message}`);
+    store.dispatch(requestUserDetail({userId:action.userId}))
 }
 
-function* userChangeStatus(action) {
-    try {
-        yield put({type: LOADING});
-        const res = yield call(axios.post, '/user/changeStatus', {...action});
-        const data = res.data;
-        if (data.code === 200) {
-            yield put({type: USER_CHANGE_STATUS, ...data})
-        } else {
-            yield put({type: REQUESTERR, ...data})
-        }
-    } catch (err) {
-        yield put({type: ERROR, ...err})
-    }
-}
+// function* userChangeStatus(action) {
+//     try {
+//         yield put({type: LOADING});
+//         const res = yield call(axios.post, '/user/changeStatus', {...action});
+//         const data = res.data;
+//         if (data.code === 200) {
+//             yield put({type: USER_CHANGE_STATUS, ...data})
+//         } else {
+//             yield put({type: REQUESTERR, ...data})
+//         }
+//     } catch (err) {
+//         yield put({type: ERROR, ...err})
+//     }
+// }
 
 
 

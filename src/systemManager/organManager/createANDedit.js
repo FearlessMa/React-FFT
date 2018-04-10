@@ -31,7 +31,6 @@ export default class OrganCreateContainer extends React.Component {
         super(...arg);
         this.state = {
             componentTitle: 'create',
-            // editHide:()=>{}
         }
     }
 

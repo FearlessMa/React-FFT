@@ -24,31 +24,17 @@ export class UserDetailContainer extends React.Component {
         super(...arg);
         this.state = {
             visible: false
-        }
-    }
-
-
-    componentDidMount() {
+        };
         const userId = this.props.match.params.userId;
-        console.log(this.props);
+        this.userId = userId;
         if (isNaN(userId)) {
             this.props.history.push('/systemManager/userManager');
         }
         this.props.userDetailSaga({userId});
-        const hideLoading = message.loading('正在获取数据...', 0);
-        this.setState({
-            hideLoading
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.loading) {
-            this.state.hideLoading();
-        }
     }
 
     userDelete = () => {
-        const userId = this.props.match.params.userId;
+        const userId = this.userId;
         const userDeleteSaga = this.props.userDeleteSaga;
         Modal.confirm({
             title: `是否删除?`,
@@ -75,11 +61,11 @@ export class UserDetailContainer extends React.Component {
     //切换状态
     toggleStatus = status => {
         const userId = this.props.match.params.userId;
-        this.props.userChangeStatusSaga({userId,status});
+        this.props.userChangeStatusSaga({userId, status});
         this.toggleModal();
     }
 
-    toEdit = ()=>{
+    toEdit = () => {
         const userId = this.props.match.params.userId;
         this.props.history.push(`/systemManager/userManager/edit/${userId}`)
     }
@@ -108,7 +94,11 @@ const formItemLayout = {
 }
 
 const UserDetailContent = props => {
-    let initData = {};
+    let initData = {
+        createTime: 0,
+        updateTime: 0,
+        loginTime: 0
+    };
     let rolesData = [];
     try {
         initData = props.userDetail.data.user;
@@ -183,7 +173,7 @@ const UserDetailContent = props => {
             type: 'text',
             tag: 'input',
             disabled: true,
-            initialValue: initData.createTime
+            initialValue: new Date(initData.createTime).toLocaleString(),
         },
         {
             label: '更新时间',
@@ -191,7 +181,7 @@ const UserDetailContent = props => {
             type: 'text',
             tag: 'input',
             disabled: true,
-            initialValue: initData.updateTime
+            initialValue: new Date(initData.updateTime).toLocaleString(),
         },
         {
             label: '上次登录时间',
@@ -199,7 +189,8 @@ const UserDetailContent = props => {
             type: 'text',
             tag: 'input',
             disabled: true,
-            initialValue: initData.loginTime
+            initialValue: new Date(initData.loginTime).toLocaleString(),
+
         },
         {
             label: '所属机构',

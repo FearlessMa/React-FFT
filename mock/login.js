@@ -112,7 +112,7 @@ export const loginMock =Mock.mock('/login',function (option) {
     }else{
         return {
             message:'登录失败,账号或密码错误！',
-            code:'401'
+            code:'402'
         }
     }
 });

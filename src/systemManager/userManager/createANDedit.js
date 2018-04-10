@@ -26,11 +26,23 @@ const mapDispatchToProps = (dispatch) => ({
 export class UserCreateContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
+        this.props.requestAllOrgList();
+        this.props.roleListSaga();
+        let componentTitle = 'create';
+        const userId = this.props.match.params.userId;
+        if (isNaN(userId) && userId !== undefined || userId === '') {
+            //TODO
+            this.props.history.push('/systemManager/userManager');
+        }
+        if (userId) {
+            this.props.userDetailSaga({userId});
+            componentTitle = 'edit';
+        }
         this.state = {
             password: '',
             resPassword: '',
-            componentTitle: 'create'
-        }
+            componentTitle
+        };
     }
 
     onSubmit = values => {
@@ -45,11 +57,6 @@ export class UserCreateContainer extends React.Component {
                 password: e.target.value
             });
         }
-        // if (e.target.id == 'resPassword') {
-        //     this.setState({
-        //         resPassword: e.target.value
-        //     });
-        // }
     }
 
     checkPassword = (rules, v, callback) => {
@@ -70,30 +77,6 @@ export class UserCreateContainer extends React.Component {
             callback('输入的密码不一致1');
         } else {
             callback()
-        }
-    }
-
-    componentDidMount() {
-        this.props.requestAllOrgList();
-        this.props.roleListSaga();
-        const userId = this.props.match.params.userId;
-        if (isNaN(userId) && userId !== undefined) {
-            //TODO
-            alert('错误');
-        }
-        if (userId) {
-            const hide = message.loading('正在获取数据...', 0);
-            this.props.userDetailSaga({userId});
-            this.setState({
-                componentTitle: 'edit',
-                editHide: hide
-            });
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.loading && this.state.componentTitle == "edit") {
-            this.state.editHide();
         }
     }
 
@@ -129,11 +112,12 @@ const formSubBtnLayout = {
 
 const UserCreateContent = props => {
     let selectData = [];
-    let checkboxData = [{label: '', value: ''}];
+    let checkboxData = [];
     let initialValueData = {};
     let checkboxInitValue = [];
+    let componentTitle = props.componentTitle === 'create' ? '创建' : '编辑';
     try {
-        selectData = tranTreeData(props.organCreate.orgList, 'orgId', 'parentOrgId', 'shortName');
+        selectData = tranTreeData(props.organCreate.orgAllList.data.orgList, 'orgId', 'parentOrgId', 'shortName');
         checkboxData = tranCheckboxData(props.roleListIndex.data.roleList, 'roleName', 'roleId');
         if (props.componentTitle === 'edit') {
             initialValueData = props.userDetail.data.user;
@@ -262,13 +246,13 @@ const UserCreateContent = props => {
     return (
         <React.Fragment>
             <div className="containerHeader">
-                {props.componentTitle === 'create' ? '创建用户' : '编辑用户'}
+                {componentTitle}用户
             </div>
             <div className="containerContent">
                 <FormComponent formList={formList}
                                formItemLayout={formItemLayout}
                                formSubBtnLayout={formSubBtnLayout}
-                               btn={{sub: '提交', back: '返回'}}
+                               btn={{sub: componentTitle, back: '返回'}}
                                formSubmit={props.formSubmit}
                                layout={'horizontal'}
                                moreItemInRow={true}
@@ -279,20 +263,3 @@ const UserCreateContent = props => {
         </React.Fragment>
     );
 };
-
-// function tranCheckboxData(dataList,label,value){
-//     if(!Array.isArray(dataList)){
-//         throw new Error('tranCheckboxData的参数dataList不是一个数组');
-//     }
-//     label=label+'';
-//     value=value+'';
-//
-//     let checkboxData=[];
-//     dataList.map(item=>{
-//         checkboxData.push({
-//             label:item[label],
-//             value:item[value]
-//         });
-//     })
-//     return checkboxData
-// }

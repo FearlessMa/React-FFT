@@ -11,6 +11,8 @@ export const REQUEST_ERR = 'requestErr';
 export const IS_AUTHEN = 'isAuthenticated';
 export const CLEAR_ERR_MSG = 'clearErrMsg';
 //saga
-export const LOGIN_REQUEST = 'loginRequest'
+export const LOGIN_REQUEST = 'loginRequest';
+
+export const CLEAR_LOADING = 'clearLoading';
 
 

@@ -37,29 +37,24 @@ const mapDispatchToProps = (dispatch)=>({
 class OrganDetailContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.state={
-            visible:false,
-            // hideLoading:()=>{}
-        }
-    }
-
-    componentDidMount(){
         const orgId = Number(this.props.match.params.orgId);
         if(isNaN(orgId)){
             alert('错误');
         }
         this.props.orgDetailSaga({orgId});
-        // const hideLoading = message.loading('正在获取数据...', 0);
-        // this.setState({
-        //     hideLoading
-        // })
+        this.state={
+            visible:false,
+        }
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (!nextProps.loading) {
-    //         this.state.hideLoading();
+    // componentDidMount(){
+    //     const orgId = Number(this.props.match.params.orgId);
+    //     if(isNaN(orgId)){
+    //         alert('错误');
     //     }
+    //     this.props.orgDetailSaga({orgId});
     // }
+
 
     //删除机构
     orgDelete = (orgId,name)=>{
@@ -73,10 +68,6 @@ class OrganDetailContainer extends React.Component {
             cancelText: '取消',
             onOk() {
                 orgDeleteSaga({orgId});
-                // const hideLoading = message.loading('正在删除...', 0);
-                // that.setState({
-                //     hideLoading
-                // })
             },
             onCancel() {
                 console.log(name);//TODO
@@ -97,14 +88,6 @@ class OrganDetailContainer extends React.Component {
     //查看人员
     ViewMembers = (orgId,name)=>{
         this.props.history.push(`/systemManager/organManager/viewMembers/${orgId}/${name}`);
-        // const data = {
-        //     pathname:'/systemManager/organManager/viewMembers',
-        //     state:{
-        //         orgId,
-        //         name
-        //     }
-        // };
-        // this.props.history.push(data);
     }
 
     //编辑权限
@@ -175,7 +158,7 @@ const OraganDetailContent = (props)=>{
         {
             label:'创建时间',
             id:'createTime',
-            initialValue:data.createTime,
+            initialValue: new Date(data.createTime).toLocaleString(),
             type:'text',
             tag: 'input',
             disabled:true
@@ -183,7 +166,7 @@ const OraganDetailContent = (props)=>{
         {
             label:'更新时间',
             id:'updateTime',
-            initialValue:data.updateTime,
+            initialValue: new Date(data.updateTime).toLocaleString(),
             type:'text',
             tag: 'input',
             disabled:true

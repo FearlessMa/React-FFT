@@ -2,10 +2,10 @@
  * Created by MHC on 2018/3/23.
  */
 import React from 'react';
-import {FormComponent ,tranTreeData} from '../../common';
+import {FormComponent, tranTreeData} from '../../common';
 import {requestRoleDelete, requestRoleDetail} from "../redux/actions";
 import {connect} from "react-redux";
-import { Row, Col, Button, message, Modal} from 'antd';
+import {Row, Col, Button, message, Modal} from 'antd';
 
 
 const mapStateToProps = state => ({
@@ -14,35 +14,21 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     roleDetailSaga: values => dispatch(requestRoleDetail(values)),
-    roleDeleteSaga : values=>dispatch(requestRoleDelete(values))
+    roleDeleteSaga: values => dispatch(requestRoleDelete(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class RoleDetailContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-    }
-
-    componentDidMount() {
         const roleId = this.props.match.params.roleId;
-        console.log(this.props);
         if (isNaN(roleId)) {
             this.props.history.push('/systemManager/roleManager');
         }
         this.props.roleDetailSaga({roleId});
-        const hideLoading = message.loading('正在获取数据...', 0);
-        this.setState({
-            hideLoading
-        });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.loading) {
-            this.state.hideLoading();
-        }
-    }
-
-    roleDelete = (roleId,roleName)=>{
+    roleDelete = (roleId, roleName) => {
         const roleDeleteSaga = this.props.roleDeleteSaga;
         Modal.confirm({
             title: `是否删除${roleName}?`,
@@ -54,12 +40,13 @@ export class RoleDetailContainer extends React.Component {
                 roleDeleteSaga({roleId})
             },
             onCancel() {
-                console.log(roleId,roleName);
+                // console.log(roleId,roleName);
+                // todo
             },
         });
     }
 
-    toEdit= roleId=>{
+    toEdit = roleId => {
         this.props.history.push(`/systemManager/roleManager/edit/${roleId}`);
     }
 
@@ -86,11 +73,14 @@ const formItemLayout = {
 }
 
 const RoleDetailContent = props => {
-    let data = [];
+    let data = {
+        createTime: 0,
+        updateTime: 0
+    };
     let treeData = [];
     try {
         data = props.detail.data.role;
-        treeData = tranTreeData(props.detail.data.permList,'permId','parentPermId','permName');
+        treeData = tranTreeData(props.detail.data.permList, 'permId', 'parentPermId', 'permName');
     } catch (err) {
     }
     const formList = [
@@ -107,23 +97,20 @@ const RoleDetailContent = props => {
             id: 'description',
             initialValue: data.description,
             disabled: true
-
         },
         {
             label: '创建时间',
             tag: 'input',
             id: 'createTime',
-            initialValue: data.createTime,
+            initialValue: new Date(data.createTime).toLocaleString(),
             disabled: true
-
         },
         {
             label: '更新时间',
             tag: 'input',
             id: 'updateTime',
-            initialValue: data.updateTime,
+            initialValue: new Date(data.updateTime).toLocaleString(),
             disabled: true
-
         },
         {
             label: '角色权限',
@@ -144,9 +131,15 @@ const RoleDetailContent = props => {
                 />
                 <Row>
                     <Col offset={3} className='detailBtn'>
-                        <Button onClick={()=>{props.roleDelete(data.roleId,data.roleName)}} type={'danger'}>删除</Button>
-                        <Button onClick={()=>{props.toEdit(data.roleId)}} type={'primary'}>修改</Button>
-                        <Button onClick={()=>{props.history.push('/systemManager/roleManager')}}>返回</Button>
+                        <Button onClick={() => {
+                            props.roleDelete(data.roleId, data.roleName)
+                        }} type={'danger'}>删除</Button>
+                        <Button onClick={() => {
+                            props.toEdit(data.roleId)
+                        }} type={'primary'}>修改</Button>
+                        <Button onClick={() => {
+                            props.history.push('/systemManager/roleManager')
+                        }}>返回</Button>
                     </Col>
                 </Row>
             </div>

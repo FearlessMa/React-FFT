@@ -48,11 +48,11 @@ export const userManager = Mock.mock('/user/list', option => {
         code: 200,
         message: '成功',
         data:{
-            "page": {
-                "pageNo": 1,
-                "recordsPerPage": 1,
-                "total": 2,
-                "totalPage": 2
+            "pagination": {
+                "current": 1,
+                "pageSize": 10,
+                "total": 50,
+                "totalPage": 5
             },
             "userList": [
                 {

@@ -16,11 +16,11 @@ export const powerManager = Mock.mock('/perm/list', option => {
             code: 200,
             message: '成功',
             data: {
-                "page": {
-                    "pageNo": 1,
-                    "recordsPerPage": 2,
-                    "total": 1,
-                    "totalPage": 1
+                "pagination": {
+                    "current": 1,
+                    "pageSize": 10,
+                    "total": 50,
+                    "totalPage": 5
                 },
                 "permList": [
                     {
@@ -39,11 +39,11 @@ export const powerManager = Mock.mock('/perm/list', option => {
         code: 200,
         message: '成功',
         data: {
-            "page": {
-                "pageNo": 1,
-                "recordsPerPage": 2,
-                "total": 1,
-                "totalPage": 1
+            "pagination": {
+                "current": 1,
+                "pageSize": 10,
+                "total": 50,
+                "totalPage": 5
             },
             "permList": [
                 {
@@ -178,6 +178,28 @@ export const powerDetail = Mock.mock('/perm/detail', option => {
     }
 
 });
+
+
+/**
+ * Path：/perm/edit
+ * Method：POST
+ **/
+export const powerEdit = Mock.mock('/perm/edit', option => {
+    const {permId} = JSON.parse(option.body);
+    if (permId) {
+        return {
+            code: 200,
+            message: '成功',
+        }
+    }
+    return {
+        code: 400,
+        message: '失败',
+    }
+
+});
+
+
 
 
 /**

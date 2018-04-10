@@ -4,17 +4,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
+    powerMenuModalVisible, powerPathModalVisible,
     requestPowerConfig, requestPowerConfigAddPath, requestPowerConfigMenuList,
     requestPowerConfigUnbind, requestPowerConfigUnboundPathList
 } from "../redux/actions";
-import {Row, Col, Tabs, Button, Modal, Table} from 'antd';
+import {Tabs, Button, Modal, Table} from 'antd';
 import {TableComponent, FormComponent, tranTreeData} from '../../common';
 
 const mapStateToProps = state => ({
     config: state.systemManager.powerManager.config,
     loading: state.systemManager.powerManager.loading,
     configMenuList: state.systemManager.powerManager.configMenuList,
-    UnboundPathLis: state.systemManager.powerManager.configUnboundPathList
+    UnboundPathLis: state.systemManager.powerManager.configUnboundPathList,
+    pathModalVisible: state.systemManager.powerManager.pathModalVisible,
+    menuModalVisible: state.systemManager.powerManager.menuModalVisible,
 });
 const mapDispatchToProps = dispatch => ({
     powerConfigSaga: values => dispatch(requestPowerConfig(values)),
@@ -22,23 +25,25 @@ const mapDispatchToProps = dispatch => ({
     powerConfigAddPathSaga: values => dispatch(requestPowerConfigAddPath(values)),
     powerConfigUnbindSaga: values => dispatch(requestPowerConfigUnbind(values)),
     powerConfigMenuListSaga: values => dispatch(requestPowerConfigMenuList(values)),
-
+    powerPathModalVisible: values => dispatch(powerPathModalVisible(values)),
+    powerMenuModalVisible: values => dispatch(powerMenuModalVisible(values)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class PowerConfigContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.state = {
-            pathModalVisible: false,
-            pathModalConfirmLoading: false,
-            menuModalVisible: false
-        }
-    }
-
-    componentDidMount() {
+        // this.state = {
+        //     // pathModalVisible: false,
+        //     // pathModalConfirmLoading: false,
+        //     // menuModalVisible: false
+        // };
         this.powerConfig();
     }
+
+    // componentDidMount() {
+    //     this.powerConfig();
+    // }
 
     //config页面的数据获取
     powerConfig = () => {
@@ -49,41 +54,47 @@ export class PowerConfigContainer extends React.Component {
     //添加path
     addPath = (pathIds) => {
         const permId = this.props.match.params.permId;
-        console.log({pathIds, permId});
         this.props.powerConfigAddPathSaga({pathIds, permId});
-        this.setState({
-            pathModalConfirmLoading: true
-        })
+        // this.setState({
+        //     pathModalConfirmLoading: true
+        // })
     }
     //显示modal并请求显示数据
     btnClick = data => {
-        console.log(data)
         const permId = this.props.match.params.permId;
         if (data.type === 'path') {
-            this.setState({
-                pathModalVisible: true
-            });
+            // this.setState({
+            //     pathModalVisible: true
+            // });
+            this.props.powerPathModalVisible({pathModalVisible: true});
             // if(!this.props.pathIndex.data){
             this.props.requestPowerConfigUnboundPathListSaga({permId});
             // }
         } else {
-            this.setState({
-                menuModalVisible: true
-            });
+            // this.setState({
+            //     menuModalVisible: true
+            // });
+            this.props.powerMenuModalVisible({menuModalVisible: true});
             this.props.powerConfigMenuListSaga({permId});
         }
     }
 
     handleCancel = data => {
         if (data.type === 'path') {
-            this.setState({
-                pathModalVisible: false
-            });
+            // this.setState({
+            //     pathModalVisible: false
+            // });
+            this.props.powerPathModalVisible({pathModalVisible: false})
+
         } else {
-            this.setState({
-                menuModalVisible: false
-            });
+            // this.setState({
+            //     menuModalVisible: false
+            // });
+            this.props.powerMenuModalVisible({menuModalVisible: false});
+
         }
+        //刷新页面数据
+        // this.powerConfig();
     }
     //搜索
     pathModalSearch = (values) => {
@@ -94,7 +105,6 @@ export class PowerConfigContainer extends React.Component {
     unbind = (data) => {
         const powerConfigUnbindSaga = this.props.powerConfigUnbindSaga;
         const permId = this.props.match.params.permId;
-        console.log({...data, permId})
         Modal.confirm({
             title: `是否解绑?`,
             content: '解绑后将无法返回',
@@ -240,8 +250,6 @@ const PowerConfigContent = props => {
             });
         });
         menuModalTableList = tranTreeData(props.configMenuList.data.menuList, 'menuId', 'parentMenuId', 'menuName');
-        console.log('dddddddddddddddddd');
-        console.log(menuModalTableList)
     } catch (err) {
 
     }
@@ -255,12 +263,10 @@ const PowerConfigContent = props => {
     //path页面Modal关闭按钮的配置
     const pathModalCancel = () => {
         props.handleCancel({type: 'path'});
-        props.powerConfig();
     }
     //path下modal里的table
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             selectedRows.map(item => pathIds.push(item.pathId));
         },
     };
@@ -270,14 +276,13 @@ const PowerConfigContent = props => {
         visible: props.pathModalVisible,
         onCancel: pathModalCancel,
         onOk: props.addPath.bind(this, pathIds),
-        confirmLoading: props.pathModalConfirmLoading,
+        confirmLoading: props.loading,
     };
 
 
     //menu页面Modal关闭按钮的配置
     const menuModalCancel = () => {
         props.handleCancel({type: 'menu'});
-        props.powerConfig();
     }
     //menu页面Modal的配置
     const menuModalProps = {
@@ -285,6 +290,7 @@ const PowerConfigContent = props => {
         visible: props.menuModalVisible,
         onCancel: menuModalCancel,
         onOk: props.addPath.bind(this, pathIds),
+        footer:null
         // confirmLoading:props.pathModalConfirmLoading
 
     };
@@ -301,16 +307,17 @@ const PowerConfigContent = props => {
                                         rowKey={'httpPath'} componentTitle={'Path列表'}
                                         btnName={'添加'} loading={props.loading}
                                         btnClick={props.btnClick.bind(this, {type: 'path'})}
+                                        pagination={false}
                         />
                         <Modal {...pathModalProps} style={{minWidth: '80%'}}>
                             <FormComponent formList={searchComponentData}
                                            btn={{sub: '搜索'}}
                                            layout={'inline'}
-                                           messageContent={'搜索中...'}
+                                // messageContent={'搜索中...'}
                                            loading={props.loading}
                                            formSubmit={props.pathModalSearch}/>
                             <Table columns={pathColumns} dataSource={pathModalTableList} loading={props.loading}
-                                   rowKey={'httpPath'} rowSelection={rowSelection}/>
+                                   rowKey={'httpPath'} rowSelection={rowSelection} pagination={false}/>
                         </Modal>
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="菜单配置" key="2">
@@ -318,11 +325,12 @@ const PowerConfigContent = props => {
                                         rowKey={'menuName'} componentTitle={'菜单列表'}
                                         btnName={'添加'} loading={props.loading}
                                         btnClick={props.btnClick.bind(this, {type: 'menu'})}
+                                        pagination={false}
                         />
                         <Modal {...menuModalProps} style={{minWidth: '80%'}}>
                             <Table columns={props.menuColumns} dataSource={menuModalTableList}
                                    loading={props.loading}
-                                   rowKey={'menuId'}/>
+                                   rowKey={'menuId'} pagination={false}/>
                         </Modal>
                     </Tabs.TabPane>
                 </Tabs>

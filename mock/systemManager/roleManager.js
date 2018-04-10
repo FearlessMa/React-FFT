@@ -26,11 +26,11 @@ export const roleList = Mock.mock('/role/list', option => {
                         "updateTime": 1515050599001
                     }
                 ],
-                "page": {
-                    "pageNo": 1,
-                    "recordsPerPage": 2,
-                    "total": 1,
-                    "totalPage": 1
+                "pagination": {
+                    "current": 1,
+                    "pageSize": 10,
+                    "total": 50,
+                    "totalPage": 5
                 }
             }
         }
@@ -57,11 +57,11 @@ export const roleList = Mock.mock('/role/list', option => {
                     "updateTime": 1515050599001
                 }
             ],
-            "page": {
-                "pageNo": 1,
-                "recordsPerPage": 2,
-                "total": 1,
-                "totalPage": 1
+            "pagination": {
+                "current": 1,
+                "pageSize": 10,
+                "total": 50,
+                "totalPage": 5
             }
         }
     }
@@ -90,6 +90,29 @@ export const roleCreate = Mock.mock('/role/create', option => {
 
 });
 
+
+/**
+ * Path：/role/edit
+ * Method：POST
+ **/
+
+export const roleEdit = Mock.mock('/role/edit', option => {
+    const {roleName, roleId, permIds} = JSON.parse(option.body);
+    console.log('----------------roleEdit---------------');
+    console.log(roleId);
+    if (roleName && permIds && roleId) {
+        return {
+            code: 200,
+            message: '成功',
+        }
+    }
+    return {
+        code: 400,
+        message: '失败',
+    }
+
+});
+
 /**
  * Path：/role/detail
  * Method：POST
@@ -101,7 +124,7 @@ export const roleDetail = Mock.mock('/role/detail', option => {
         return {
             code: 200,
             message: '成功',
-            data :{
+            data: {
                 "role": {
                     "createTime": 1515050599000,
                     "description": "拥有系统全部权限",
@@ -163,10 +186,10 @@ export const roleDetail = Mock.mock('/role/detail', option => {
 
 export const roleDelete = Mock.mock('/role/delete', option => {
     const {roleId} = JSON.parse(option.body);
-    if(roleId){
+    if (roleId) {
         return {
-            code:200,
-            message:'成功'
+            code: 200,
+            message: '成功'
         }
     }
 });

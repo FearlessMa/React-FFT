@@ -2,8 +2,8 @@
  * Created by MHC on 2018/3/27.
  */
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
-import {Row, Col, Button} from 'antd';
+import {Switch, Route,Redirect} from 'react-router-dom';
+import {Row, Col} from 'antd';
 import {FormComponent, TableComponent} from '../../common';
 import {connect} from 'react-redux';
 import {requestUserList} from "../redux/actions";
@@ -18,6 +18,7 @@ export const UserManagerLayout = () => {
             <Route path={'/systemManager/userManager/detail/:userId'} component={UserDetailContainer}/>
             <Route path={'/systemManager/userManager/edit/:userId'} component={UserCreateContainer}/>
             <Route exact path={'/systemManager/userManager'} component={UserManagerContainer}/>
+            <Redirect to={'/systemManager/userManager'}/>
         </Switch>
     )
 };
@@ -34,20 +35,20 @@ const mapDispatchToProps = dispatch => ({
 class UserManagerContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-    }
-
-
-    componentDidMount() {
         this.props.userListSaga()
     }
 
-    onSubmit = values=>{
-        console.log(values);
+    onSubmit = values => {
         this.props.userListSaga(values);
     }
 
-    btnClick = ()=>{
+    btnClick = () => {
         this.props.history.push('/systemManager/userManager/create');
+    }
+
+    //分页
+    paginationOnChange = (pagination) => {
+        this.props.userListSaga({current: pagination.current, pageSize: pagination.pageSize});
     }
 
     render() {
@@ -91,7 +92,7 @@ class UserManagerContainer extends React.Component {
         return (
             <React.Fragment>
                 <UserManagerContent columns={columns} formSubmit={this.onSubmit} btnClick={this.btnClick}
-                                    {...this.props}/>
+                                    {...this.props} onChange={this.paginationOnChange}/>
             </React.Fragment>
         );
     }
@@ -116,9 +117,12 @@ const searchComponentData = [
 
 const UserManagerContent = props => {
     let tableData = [];
-    try{
-        tableData = props.index.data.userList
-    }catch (err){}
+    let pagination = [];
+    try {
+        tableData = props.index.data.userList;
+        pagination = props.index.data.pagination;
+    } catch (err) {
+    }
     return (
         <React.Fragment>
             <div className="containerHeader">
@@ -128,8 +132,6 @@ const UserManagerContent = props => {
                         <FormComponent formList={searchComponentData}
                                        btn={{sub: '搜索'}}
                                        layout={'inline'}
-                                       messageContent={'搜索中...'}
-                                       loading={props.loading}
                                        formSubmit={props.formSubmit}
                         />
                     </Col>
@@ -137,7 +139,8 @@ const UserManagerContent = props => {
             </div>
             <div className="containerContent">
                 <TableComponent {...props} btnName={'创建用户'} componentTitle={'用户列表'}
-                                rowKey={'userId'} dataSource={tableData} bordered={true}/>
+                                rowKey={'userId'} dataSource={tableData} bordered={true}
+                                pagination={pagination} onChange={props.onChange}/>
             </div>
         </React.Fragment>
     )

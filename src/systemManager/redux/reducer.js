@@ -9,7 +9,9 @@ import {
     ROLE_DETAIL, ROLE_DELETE, POWER_CONFIG, POWER_CONFIG_ADD_PATH, POWER_CONFIG_UNBIND, POWER_CONFIG_UNBOUND_PATH_LIST,
     POWER_CONFIG_MENU_LIST, USER_LIST, USER_CREATE, USER_DETAIL, USER_DELETE, USER_CHANGE_STATUS, ERROR, REQUEST_ERR,
     ALL_ORG_LIST, ORG_CREATE, ORG_DETAIL, ORG_DELETE, ORG_MEMBERS, ORG_REMOVE_MEMBERS, PATH_LIST, PATH_CREATE,
-    PATH_DETAIL, PATH_REMOVE_PERM, PATH_DELETE, PATH_CLEAR_DELETE_DATA, ORG_EDIT, PATH_EDIT, MENU_EDIT
+    PATH_DETAIL, PATH_REMOVE_PERM, PATH_DELETE, PATH_CLEAR_DELETE_DATA, ORG_EDIT, PATH_EDIT, MENU_EDIT,
+    POWER_CLEAR_DELETE_DATA, POWER_PATH_MODAL_VISIBLE, POWER_MENU_MODAL_VISIBLE, POWER_CREATE_COMPONENT_TITLE,
+    POWER_EDIT, ROLE_COMPONENT_TITLE
 } from "./actionTypes";
 
 /**------------------orgManagerReducer-------------------------**/
@@ -264,6 +266,8 @@ export const menuManager = (state = menuManagerInitValue, action) => {
 
 const powerManagerInitValue = {
     index: {},
+    pathModalVisible:false,
+    // componentTitle:'create'
 };
 
 export const powerManager = (state = powerManagerInitValue, action) => {
@@ -286,8 +290,17 @@ export const powerManager = (state = powerManagerInitValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 index: {
-                    powerList: state.index.powerList,
-                    delete: action
+                    ...state.index,
+                    powerDelete: action
+                }
+            });
+        //claerDeleteData
+        case POWER_CLEAR_DELETE_DATA :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                index: {
+                    ...state.index,
+                    powerDelete: {}
                 }
             });
         //create
@@ -301,6 +314,16 @@ export const powerManager = (state = powerManagerInitValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 detail: action
+            });
+        //edit
+        case POWER_EDIT :
+            return Object.assign({}, {...state}, {
+                edit: action
+            });
+        //componentTitle
+        case POWER_CREATE_COMPONENT_TITLE :
+            return Object.assign({}, {...state}, {
+                ...action
             });
         //config
         case POWER_CONFIG :
@@ -331,6 +354,18 @@ export const powerManager = (state = powerManagerInitValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 configMenuList: action
+            });
+        //pathModalVisible
+        case POWER_PATH_MODAL_VISIBLE :
+            return Object.assign({}, {...state}, {
+                // pathModalVisible: false,
+                ...action
+            });
+        //pathModalVisible
+        case POWER_MENU_MODAL_VISIBLE :
+            return Object.assign({}, {...state}, {
+                // menuModalVisible: false,
+                ...action
             });
 
         default :
@@ -367,7 +402,6 @@ export const roleManager = (state = roleManagerInitValue, action) => {
         //create
         case ROLE_CREATE :
             return Object.assign({}, {...state}, {
-                loading: false,
                 create: action
             });
         //detail
@@ -375,6 +409,12 @@ export const roleManager = (state = roleManagerInitValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 detail: action
+            });
+        //detail
+        case ROLE_COMPONENT_TITLE :
+            return Object.assign({}, {...state}, {
+                // componentTitle:
+                ...action
             });
         //delete
         case ROLE_DELETE :

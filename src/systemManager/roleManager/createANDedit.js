@@ -3,7 +3,10 @@
  */
 import React from 'react';
 import {FormComponent, tranTreeData} from '../../common';
-import {requestPowerList, requestRoleCreate, requestRoleDetail} from "../redux/actions";
+import {
+    requestPowerList, requestRoleCreate, requestRoleDetail, requestRoleEdit,
+    roleComponentTitle
+} from "../redux/actions";
 import {connect} from "react-redux";
 import {TreeSelect} from 'antd';
 import {message} from "antd/lib/index";
@@ -12,57 +15,48 @@ import {message} from "antd/lib/index";
 const mapStateToProps = state => ({
     powerIndex: state.systemManager.powerManager.index,
     detail: state.systemManager.roleManager.detail,
-    loading: state.systemManager.roleManager.loading
+    loading: state.systemManager.roleManager.loading,
+    componentTitle: state.systemManager.roleManager.componentTitle
 });
 const mapDispatchToProps = dispatch => ({
     powerListSaga: () => dispatch(requestPowerList()),
-    roleCreateSaga : values=>dispatch(requestRoleCreate(values)),
+    roleCreateSaga: values => dispatch(requestRoleCreate(values)),
     roleDetailSaga: values => dispatch(requestRoleDetail(values)),
+    roleComponentTitle: values => dispatch(roleComponentTitle(values)),
+    requestRoleEditSaga:values=>dispatch(requestRoleEdit(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class RoleCreateContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.state={
-            componentTitle :'create'
+        this.props.powerListSaga();
+        const roleId = this.props.match.params.roleId;
+        this.roleId = roleId;
+        if (roleId) {
+            if (isNaN(roleId)) {
+                this.props.history.push('/systemManager/roleManager');
+            }
+            this.props.roleComponentTitle({componentTitle:'edit'})
+            if (!this.props.detail) {
+                this.props.roleDetailSaga({roleId});
+            }
         }
     }
 
     onSubmit = values => {
-        this.props.roleCreateSaga(values);
-    }
-
-    componentDidMount() {
-        this.props.powerListSaga();
-        const roleId = this.props.match.params.roleId;
-        if(roleId){
-            if (isNaN(roleId)) {
-                this.props.history.push('/systemManager/roleManager');
-            }
-            this.setState({
-                componentTitle: 'edit',
-            });
-            if(!this.props.detail){
-                this.props.roleDetailSaga({roleId});
-                const hide = message.loading('正在获取数据...',0);
-                this.setState({
-                    editHide: hide
-                });
-            }
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.loading && this.state.componentTitle == "edit") {
-            this.state.editHide();
+        if(this.props.componentTitle === 'edit'){
+            console.log({roleId:this.roleId,...values});
+            this.props.requestRoleEditSaga({roleId:this.roleId,...values});
+        }else {
+            this.props.roleCreateSaga(values);
         }
     }
 
     render() {
         return (
             <React.Fragment>
-                <RoleCreateContent componentTitle={this.state.componentTitle} onSubmit={this.onSubmit} {...this.props}/>
+                <RoleCreateContent onSubmit={this.onSubmit} {...this.props}/>
             </React.Fragment>
         );
     }
@@ -97,12 +91,14 @@ const treeSelectProps = {
 const RoleCreateContent = props => {
     let data = [];
     let initialTreeSelect = [];
-    if(props.match.params.roleId){
-        try{
-            data =props.detail.data.role;
-            let permList =props.detail.data.permList;
-            permList.map(item=>initialTreeSelect.push(item.permId));
-        }catch (err){}
+    let componentTitle = props.componentTitle==='edit'?'编辑':'创建';
+    if (props.match.params.roleId) {
+        try {
+            data = props.detail.data.role;
+            let permList = props.detail.data.permList;
+            permList.map(item => initialTreeSelect.push(item.permId));
+        } catch (err) {
+        }
     }
     let formList = [
         {
@@ -113,13 +109,13 @@ const RoleCreateContent = props => {
                 required: true,
                 message: '角色名称不能为空！'
             },
-            initialValue:data.roleName
+            initialValue: data.roleName
         },
         {
             label: '角色描述',
             tag: 'textarea',
             id: 'description',
-            initialValue:data.description
+            initialValue: data.description
         },
         {
             label: '角色权限',
@@ -129,7 +125,7 @@ const RoleCreateContent = props => {
                 required: true,
                 message: '角色权限不能为空！'
             },
-            initialValue:initialTreeSelect
+            initialValue: initialTreeSelect
         },
     ];
     let treeSelectData = [];
@@ -142,10 +138,10 @@ const RoleCreateContent = props => {
     return (
         <React.Fragment>
             <div className="containerHeader">
-                创建角色
+                {componentTitle}角色
             </div>
             <div className="containerContent">
-                <FormComponent formList={formList} formSubmit={props.onSubmit} btn={{back: '返回', sub: '提交'}}
+                <FormComponent formList={formList} formSubmit={props.onSubmit} btn={{back: '返回', sub: componentTitle}}
                                layout={'horizontal'} loading={props.loading} formItemLayout={formItemLayout}
                                formSubBtnLayout={formSubBtnLayout} selectData={treeSelectData}
                                treeSelectProps={treeSelectProps}/>

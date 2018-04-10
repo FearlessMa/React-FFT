@@ -17,34 +17,14 @@ const mapStateToProps = state => ({login: state.login});
 
 @connect(mapStateToProps)
 export default class MenuContainer extends React.Component {
-    // static contextTypes = {
-    //     router: PropTypes.object
-    // }
-    // static defaultValue = {
-    //     activeKey: sessionStorage.getItem('activeKey')
-    // }
-
     constructor(...arg) {
         super(...arg);
-        this.state = {
-            collapse: false,
-            menuList: [],
-            defaultKey: '',
-            openKeys: [''],
-            selectedKeys: [''],
-            rootSubmenuKeys: [''],
-            currentPath:''
-    }
-    }
-
-    componentWillMount() {
         let selectedKeys = sessionStorage.getItem('selectedKeys');
         let openKeys = sessionStorage.getItem('openKeys');
         let sessionUserData = sessionStorage.getItem('userData');
         let menuList = [];
         //第一层菜单
         let rootSubmenuKeys = [];
-
         if (this.props.login.userData !== undefined && !sessionUserData) {
             // 菜单数据
             menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
@@ -55,16 +35,16 @@ export default class MenuContainer extends React.Component {
             const initPath = `${indexItem.menuId}-${indexItem.action}`;
             // 存储第一层菜单
             menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
-            this.setState({
+            this.state = {
+                collapse: false,
                 menuList,
                 defaultKey: initPath,
                 currentPath: `${indexItem.action}`,
                 selectedKeys: [initPath],
                 openKeys: [initPath],
-                rootSubmenuKeys
-            });
-        }
-        else {
+                rootSubmenuKeys,
+            };
+        } else {
             menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
             menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
             let indexItem = menuList.find((item) => item.menuName === '首页');
@@ -78,17 +58,79 @@ export default class MenuContainer extends React.Component {
                 selectedKeys = selectedKeys.split(',');
                 openKeys = openKeys.split(',');
             }
-            this.setState({
+            this.state = {
+                collapse: false,
                 menuList,
+                defaultKey: '',
+                currentPath: '',
                 selectedKeys,
                 openKeys,
                 rootSubmenuKeys
-            });
+            };
         }
+
+        // this.state = {
+        //     collapse: false,
+        //     menuList: [],
+        //     defaultKey: '',
+        //     openKeys: [''],
+        //     selectedKeys: [''],
+        //     rootSubmenuKeys: [''],
+        //     currentPath: ''
+        // }
     }
 
-    toLink = (e) => {
-        console.log(e);
+    // componentWillMount() {
+    //     let selectedKeys = sessionStorage.getItem('selectedKeys');
+    //     let openKeys = sessionStorage.getItem('openKeys');
+    //     let sessionUserData = sessionStorage.getItem('userData');
+    //     let menuList = [];
+    //     //第一层菜单
+    //     let rootSubmenuKeys = [];
+    //
+    //     if (this.props.login.userData !== undefined && !sessionUserData) {
+    //         // 菜单数据
+    //         menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
+    //         // 存储菜单
+    //         sessionStorage.setItem('userData', JSON.stringify(this.props.login.userData));
+    //         // 设置默认选中
+    //         let indexItem = menuList.find((item) => item.menuName === '首页');
+    //         const initPath = `${indexItem.menuId}-${indexItem.action}`;
+    //         // 存储第一层菜单
+    //         menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
+    //         this.setState({
+    //             menuList,
+    //             defaultKey: initPath,
+    //             currentPath: `${indexItem.action}`,
+    //             selectedKeys: [initPath],
+    //             openKeys: [initPath],
+    //             rootSubmenuKeys
+    //         });
+    //     }
+    //     else {
+    //         menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
+    //         menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
+    //         let indexItem = menuList.find((item) => item.menuName === '首页');
+    //         //设置首页为默认页面
+    //         const defaultKey = [`${indexItem.menuId}-${indexItem.action}`];
+    //         // session里没有存储就设置首页
+    //         if (!selectedKeys || !openKeys) {
+    //             selectedKeys = defaultKey;
+    //             openKeys = defaultKey;
+    //         } else {
+    //             selectedKeys = selectedKeys.split(',');
+    //             openKeys = openKeys.split(',');
+    //         }
+    //         this.setState({
+    //             menuList,
+    //             selectedKeys,
+    //             openKeys,
+    //             rootSubmenuKeys
+    //         });
+    //     }
+    // }
+
+    toLink = e => {
         //设置选中菜单
         this.setState({
             selectedKeys: e.keyPath
@@ -107,23 +149,15 @@ export default class MenuContainer extends React.Component {
         }
     }
 
-    onOpenChange = (openKeys) => {
-        console.log('openKeys');
-        console.log(openKeys);
-        console.log('this.state.openKeys');
-        console.log(this.state.openKeys);
-        console.log(this.state.rootSubmenuKeys);
+    onOpenChange = openKeys => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-            this.setState({ openKeys });
+            this.setState({openKeys});
         } else {
             this.setState({
                 openKeys: latestOpenKey ? [latestOpenKey] : [],
             });
         }
-        // this.setState({
-        //     openKeys
-        // });
         sessionStorage.setItem('openKeys', openKeys);
     }
 

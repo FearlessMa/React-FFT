@@ -35,6 +35,7 @@ const mapDispatchToProps = dispatch => ({
 class RoleManagerContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
+        this.props.roleListSaga();
     }
 
     onSubmit = values => {
@@ -45,8 +46,9 @@ class RoleManagerContainer extends React.Component {
         this.props.history.push('/systemManager/roleManager/create');
     }
 
-    componentDidMount() {
-        this.props.roleListSaga();
+    //分页
+    paginationOnChange = (pagination) => {
+        this.props.roleListSaga({current: pagination.current, pageSize: pagination.pageSize});
     }
 
     render() {
@@ -54,7 +56,7 @@ class RoleManagerContainer extends React.Component {
             {
                 title: '角色名称',
                 dataIndex: 'roleName',
-                render: (text,record) => <a href={`#/systemManager/roleManager/detail/${record.roleId}`}>{text}</a>
+                render: (text, record) => <a href={`#/systemManager/roleManager/detail/${record.roleId}`}>{text}</a>
             },
             {
                 title: '角色描述',
@@ -62,15 +64,19 @@ class RoleManagerContainer extends React.Component {
             },
             {
                 title: '创建时间',
-                dataIndex: 'createTime'
+                dataIndex: 'createTime',
+                render: text => <span>{new Date(text).toLocaleString().substr(0, 9)}</span>
             },
             {
                 title: '更新时间',
-                dataIndex: 'updateTime'
+                dataIndex: 'updateTime',
+                render: text => <span>{new Date(text).toLocaleString().substr(0, 9)}</span>
             }
         ];
         return <RoleManagerContent btnClick={this.tableBtnClick} columns={columns}
-                                   onSubmit={this.onSubmit} {...this.props}/>
+                                   onSubmit={this.onSubmit} {...this.props}
+                                   onChange={this.paginationOnChange}
+        />
     }
 
 }
@@ -86,8 +92,10 @@ const searchComponentData = [
 
 const RoleManagerContent = (props) => {
     let data = [];
+    let pagination = [];
     try {
         data = props.index.data.roleList;
+        pagination = props.index.data.pagination;
     } catch (err) {
     }
     return (
@@ -97,14 +105,15 @@ const RoleManagerContent = (props) => {
                 <Row>
                     <Col offset={4}>
                         <FormComponent formList={searchComponentData} formSubmit={props.onSubmit}
-                                       btn={{sub: '搜索'}} layout={'inline'} loading={props.loading}/>
+                                       btn={{sub: '搜索'}} layout={'inline'}
+                        />
                     </Col>
                 </Row>
             </div>
             <div className="containerContent">
                 <TableComponent columns={props.columns} componentTitle={'角色列表'} btnName={'创建角色'}
                                 btnClick={props.btnClick} dataSource={data} rowKey={'createTime'}
-                                loading={props.loading}/>
+                                loading={props.loading} onChange={props.onChange} pagination={pagination}/>
             </div>
         </React.Fragment>
     )

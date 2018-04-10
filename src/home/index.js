@@ -25,7 +25,6 @@ export class HomeComponent extends React.Component {
         this.setState({
             collapsed: !this.state.collapsed
         });
-        console.log(this.props);
     }
 
     render() {

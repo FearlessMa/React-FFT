@@ -94,7 +94,7 @@ class PathContainer extends React.Component {
             {
                 title: 'pathID',
                 dataIndex: 'pathId',
-                render: (text, record, index) => {
+                render: (text) => {
                     return (
                         <a href={`#/systemManager/pathManager/detail/${text}`}>{text}</a>
                     );
@@ -152,8 +152,6 @@ const searchComponentData = [
  *
  * **/
 const PathContent = (props) => {
-    // console.log('props.index');
-    // console.log(props.index.data.pathList);
     let dataList = [];
     let pagination = [];
     if (props.index.data) {
@@ -168,8 +166,6 @@ const PathContent = (props) => {
                         <FormComponent formList={searchComponentData}
                                        btn={{sub: '搜索'}}
                                        layout={'inline'}
-                            // messageContent={'搜索中...'}
-                            // loading={props.loading}
                                        formSubmit={props.formSubmit}
                         />
                     </Col>
