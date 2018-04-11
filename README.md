@@ -6,17 +6,53 @@ antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,g
 ## 生产版本打包
 生产版本打(需注释掉src/index.js中引入的mockJs)
 ## 1.使用离线字体
+
 ### 1.1配置方法
-##### 1.1.1修改antd
+
+#### 1.1.1 方法1
 ```
+//方法1
+//根目录创建theme/index.json添加以下内容：
+{
+  "@icon-url":"'/fonts/iconfont/iconfont'"
+}
+//根目录添加fonts/iconfont/antd字体文件。
+
+//方法2webpack配置
+const theme = require('../theme');
+
+//babel-plugin-import修改
+    ["import", {libraryName: "antd", style: 'css'}]
+    //改为
+    ["import", {libraryName: "antd", style: true}]
+    
+//less配置
+{
+    test: /\.(less)$/,
+    use:[
+        {loader:'style-loader'},
+        {loader:'css-loader'},
+        {
+            loader:'less-loader',
+            options: {
+                javascriptEnabled: true,
+                modifyVars: theme,
+            }
+        },
+    ]
+},
+
+```
+
+##### 1.1.2方法2
+```
+方法2
 在node_modules/antd/dist下添加fonts/iconfont/antd官网下载的离线字体包（本项目根目录下fonts/iconfont里为3.4版本字体）
 修改node_modules/antd/lib/style/theme/default.less
 代码70行左右修改为以下
 @icon-url: "~antd/dist/fonts/iconfont/iconfont";
 
-```
-##### 1.1.2修改webpack配置
-```
+webpack配置
 //babel-plugin-import修改
     ["import", {libraryName: "antd", style: 'css'}]
     //改为
@@ -49,6 +85,7 @@ antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,g
     }
 
 ```
+
 
 ## 2.封装的公共组件与方法
 

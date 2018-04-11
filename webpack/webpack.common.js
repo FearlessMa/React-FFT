@@ -6,6 +6,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const theme = require('../theme');
+
 
 let entryIndex = '';
 if (process.env.NODE_ENV === "production"){
@@ -64,7 +66,13 @@ module.exports = {
                 use:[
                     {loader:'style-loader'},
                     {loader:'css-loader'},
-                    {loader:'less-loader',options: { javascriptEnabled: true }},
+                    {
+                        loader:'less-loader',
+                        options: {
+                            javascriptEnabled: true,
+                            modifyVars: theme,
+                        }
+                    },
                 ]
             },
             {
@@ -77,16 +85,16 @@ module.exports = {
                     name: 'img/[name].[ext]'
                 }
             },
-            {
-                test:/\.(eot|svg|ttf|woff|woff2)$/,
-                include:[
-                    path.resolve(__dirname,'../node_modules/antd')
-                ],
-                loader:'file-loader',
-                options:{
-                    name:'fonts/iconfont/[name].[ext]'
-                }
-            }
+            // {
+            //     test:/\.(eot|svg|ttf|woff|woff2)$/,
+            //     include:[
+            //         path.resolve(__dirname,'../node_modules/antd')
+            //     ],
+            //     loader:'file-loader',
+            //     options:{
+            //         name:'fonts/iconfont/[name].[ext]'
+            //     }
+            // }
         ]
     },
     resolve: {
