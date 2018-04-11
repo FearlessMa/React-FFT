@@ -10,7 +10,7 @@ const webpack = require('webpack');
 
 module.exports = merge(common,{
     plugins : [
-        // new UglifyJSWebpackPlugin(),
+        new UglifyJSWebpackPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
