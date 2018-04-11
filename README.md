@@ -14,7 +14,7 @@ antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,g
 //方法1
 //根目录创建theme/index.json添加以下内容：
 {
-  "@icon-url":"'/fonts/iconfont/iconfont'"
+  "@icon-url":"../fonts/iconfont/iconfont"
 }
 //根目录添加fonts/iconfont/antd字体文件。
 
