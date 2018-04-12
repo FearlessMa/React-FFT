@@ -272,8 +272,10 @@ const breadcrumbNameMap = {
     '/systemManager/pathManager': 'Path管理',
 };
 
-//BreadcrumbComponent组件 需要接收路由location属性获取pathname属性来匹配breadcrumbNameMap的key值
+//BreadcrumbComponent组件 需要获取路由的location.pathname属性来匹配breadcrumbNameMap的key值
 
 < BreadcrumbComponent  location={props.location} breadcrumbNameMap={breadcrumbNameMap}/>
 
 ```
+
+## 持续更新中...
