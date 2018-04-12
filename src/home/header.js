@@ -67,19 +67,24 @@ export default class HeaderComponent extends React.Component {
 
 }
 
+const rnd =(n, m)=>Math.floor(Math.random()*(m-n+1)+n);
+
+
 const DropdownComponent = props => {
 
     let userName = '';
-    let userAvatar = '';
+    // let userAvatar = '';
     try {
         userName = props.login.userData.data.user.userName;
-        userAvatar = userName.slice(0, 1);
+        // userAvatar = userName;
     } catch (e) {
     }
+    const colorList = ['#1890ff', '#7265e6', '#ffbf00', '#00a2ae'];
+    const avatarColor = colorList[rnd(0,4)];
     const menu = (
         <Menu
             onClick={props.toLink}>
-            {props.userList.map((item, i) => {
+            {props.userList.map((item) => {
                 return (
                     <Menu.Item key={`${JSON.stringify(item)}`}>
                         <Icon type={item.icon}/>
@@ -94,7 +99,7 @@ const DropdownComponent = props => {
         <React.Fragment>
             <Dropdown overlay={menu}>
                     <span className="ant-dropdown-link userName">
-                        <Avatar size={'small'} shape="circle" className="userAvatar">{userAvatar}</Avatar>
+                        <Avatar icon={'user'}  shape="circle" className="userAvatar" style={{backgroundColor:avatarColor}} />
                         <span>{userName}</span>
                     </span>
             </Dropdown>
