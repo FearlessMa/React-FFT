@@ -3,6 +3,7 @@
 ## 知识点需求
 antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数，mockJS。
 * dist目录下为打包后文件，目前预览使用
+* 支持React Developer Tools和Redux DevTools调试工具，需要自己在浏览器中安装相应的插件即可使用。
 ## 生产版本打包
 生产版本打(需注释掉src/index.js中引入的mockJs)
 ## 1.使用离线字体

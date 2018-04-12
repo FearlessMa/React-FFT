@@ -6,18 +6,21 @@ const common = require('./webpack.common.js');
 const webpack = require('webpack');
 const path = require('path');
 
-module.exports = merge(common,{
+module.exports = merge(common, {
+    //reactDevTools 可在浏览器中调试
+    devtool: 'source-map',
     devServer: {
         hot: true,
         historyApiFallback: true,
         overlay: true,
         open: false,
-        port: 8090
+        port: 8090,
+        // inline: true
         // contentBase: path.resolve(__dirname,'../assets'),
         // publicPath: "http://localhost:8090"
     },
-    module:{
-        rules:[
+    module: {
+        rules: [
             {
                 test: /\.js$/,
                 loader: 'eslint-loader',
@@ -28,7 +31,7 @@ module.exports = merge(common,{
             }
         ]
     },
-    plugins:[
+    plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
@@ -37,4 +40,4 @@ module.exports = merge(common,{
     ]
 
 });
-console.log("process.env.NODE_ENV 的值是(webpack.dev.js)："+ process.env.NODE_ENV)
+console.log("process.env.NODE_ENV 的值是(webpack.dev.js)：" + process.env.NODE_ENV)

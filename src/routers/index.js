@@ -16,7 +16,6 @@ const RouterIndex = () => {
             <Switch>
                 <Route exact path={'/login'} component={LoginComponent}/>
                 <PrivateRoute path={'/'} component={HomeComponent}/>
-                {/*<Route path={'/home'} component={HomeComponent} />*/}
                 <Redirect from={'/'} to={'/login'}/>
             </Switch>
         </Router>

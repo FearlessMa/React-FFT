@@ -28,11 +28,10 @@ if (process.env.NODE_ENV === 'production') {
     storeEnhancer = applyMiddleware(...middleware);
 }
 if (process.env.NODE_ENV === 'development') {
-    const win = window;
     middleware.push(sagas, logger);
     storeEnhancer = compose(
         applyMiddleware(...middleware),
-        (win && window.devToolsExtension) ? win.devToolsExtension() : (f) => f
+        (window && window.devToolsExtension) ? window.devToolsExtension() : (f) => f
     );
 }
 
