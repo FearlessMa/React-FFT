@@ -71,9 +71,9 @@ const deleteSuccModal = (data) => {
 const deleteSuccNot = (data) => {
     alertNotification('删除成功', data)
 };
-const unboundSuccNot = (data) => {
-    alertNotification('解绑成功', data)
-};
+// const unboundSuccNot = (data) => {
+//     alertNotification('解绑成功', data)
+// };
 
 /*********---------------organManager-----------------**********/
 

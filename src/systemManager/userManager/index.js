@@ -19,15 +19,18 @@ const breadcrumbNameMap = {
     [`/systemManager/${breadcrumbName}Manager/edit`]: '编辑用户',
 };
 
-export const UserManagerLayout = () => {
+export const UserManagerLayout = props => {
     return (
-        <Switch>
-            <Route path={'/systemManager/userManager/create'} component={UserCreateContainer}/>
-            <Route path={'/systemManager/userManager/detail/:userId'} component={UserDetailContainer}/>
-            <Route path={'/systemManager/userManager/edit/:userId'} component={UserCreateContainer}/>
-            <Route exact path={'/systemManager/userManager'} component={UserManagerContainer}/>
-            <Redirect to={'/systemManager/userManager'}/>
-        </Switch>
+        <React.Fragment>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <Switch>
+                <Route path={'/systemManager/userManager/create'} component={UserCreateContainer}/>
+                <Route path={'/systemManager/userManager/detail/:userId'} component={UserDetailContainer}/>
+                <Route path={'/systemManager/userManager/edit/:userId'} component={UserCreateContainer}/>
+                <Route exact path={'/systemManager/userManager'} component={UserManagerContainer}/>
+                <Redirect to={'/systemManager/userManager'}/>
+            </Switch>
+        </React.Fragment>
     )
 };
 

@@ -26,7 +26,7 @@ const breadcrumbNameMap = {
 
 export const OrganLayout = props => {
     return (
-        <div>
+        <React.Fragment>
             <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
             <Switch>
                 <Route path={`/systemManager/organManager/create`} component={OrganCreateContainer}/>
@@ -36,7 +36,7 @@ export const OrganLayout = props => {
                 <Route exact path={`/systemManager/organManager`} component={OrganContainer}/>
                 <Redirect to={`/systemManager/organManager`}/>
             </Switch>
-        </div>
+        </React.Fragment>
     )
 };
 
@@ -52,9 +52,6 @@ const mapDispatchToProps = (dispatch) => ({
 class OrganContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-    }
-
-    componentDidMount() {
         this.props.queryOrgList();
     }
 

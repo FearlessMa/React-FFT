@@ -49,14 +49,11 @@ const mapDispatchToProps = dispatch => ({
 class MenuManagerContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
+        this.props.menuListSaga();
     }
 
     onSubmit = (values) => {
         this.props.menuListSaga(values);
-    }
-
-    componentDidMount() {
-        this.props.menuListSaga();
     }
 
     btnClick = () => {

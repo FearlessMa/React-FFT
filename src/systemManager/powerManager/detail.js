@@ -4,7 +4,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {Row, Col, Button, Table, Tabs} from 'antd';
-import {message} from "antd/lib/index";
 import {FormComponent} from '../../common';
 import {requestPowerDetail} from "../redux/actions";
 

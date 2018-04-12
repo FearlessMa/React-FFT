@@ -80,7 +80,8 @@ const DropdownComponent = props => {
     } catch (e) {
     }
     const colorList = ['#1890ff', '#7265e6', '#ffbf00', '#00a2ae'];
-    const avatarColor = colorList[rnd(0,4)];
+    const cLLen=colorList.length;
+    const avatarColor = colorList[rnd(0,cLLen)];
     const menu = (
         <Menu
             onClick={props.toLink}>

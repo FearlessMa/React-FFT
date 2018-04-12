@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {requestUserChangeStatus, requestUserDelete, requestUserDetail} from "../redux/actions";
-import {message, Row, Col, Button, Modal} from "antd";
+import {Row, Col, Button, Modal} from "antd";
 import {FormComponent} from '../../common';
 
 
@@ -104,9 +104,7 @@ const UserDetailContent = props => {
         initData = props.userDetail.data.user;
         let roleList = props.userDetail.data.roleList;
         if (roleList) {
-            roleList.map(item => {
-                rolesData.push(item.roleName);
-            });
+            roleList.map(item => rolesData.push(item.roleName));
         }
     } catch (err) {
     }

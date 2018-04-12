@@ -5,7 +5,7 @@ import React from 'react';
 import {FormComponent, tranTreeData} from '../../common';
 import {requestRoleDelete, requestRoleDetail} from "../redux/actions";
 import {connect} from "react-redux";
-import {Row, Col, Button, message, Modal} from 'antd';
+import {Row, Col, Button, Modal} from 'antd';
 
 
 const mapStateToProps = state => ({
@@ -70,7 +70,7 @@ const formItemLayout = {
         xs: {span: 24},
         sm: {span: 15},
     },
-}
+};
 
 const RoleDetailContent = props => {
     let data = {

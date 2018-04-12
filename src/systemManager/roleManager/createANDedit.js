@@ -4,12 +4,10 @@
 import React from 'react';
 import {FormComponent, tranTreeData} from '../../common';
 import {
-    requestPowerList, requestRoleCreate, requestRoleDetail, requestRoleEdit,
-    roleComponentTitle
+    requestPowerList, requestRoleCreate, requestRoleDetail, requestRoleEdit, roleComponentTitle
 } from "../redux/actions";
 import {connect} from "react-redux";
 import {TreeSelect} from 'antd';
-import {message} from "antd/lib/index";
 
 
 const mapStateToProps = state => ({
@@ -83,6 +81,7 @@ const formSubBtnLayout = {
     }
 };
 
+//TreeSelect antd的配置
 const treeSelectProps = {
     treeCheckable: true,
     showCheckedStrategy: TreeSelect.SHOW_ALL,
@@ -91,7 +90,7 @@ const treeSelectProps = {
 const RoleCreateContent = props => {
     let data = [];
     let initialTreeSelect = [];
-    let componentTitle = props.componentTitle==='edit'?'编辑':'创建';
+    let componentTitle = props.componentTitle==='edit'?'修改':'创建';
     if (props.match.params.roleId) {
         try {
             data = props.detail.data.role;

@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import {Row, Col, message} from 'antd';
 import {FormComponent} from '../../common/formComponent';
 import {connect} from 'react-redux';
 import {requestPathCreate, requestPathDetail, requestPathEdit} from "../redux/actions";

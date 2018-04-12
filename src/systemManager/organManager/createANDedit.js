@@ -105,7 +105,6 @@ const formSubBtnLayout = {
 }
 
 const OrganLayout = (props) => {
-    const title = props.componentTitle === 'create' ? '创建' : '修改';
     let data = [];
     try {
         if (props.componentTitle === 'edit') {

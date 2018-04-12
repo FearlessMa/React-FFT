@@ -2,7 +2,6 @@
  * Created by MHC on 2018/3/22.
  */
 import React from 'react';
-import {Row, Col} from 'antd';
 import {FormComponent, tranTreeData} from '../../common';
 import {connect} from 'react-redux';
 import {
@@ -42,7 +41,7 @@ export class PowerCreateContainer extends React.Component {
     }
 
     onSubmit = values => {
-        values.parentPermId === undefined ? values.parentPermId = "" : null;
+        values.parentPermId = values.parentPermId === undefined ?  '' : values.parentPermId;
         if (this.props.powerComponentTitle === 'edit') {
             this.props.powerEditSaga({permId: this.permId, ...values});
         } else {

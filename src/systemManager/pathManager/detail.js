@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/20.
  */
 import React from 'react';
-import {Row, Col, message, Table, Button, Modal} from 'antd';
+import {Row, Col, Table, Button, Modal} from 'antd';
 import {FormComponent} from '../../common/formComponent';
 import {connect} from 'react-redux';
 import {requestPathDetail, requestPathRemovePrem} from "../redux/actions";

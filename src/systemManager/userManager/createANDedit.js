@@ -5,7 +5,6 @@ import React from 'react';
 import {FormComponent, tranTreeData, tranCheckboxData} from '../../common';
 import {requestAllOrgList, requestRoleList, requestUserCreate, requestUserDetail} from "../redux/actions";
 import {connect} from "react-redux";
-import {message} from "antd/lib/index";
 
 const mapStateToProps = (state) => ({
     //机构列表数据
@@ -30,7 +29,7 @@ export class UserCreateContainer extends React.Component {
         this.props.roleListSaga();
         let componentTitle = 'create';
         const userId = this.props.match.params.userId;
-        if (isNaN(userId) && userId !== undefined || userId === '') {
+        if ((isNaN(userId) && userId !== undefined) || userId === '') {
             //TODO
             this.props.history.push('/systemManager/userManager');
         }
@@ -52,7 +51,7 @@ export class UserCreateContainer extends React.Component {
 
     //form 表单onChange
     onChange = (e) => {
-        if (e.target.id == 'password') {
+        if (e.target.id === 'password') {
             this.setState({
                 password: e.target.value
             });
@@ -63,7 +62,7 @@ export class UserCreateContainer extends React.Component {
         const password = this.state.password;
         this.setState({resPassword: v})
         if (!v) callback('密码不能为空');
-        if (password && password != v) {
+        if (password && password !== v) {
             callback('输入的密码不一致');
         } else {
             callback()
@@ -73,8 +72,8 @@ export class UserCreateContainer extends React.Component {
     checkResPassword = (rules, v, callback) => {
         const resPassword = this.state.resPassword;
         if (!v) callback('密码不能为空');
-        if (v && resPassword && v != resPassword) {
-            callback('输入的密码不一致1');
+        if (v && resPassword && v !== resPassword) {
+            callback('输入的密码不一致');
         } else {
             callback()
         }

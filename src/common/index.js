@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/21.
  */
 
-import React from 'react';
+// import React from 'react';
 import {FormComponent, tranCheckboxData} from './formComponent';
 import {TableComponent} from './tableComponent';
 import {tranTreeData} from './tranTreeData';

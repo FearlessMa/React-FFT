@@ -129,8 +129,9 @@ export function alertModal(title = '成功', content = 'succ', type = 'success',
 //显示loading前判断是否有loading正在显示
 window.hasLoading = false;
 
+//config = {action, url, type, loadingMsg, dispatchLoading}
 //执行异步
-export function* requestData(config = {action, url, type, loadingMsg, dispatchLoading}, succCallback, dispatchCallback) {
+export function* requestData(config , succCallback, dispatchCallback) {
     let {action, url, type, loadingMsg, dispatchLoading} = config;
     loadingMsg = loadingMsg || '正在获取数据...';
     let hideLoading = () => {
@@ -142,17 +143,24 @@ export function* requestData(config = {action, url, type, loadingMsg, dispatchLo
         }
     }
     try {
-        dispatchLoading ? yield put({type: LOADING}) : null;
+        // dispatchLoading ? yield put({type: LOADING}) : null;
+        if(dispatchLoading){
+            yield put({type: LOADING});
+        }
         const res = yield call(axiosPost, url, action);
         const data = res.data;
         if (data.code === 200) {
             yield put({type: type, ...data});
-            succCallback ? succCallback(data.message, action) : null;
-            // dispatchStore?dispatchStore:null;
-            // succPut?yield put(succPut):null;
+            if(succCallback){
+                succCallback(data.message, action);
+            }
+            // succCallback ? succCallback(data.message, action) : null;
 
         }
-        dispatchCallback ? dispatchCallback(data, action) : null;
+        // dispatchCallback ? dispatchCallback(data, action) : null;
+        if(dispatchCallback){
+            dispatchCallback(data, action);
+        }
         hideLoading();
         window.hasLoading = false;
     } catch (err) {

@@ -235,10 +235,12 @@ const PowerConfigContent = props => {
         const bindMenuModalTableList = props.configMenuList.data.alreadyConfigedMenuList;
         bindMenuModalTableList.map(item => {
             menuModalTableList.find(value => {
-                if (value.menuId == item.menuId) {
+                if (String(value.menuId) === String(item.menuId)) {
                     value.btnHide = true;
                 }
+                return null
             });
+            return null;
         });
         menuModalTableList = tranTreeData(props.configMenuList.data.menuList, 'menuId', 'parentMenuId', 'menuName');
     } catch (err) {
@@ -268,6 +270,8 @@ const PowerConfigContent = props => {
         onCancel: pathModalCancel,
         onOk: props.addPath.bind(this, pathIds),
         confirmLoading: props.loading,
+        cancelText: '取消',
+        okText: '添加'
     };
 
 
@@ -281,7 +285,7 @@ const PowerConfigContent = props => {
         visible: props.menuModalVisible,
         onCancel: menuModalCancel,
         onOk: props.addPath.bind(this, pathIds),
-        footer:null
+        footer: null
         // confirmLoading:props.pathModalConfirmLoading
 
     };
@@ -305,7 +309,7 @@ const PowerConfigContent = props => {
                                            loading={props.loading}
                                            formSubmit={props.pathModalSearch}/>
                             <Table columns={pathColumns} dataSource={pathModalTableList} loading={props.loading}
-                                   rowKey={'httpPath'} rowSelection={rowSelection} pagination={false}/>
+                                   bordered={true} rowKey={'httpPath'} rowSelection={rowSelection} pagination={false}/>
                         </Modal>
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="菜单配置" key="2">

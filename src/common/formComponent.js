@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Row, Col, Form, Button, TreeSelect, Input, message, Tree, Checkbox, notification } from 'antd';
+import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox } from 'antd';
 
 const {TextArea} = Input;
 const TreeNode = TreeSelect.TreeNode;
@@ -32,13 +32,13 @@ const FromCreate =Form.create;
 
 @FromCreate()
 export class FormComponent extends React.Component{
-    constructor(props){
-        super(props);
-        // this.state={
-        //     messageLoading:this.props.loading,
-        //     hideLoading:()=>{}
-        // }
-    }
+    // constructor(props){
+    //     super(props);
+    //     // this.state={
+    //     //     messageLoading:this.props.loading,
+    //     //     hideLoading:()=>{}
+    //     // }
+    // }
 
     onSubmit = (e)=>{
         e.preventDefault();
@@ -211,7 +211,8 @@ export function tranCheckboxData(dataList,label,value){
             label:item[label],
             value:item[value]
         });
-    })
+        return null ;
+    });
     return checkboxData
 }
 

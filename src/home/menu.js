@@ -3,15 +3,13 @@
  *
  */
 import React from 'react';
-import {Menu, Icon, message} from 'antd';
-// import PropTypes from 'prop-types';
-// import {Link} from 'react-router-dom';
+import {Menu, Icon} from 'antd';
 import {connect} from 'react-redux';
 import {tranTreeData} from '../common'
 
 const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
-const MenuItem = Menu.Item;
+// const MenuItem = Menu.Item;
 
 const mapStateToProps = state => ({login: state.login});
 
@@ -68,67 +66,7 @@ export default class MenuContainer extends React.Component {
                 rootSubmenuKeys
             };
         }
-
-        // this.state = {
-        //     collapse: false,
-        //     menuList: [],
-        //     defaultKey: '',
-        //     openKeys: [''],
-        //     selectedKeys: [''],
-        //     rootSubmenuKeys: [''],
-        //     currentPath: ''
-        // }
     }
-
-    // componentWillMount() {
-    //     let selectedKeys = sessionStorage.getItem('selectedKeys');
-    //     let openKeys = sessionStorage.getItem('openKeys');
-    //     let sessionUserData = sessionStorage.getItem('userData');
-    //     let menuList = [];
-    //     //第一层菜单
-    //     let rootSubmenuKeys = [];
-    //
-    //     if (this.props.login.userData !== undefined && !sessionUserData) {
-    //         // 菜单数据
-    //         menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
-    //         // 存储菜单
-    //         sessionStorage.setItem('userData', JSON.stringify(this.props.login.userData));
-    //         // 设置默认选中
-    //         let indexItem = menuList.find((item) => item.menuName === '首页');
-    //         const initPath = `${indexItem.menuId}-${indexItem.action}`;
-    //         // 存储第一层菜单
-    //         menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
-    //         this.setState({
-    //             menuList,
-    //             defaultKey: initPath,
-    //             currentPath: `${indexItem.action}`,
-    //             selectedKeys: [initPath],
-    //             openKeys: [initPath],
-    //             rootSubmenuKeys
-    //         });
-    //     }
-    //     else {
-    //         menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
-    //         menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
-    //         let indexItem = menuList.find((item) => item.menuName === '首页');
-    //         //设置首页为默认页面
-    //         const defaultKey = [`${indexItem.menuId}-${indexItem.action}`];
-    //         // session里没有存储就设置首页
-    //         if (!selectedKeys || !openKeys) {
-    //             selectedKeys = defaultKey;
-    //             openKeys = defaultKey;
-    //         } else {
-    //             selectedKeys = selectedKeys.split(',');
-    //             openKeys = openKeys.split(',');
-    //         }
-    //         this.setState({
-    //             menuList,
-    //             selectedKeys,
-    //             openKeys,
-    //             rootSubmenuKeys
-    //         });
-    //     }
-    // }
 
     toLink = e => {
         //设置选中菜单
@@ -162,7 +100,7 @@ export default class MenuContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.inlineCollapsed != this.state.collapse) {
+        if (Boolean(nextProps.inlineCollapsed) !== Boolean(this.state.collapse)) {
             this.setState({
                 collapse: nextProps.inlineCollapsed
             })

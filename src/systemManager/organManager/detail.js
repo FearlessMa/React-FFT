@@ -6,8 +6,8 @@ import {connect} from 'react-redux';
 import {FormComponent} from '../../common/formComponent';
 import {requestOrgDetail, requestOrgDelete} from '../redux/actions';
 import {Row, Col, Button, Modal} from 'antd';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {ViewMembers, ALS} from "./viewMembers";
+// import {Switch, Route, Redirect} from 'react-router-dom';
+// import {ViewMembers, ALS} from "./viewMembers";
 import {message} from "antd/lib/index";
 
 const mapStateToProps = (state) => ({

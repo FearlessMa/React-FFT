@@ -83,9 +83,9 @@ export default class LoginComponent extends React.Component {
 @FromCreate()
 class Login extends React.Component {
 
-    constructor(...arg) {
-        super(...arg);
-    }
+    // constructor(...arg) {
+    //     super(...arg);
+    // }
 
     onSubmit = (e) => {
         e.preventDefault();
