@@ -25,22 +25,16 @@ export class ViewMembers extends React.Component {
         super(...arg);
         this.state={
             orgName:''
-        }
-    }
-
-    componentDidMount(){
-        // if(this.props.location.state){
-        //     const {orgId} = this.props.location.state;
-        //     this.props.orgMembersSaga({orgId});
-        // }else{
-        //     this.props.history.push('/systemManager/organManager');
-        // }
-        const orgId = Number(this.props.match.params.orgId);
+        };
+        const orgId = this.props.match.params.orgId;
         const name = this.props.match.params.name;
         this.setState({orgName:name});
+        if(isNaN(orgId)){
+            this.props.history.push('/systemManager/organManager');
+        }
         this.props.orgMembersSaga({orgId});
-
     }
+
 
     btnClick = ()=>{
         this.props.history.go(-1);
@@ -147,9 +141,6 @@ const ViewMembersContent = (props)=>{
 
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                人员查询
-            </div>
             <div className='containerContent'>
                 <TableComponent componentTitle={`${props.orgName}-机构下人员列表`} titleStyle={{fontSize:15}}
                                 columns={columns} bordered={true} rowKey={'orgId'} dataSource={dataList}

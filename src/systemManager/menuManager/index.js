@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import {TableComponent, FormComponent, tranTreeData} from 'common';
+import {TableComponent, FormComponent, tranTreeData, BreadcrumbComponent} from 'common';
 import {Button, Row, Col, Modal} from 'antd';
 import {connect} from 'react-redux';
 import {requestMenuDelete, requestMenuList} from "../redux/actions";
@@ -11,15 +11,27 @@ import {MenuDetailContainer} from "./detail";
 import {MenuCreateContainer} from "./createANDedit";
 
 
-export const MenuManagerLayout = () => {
+const breadcrumbNameMap = {
+    '/systemManager': '系统管理',
+    '/systemManager/menuManager': '菜单管理',
+    '/systemManager/menuManager/create': '创建菜单',
+    '/systemManager/menuManager/detail': '菜单详情',
+    '/systemManager/menuManager/edit': '编辑菜单',
+};
+
+export const MenuManagerLayout = props => {
     return (
-        <Switch>
-            <Route exact path={`/systemManager/menuManager`} component={MenuManagerContainer}/>
-            <Route path={`/systemManager/menuManager/create`} component={MenuCreateContainer}/>
-            <Route path={`/systemManager/menuManager/detail/:menuId`} component={MenuDetailContainer}/>
-            <Route path={`/systemManager/menuManager/edit/:menuId`} component={MenuCreateContainer}/>
-            <Redirect to={'/systemManager/menuManager'}/>
-        </Switch>
+        <React.Fragment>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <Switch>
+                <Route exact path={`/systemManager/menuManager`} component={MenuManagerContainer}/>
+                <Route path={`/systemManager/menuManager/create`} component={MenuCreateContainer}/>
+                <Route path={`/systemManager/menuManager/detail/:menuId`} component={MenuDetailContainer}/>
+                <Route path={`/systemManager/menuManager/edit/:menuId`} component={MenuCreateContainer}/>
+                <Redirect to={'/systemManager/menuManager'}/>
+            </Switch>
+        </React.Fragment>
+
     )
 };
 
@@ -161,7 +173,7 @@ const MenuManagerContent = (props) => {
     return (
         <React.Fragment>
             <div className='containerHeader'>
-                菜单管理
+                {/*菜单管理*/}
                 <Row>
                     <Col offset={3}>
                         <FormComponent formList={searchComponentData}

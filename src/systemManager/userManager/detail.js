@@ -210,9 +210,6 @@ const UserDetailContent = props => {
     ];
     return (
         <React.Fragment>
-            <div className="containerHeader">
-                用户详情
-            </div>
             <div className="containerContent">
                 <FormComponent formList={formList} formItemLayout={formItemLayout}
                                moreItemInRow={true} layout={'horizontal'}/>

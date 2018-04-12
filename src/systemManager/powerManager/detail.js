@@ -178,9 +178,6 @@ const PowerDetailContent = props => {
 
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                权限详情
-            </div>
             <div className='containerContent'>
                 <FormComponent formList={formList} layout={'horizontal'} formItemLayout={formItemLayout}
                                moreItemInRow={true} laoding={props.loading}

@@ -3,24 +3,34 @@
  */
 import React from 'react';
 import {Route, Redirect, Switch} from 'react-router-dom';
-import {FormComponent} from '../../common/formComponent';
-import {TableComponent} from '../../common/tableComponent';
-import {Row, Col, Button} from 'antd';
+import {TableComponent, FormComponent, BreadcrumbComponent} from 'common';
+import {Row, Col, Button, Modal} from 'antd';
 import {connect} from 'react-redux';
 import {requestPathDelete, requestPathManager} from '../redux/actions';
 import {CreatePathContainer} from './createANDedit';
 import {PathDetailContainer} from './detail';
-import {Modal} from "antd/lib/index";
 
-export const PathManagerLayout = () => {
+
+const breadcrumbNameMap = {
+    '/systemManager': '系统管理',
+    '/systemManager/pathManager': 'Path管理',
+    '/systemManager/pathManager/create': '创建Path',
+    '/systemManager/pathManager/detail': 'Path详情',
+    '/systemManager/pathManager/edit': '编辑Path',
+};
+
+export const PathManagerLayout = props => {
     return (
-        <Switch>
-            <Route exact path={'/systemManager/pathManager'} component={PathContainer}/>
-            <Route path={'/systemManager/pathManager/create'} component={CreatePathContainer}/>
-            <Route path={'/systemManager/pathManager/detail/:pathId'} component={PathDetailContainer}/>
-            <Route path={'/systemManager/pathManager/edit/:pathId'} component={CreatePathContainer}/>
-            <Redirect to={'/systemManager/pathManager'}/>
-        </Switch>
+        <React.Fragment>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <Switch>
+                <Route exact path={'/systemManager/pathManager'} component={PathContainer}/>
+                <Route path={'/systemManager/pathManager/create'} component={CreatePathContainer}/>
+                <Route path={'/systemManager/pathManager/detail/:pathId'} component={PathDetailContainer}/>
+                <Route path={'/systemManager/pathManager/edit/:pathId'} component={CreatePathContainer}/>
+                <Redirect to={'/systemManager/pathManager'}/>
+            </Switch>
+        </React.Fragment>
     )
 }
 

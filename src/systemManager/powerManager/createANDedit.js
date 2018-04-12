@@ -119,9 +119,6 @@ const PowerCreateContent = (props) => {
 
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                {componentTitle}权限
-            </div>
             <div className='containerContent'>
                 <FormComponent btn={{sub: componentTitle, back: '返回'}} formList={formList}
                                formSubmit={props.formSubmit} selectData={selectData} selectDataName={'permName'}

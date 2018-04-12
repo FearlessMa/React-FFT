@@ -121,9 +121,6 @@ const RoleDetailContent = props => {
     ];
     return (
         <React.Fragment>
-            <div className="containerHeader">
-                角色详情
-            </div>
             <div className="containerContent">
                 <FormComponent formList={formList} layout={'horizontal'} loading={props.loading}
                                formItemLayout={formItemLayout} moreItemInRow={true} treeData={treeData}

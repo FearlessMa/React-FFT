@@ -137,9 +137,6 @@ const RoleCreateContent = props => {
 
     return (
         <React.Fragment>
-            <div className="containerHeader">
-                {componentTitle}角色
-            </div>
             <div className="containerContent">
                 <FormComponent formList={formList} formSubmit={props.onSubmit} btn={{back: '返回', sub: componentTitle}}
                                layout={'horizontal'} loading={props.loading} formItemLayout={formItemLayout}

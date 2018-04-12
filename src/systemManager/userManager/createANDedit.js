@@ -245,9 +245,6 @@ const UserCreateContent = props => {
 
     return (
         <React.Fragment>
-            <div className="containerHeader">
-                {componentTitle}用户
-            </div>
             <div className="containerContent">
                 <FormComponent formList={formList}
                                formItemLayout={formItemLayout}

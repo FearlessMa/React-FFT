@@ -182,9 +182,6 @@ const OraganDetailContent = (props) => {
     ];
     return (
         <React.Fragment>
-            <div className="containerHeader">
-                机构管理
-            </div>
             <div className="containerContent">
                 <FormComponent
                     formList={formList}

@@ -288,9 +288,6 @@ const PowerConfigContent = props => {
     const operations = <Button onClick={props.toBack}>返回</Button>;
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                权限配置
-            </div>
             <div className='containerContent'>
                 <Tabs defaultActiveKey="1" tabBarExtraContent={operations}>
                     <Tabs.TabPane tab="Path配置" key="1">

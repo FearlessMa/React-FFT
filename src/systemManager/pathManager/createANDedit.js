@@ -118,9 +118,6 @@ const CreatePathContent = (props) => {
 
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                {title}Path
-            </div>
             <div className='containerContent'>
                 <FormComponent btn={{sub: title, back: '返回'}} formList={formList} formSubmit={props.formSubmit}
                                layout={'horizontal'} formItemLayout={formItemLayout} formSubBtnLayout={formSubBtnLayout}

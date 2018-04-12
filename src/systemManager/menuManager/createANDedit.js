@@ -153,11 +153,11 @@ const MenuCreateContent = (props) => {
 
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                {title}菜单
-            </div>
+            {/*<div className='containerHeader'>*/}
+            {/*{title}菜单*/}
+            {/*</div>*/}
             <div className='containerContent'>
-                <FormComponent btn={{sub: title, back: '返回'}} formList={formList} formSubmit={props.formSubmit}
+                <FormComponent btn={{sub: '提交', back: '返回'}} formList={formList} formSubmit={props.formSubmit}
                                layout={'horizontal'} formItemLayout={formItemLayout} formSubBtnLayout={formSubBtnLayout}
                 />
             </div>

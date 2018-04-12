@@ -4,24 +4,38 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {Row, Col, Button} from 'antd';
-import {FormComponent, TableComponent, tranTreeData} from '../../common';
+import {FormComponent, TableComponent, tranTreeData, BreadcrumbComponent} from '../../common';
 import {connect} from 'react-redux';
-import { requestPowerDelete, requestPowerList} from "../redux/actions";
+import {requestPowerDelete, requestPowerList} from "../redux/actions";
 import {Modal} from "antd/lib/index";
 import {PowerCreateContainer} from "./createANDedit";
 import {PowerDetailContainer} from "./detail";
 import {PowerConfigContainer} from "./config";
 
-export const PowerManagerLayout = () => {
+
+const breadcrumbNameMap = {
+    '/systemManager': '系统管理',
+    '/systemManager/powerManager': '权限管理',
+    '/systemManager/powerManager/create': '创建权限',
+    '/systemManager/powerManager/detail': '权限详情',
+    '/systemManager/powerManager/edit': '编辑权限',
+    '/systemManager/powerManager/config': '权限配置',
+};
+
+export const PowerManagerLayout = props => {
     return (
-        <Switch>
-            <Route exact path={'/systemManager/powerManager'} component={PowerManagerContainer}/>
-            <Route path={'/systemManager/powerManager/create'} component={PowerCreateContainer}/>
-            <Route path={'/systemManager/powerManager/detail/:permId'} component={PowerDetailContainer}/>
-            <Route path={'/systemManager/powerManager/edit/:permId'} component={PowerCreateContainer}/>
-            <Route path={'/systemManager/powerManager/config/:permId'} component={PowerConfigContainer}/>
-            <Redirect to={'/systemManager/powerManager'}/>
-        </Switch>
+        <React.Fragment>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <Switch>
+                <Route exact path={'/systemManager/powerManager'} component={PowerManagerContainer}/>
+                <Route path={'/systemManager/powerManager/create'} component={PowerCreateContainer}/>
+                <Route path={'/systemManager/powerManager/detail/:permId'} component={PowerDetailContainer}/>
+                <Route path={'/systemManager/powerManager/edit/:permId'} component={PowerCreateContainer}/>
+                <Route path={'/systemManager/powerManager/config/:permId'} component={PowerConfigContainer}/>
+                <Redirect to={'/systemManager/powerManager'}/>
+            </Switch>
+        </React.Fragment>
+
     )
 };
 
@@ -114,7 +128,7 @@ class PowerManagerContainer extends React.Component {
                     return (
                         <div>
                             <Button style={{marginRight: 5}}
-                            onClick={()=>this.props.history.push(`/systemManager/powerManager/edit/${record.permId}`)}>编辑</Button>
+                                    onClick={() => this.props.history.push(`/systemManager/powerManager/edit/${record.permId}`)}>编辑</Button>
                             <Button onClick={this.deletePower.bind(this, record)} style={{marginRight: 5}}
                                     type={'danger'}>删除</Button>
                             <Button onClick={this.toConfig.bind(this, record.permId)}>配置</Button>
@@ -162,7 +176,6 @@ const PowerManagerContent = (props) => {
     return (
         <React.Fragment>
             <div className='containerHeader'>
-                权限管理
                 <Row>
                     <Col offset={3}>
                         <FormComponent formList={searchComponentData}

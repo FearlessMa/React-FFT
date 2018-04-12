@@ -4,22 +4,33 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {Row, Col} from 'antd';
-import {FormComponent, TableComponent} from '../../common';
+import {FormComponent, TableComponent, BreadcrumbComponent} from '../../common';
 import {connect} from 'react-redux';
 import {requestRoleList} from "../redux/actions";
 import {RoleCreateContainer} from "./createANDedit";
 import {RoleDetailContainer} from "./detail";
 
+const breadcrumbName = 'role';
+const breadcrumbNameMap = {
+    '/systemManager': '系统管理',
+    [`/systemManager/${breadcrumbName}Manager`]: '角色管理',
+    [`/systemManager/${breadcrumbName}Manager/create`]: '创建角色',
+    [`/systemManager/${breadcrumbName}Manager/detail`]: '角色详情',
+    [`/systemManager/${breadcrumbName}Manager/edit`]: '编辑角色',
+};
 
-export const RoleManagerLayout = () => {
+export const RoleManagerLayout = props => {
     return (
-        <Switch>
-            <Route path={'/systemManager/roleManager/create'} component={RoleCreateContainer}/>
-            <Route path={'/systemManager/roleManager/edit/:roleId'} component={RoleCreateContainer}/>
-            <Route path={'/systemManager/roleManager/detail/:roleId'} component={RoleDetailContainer}/>
-            <Route exact path={'/systemManager/roleManager'} component={RoleManagerContainer}/>
-            <Redirect to={'/systemManager/roleManager'} />
-        </Switch>
+        <React.Fragment>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <Switch>
+                <Route path={'/systemManager/roleManager/create'} component={RoleCreateContainer}/>
+                <Route path={'/systemManager/roleManager/edit/:roleId'} component={RoleCreateContainer}/>
+                <Route path={'/systemManager/roleManager/detail/:roleId'} component={RoleDetailContainer}/>
+                <Route exact path={'/systemManager/roleManager'} component={RoleManagerContainer}/>
+                <Redirect to={'/systemManager/roleManager'}/>
+            </Switch>
+        </React.Fragment>
     )
 };
 
@@ -102,7 +113,6 @@ const RoleManagerContent = (props) => {
     return (
         <React.Fragment>
             <div className="containerHeader">
-                角色管理
                 <Row>
                     <Col offset={4}>
                         <FormComponent formList={searchComponentData} formSubmit={props.onSubmit}

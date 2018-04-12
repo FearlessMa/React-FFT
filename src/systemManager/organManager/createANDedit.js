@@ -178,13 +178,10 @@ const OrganLayout = (props) => {
     }
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                {title}机构
-            </div>
             <div className='containerContent'>
                 <FormComponent formList={formList}
                                {...props}
-                               btn={{back: '返回', sub: title}}
+                               btn={{back: '返回', sub: '提交'}}
                 />
             </div>
         </React.Fragment>

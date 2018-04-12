@@ -2,14 +2,22 @@
  * Created by MHC on 2018/3/27.
  */
 import React from 'react';
-import {Switch, Route,Redirect} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {Row, Col} from 'antd';
-import {FormComponent, TableComponent} from '../../common';
+import {FormComponent, TableComponent, BreadcrumbComponent} from '../../common';
 import {connect} from 'react-redux';
 import {requestUserList} from "../redux/actions";
 import {UserCreateContainer} from "./createANDedit";
 import {UserDetailContainer} from "./detail";
 
+const breadcrumbName = 'user';
+const breadcrumbNameMap = {
+    '/systemManager': '系统管理',
+    [`/systemManager/${breadcrumbName}Manager`]: '用户管理',
+    [`/systemManager/${breadcrumbName}Manager/create`]: '创建用户',
+    [`/systemManager/${breadcrumbName}Manager/detail`]: '用户详情',
+    [`/systemManager/${breadcrumbName}Manager/edit`]: '编辑用户',
+};
 
 export const UserManagerLayout = () => {
     return (
@@ -126,7 +134,6 @@ const UserManagerContent = props => {
     return (
         <React.Fragment>
             <div className="containerHeader">
-                用户管理
                 <Row>
                     <Col offset={3}>
                         <FormComponent formList={searchComponentData}

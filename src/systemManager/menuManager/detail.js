@@ -149,9 +149,9 @@ const MenuDetailContent = (props) => {
     ];
     return (
         <React.Fragment>
-            <div className='containerHeader'>
-                菜单详情
-            </div>
+            {/*<div className='containerHeader'>*/}
+                {/*菜单详情*/}
+            {/*</div>*/}
             <div className='containerContent'>
                 <FormComponent formList={formList} layout={'horizontal'} formItemLayout={formItemLayout}
                                moreItemInRow={true} laoding={props.loading}

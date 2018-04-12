@@ -9,20 +9,34 @@ import './index.less';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import OrganCreateContainer from './createANDedit';
 import {OrganDetailContainer} from './detail';
-import {TableComponent} from '../../common/tableComponent';
-import {FormComponent} from '../../common/formComponent';
+import {TableComponent, FormComponent,BreadcrumbComponent} from 'common';
 import {ViewMembers} from "./viewMembers";
 
-export const OrganLayout = () => {
+
+const breadcrumbNameMap = {
+    '/systemManager': '系统管理',
+    '/systemManager/organManager': '机构管理',
+    '/systemManager/organManager/create': '创建机构',
+    '/systemManager/organManager/detail': '机构详情',
+    '/systemManager/organManager/edit': '编辑机构',
+    '/systemManager/organManager/viewMembers': '编辑人员',
+};
+
+
+
+export const OrganLayout = props => {
     return (
-        <Switch>
-            <Route path={`/systemManager/organManager/create`} component={OrganCreateContainer}/>
-            <Route path={`/systemManager/organManager/edit/:orgId`} component={OrganCreateContainer}/>
-            <Route path={`/systemManager/organManager/detail/:orgId`} component={OrganDetailContainer}/>
-            <Route path={`/systemManager/organManager/viewMembers/:orgId/:name`} component={ViewMembers}/>
-            <Route exact path={`/systemManager/organManager/`} component={OrganContainer}/>
-            <Redirect to={`/systemManager/organManager/`}/>
-        </Switch>
+        <div>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <Switch>
+                <Route path={`/systemManager/organManager/create`} component={OrganCreateContainer}/>
+                <Route path={`/systemManager/organManager/edit/:orgId`} component={OrganCreateContainer}/>
+                <Route path={`/systemManager/organManager/detail/:orgId`} component={OrganDetailContainer}/>
+                <Route path={`/systemManager/organManager/viewMembers/:orgId/:name`} component={ViewMembers}/>
+                <Route exact path={`/systemManager/organManager`} component={OrganContainer}/>
+                <Redirect to={`/systemManager/organManager`}/>
+            </Switch>
+        </div>
     )
 };
 

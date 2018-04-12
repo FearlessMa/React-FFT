@@ -255,3 +255,25 @@ const formList = [
                 formSubBtnLayout={formSubBtnLayout}
                 />
 ```
+
+### 2.3 面包屑导航 BreadcrumbComponent
+
+* 引入 import {BreadcrumbComponent} from 'common';
+
+#### 2.3.1 参数配置
+
+```
+//breadcrumbNameMap是path与显示名称的Map
+
+const breadcrumbNameMap = {
+    '/systemManager': '系统管理',
+    '/systemManager/menuManager': '菜单管理',
+    '/systemManager/menuManager/create': '创建菜单',
+    '/systemManager/pathManager': 'Path管理',
+};
+
+//BreadcrumbComponent组件 需要接收路由location属性获取pathname属性来匹配breadcrumbNameMap的key值
+
+< BreadcrumbComponent  location={props.location} breadcrumbNameMap={breadcrumbNameMap}/>
+
+```
