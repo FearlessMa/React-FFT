@@ -1,3 +1,5 @@
 {
-  "@icon-url":"../fonts/iconfont/iconfont"
+  "@primary-color": "#001529",
+  "@font-size-base": "12px",
+  "@icon-url":"'../fonts/iconfont/iconfont'"
 }

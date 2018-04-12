@@ -1,7 +1,7 @@
 # 说明
 
 ## 知识点需求
-antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,generator函数，mockJS。
+antd的前端UI框架，react-router4，redux，redux-saga，Axios,generator函数，mockJS。
 * dist目录下为打包后文件，目前预览使用
 * 支持React Developer Tools和Redux DevTools调试工具，需要自己在浏览器中安装相应的插件即可使用。
 ## 生产版本打包
@@ -15,7 +15,7 @@ antd的前端UI框架，react-router4，redux状态管理，redux-saga，Axios,g
 //方法1
 //根目录创建theme/index.json添加以下内容：(修改主题配置在这里添加其他配置即可)
 {
-  "@icon-url":"../fonts/iconfont/iconfont"
+  "@icon-url":"'../fonts/iconfont/iconfont'"
 }
 //根目录添加fonts/iconfont/antd字体文件。
 
@@ -32,7 +32,12 @@ const theme = require('../theme');
     test: /\.(less)$/,
     use:[
         {loader:'style-loader'},
-        {loader:'css-loader'},
+        {
+            loader:'css-loader',
+            options: {
+                url:false
+            }
+        },
         {
             loader:'less-loader',
             options: {

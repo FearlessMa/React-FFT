@@ -65,12 +65,17 @@ module.exports = {
                 test: /\.(less)$/,
                 use:[
                     {loader:'style-loader'},
-                    {loader:'css-loader'},
+                    {
+                        loader:'css-loader',
+                        options: {
+                            url:false
+                        }
+                    },
                     {
                         loader:'less-loader',
                         options: {
-                            javascriptEnabled: true,
                             modifyVars: theme,
+                            javascriptEnabled: true,
                         }
                     },
                 ]
