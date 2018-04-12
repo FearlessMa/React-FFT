@@ -102,6 +102,7 @@ const UserDetailContent = props => {
     let rolesData = [];
     try {
         initData = props.userDetail.data.user;
+        initData.status = initData.status === "NORMAL"?'正常':initData.status === "CANCEL"?'作废':'锁定';
         let roleList = props.userDetail.data.roleList;
         if (roleList) {
             roleList.map(item => rolesData.push(item.roleName));

@@ -110,7 +110,9 @@ const formItemLayout = {
 const OraganDetailContent = (props) => {
     let data = [];
     try {
-        data = props.detail.detailData.data.org || [];
+        data = props.detail.detailData.data.org;
+        data.status = data.status === "NORMAL" ? '正常' : data.status === "CANCEL" ? '作废' : '锁定';
+
     } catch (e) {
 
     }

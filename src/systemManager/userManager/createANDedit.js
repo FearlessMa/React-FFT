@@ -114,7 +114,7 @@ const UserCreateContent = props => {
     let checkboxData = [];
     let initialValueData = {};
     let checkboxInitValue = [];
-    let componentTitle = props.componentTitle === 'create' ? '创建' : '编辑';
+    let componentTitle = props.componentTitle === 'create' ? '创建' : '修改';
     try {
         selectData = tranTreeData(props.organCreate.orgAllList.data.orgList, 'orgId', 'parentOrgId', 'shortName');
         checkboxData = tranCheckboxData(props.roleListIndex.data.roleList, 'roleName', 'roleId');

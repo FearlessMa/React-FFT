@@ -97,6 +97,21 @@ class UserManagerContainer extends React.Component {
             {
                 title: '状态',
                 dataIndex: 'status',
+                render: (text) => {
+                    let show = text;
+                    if (text === "NORMAL") {
+                        show = "正常";
+                    } else if (text === "CANCEL") {
+                        show = "作废";
+                    } else if (text === "LOCKED") {
+                        show = "锁定";
+                    } else {
+                        show = text;
+                    }
+                    return (
+                        <span>{show}</span>
+                    )
+                }
             },
         ];
 
