@@ -15,6 +15,10 @@ module.exports = merge(common, {
         overlay: true,
         open: false,
         port: 8090,
+        // proxy:[{
+        //     context:["/login",'/resMenu','/org','/resPath','/perm','/role','/user'],
+        //     target: "http://www.baidu.com",
+        // }]
         // inline: true
         // contentBase: path.resolve(__dirname,'../assets'),
         // publicPath: "http://localhost:8090"

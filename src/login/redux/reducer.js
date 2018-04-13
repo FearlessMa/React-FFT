@@ -1,4 +1,4 @@
-import {LOGIN, LOGIN_ERR, IS_AUTHEN, CLEAR_ERR_MSG, LOADING, CLEAR_LOADING} from "./actionTypes";
+import {LOGIN, LOGIN_ERR, IS_AUTHEN, CLEAR_ERR_MSG, LOADING, CLEAR_LOADING, REQUEST_ERR} from "./actionTypes";
 import {LOGOUT} from "../../home/index";
 import {STOREMENULIST} from './../../routers';
 
@@ -14,6 +14,14 @@ const loginReducer = (state = storeInitValues, action) => {
                 isLogin: !state.isLogin,
                 loading: false,
                 userData: {
+                    ...action
+                }
+            });
+        //请求错误
+        case REQUEST_ERR :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                requestErr: {
                     ...action
                 }
             });

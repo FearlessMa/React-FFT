@@ -12,10 +12,9 @@ import {createLogger} from 'redux-logger';
 import './index.less';
 import AppRouter from './routers';
 import reducer from './redux/reducers';
-import '../mock';
+// import '../mock';
 import {sagas, sagasRun} from './redux/sagas';
 // import  Test from './test'
-
 const logger = createLogger();
 //异步saga
 //TODO 打生产包需要去掉logger和mock

@@ -9,6 +9,7 @@ import {logoutAction} from "../../home";
 import {call, put} from "redux-saga/effects";
 import {LOADING} from "../../systemManager/redux/actionTypes";
 import {message, Modal, notification} from "antd";
+import {REQUEST_ERR} from "../../login/redux/actionTypes";
 
 
 //封装成功返回数据后的校验
@@ -165,6 +166,7 @@ export function* requestData(config , succCallback, dispatchCallback) {
         window.hasLoading = false;
     } catch (err) {
         hideLoading();
+        yield put({type:REQUEST_ERR});
         window.hasLoading = false;
         alertModal('未知的错误', `${err}`, 'error', '确认', null);
     }
