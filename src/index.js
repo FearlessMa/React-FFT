@@ -12,7 +12,7 @@ import {createLogger} from 'redux-logger';
 import './index.less';
 import AppRouter from './routers';
 import reducer from './redux/reducers';
-// import '../mock';
+import '../mock';
 import {sagas, sagasRun} from './redux/sagas';
 // import  Test from './test'
 const logger = createLogger();

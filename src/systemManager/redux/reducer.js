@@ -3,14 +3,56 @@
  */
 
 import {
-    ORG_LIST, LOADING, REQUESTERR,  MENU_LIST, MENU_DELETE, MENU_DETAIL,
-    MENU_REMOVE_PERM, MENU_CREATE, POWER_LIST, POWER_DELETE, POWER_CREATE, POWER_DETAIL, ROLE_LIST, ROLE_CREATE,
-    ROLE_DETAIL, ROLE_DELETE, POWER_CONFIG, POWER_CONFIG_ADD_PATH, POWER_CONFIG_UNBIND, POWER_CONFIG_UNBOUND_PATH_LIST,
-    POWER_CONFIG_MENU_LIST, USER_LIST, USER_CREATE, USER_DETAIL, USER_DELETE, USER_CHANGE_STATUS,
-    ALL_ORG_LIST, ORG_CREATE, ORG_DETAIL, ORG_DELETE, ORG_MEMBERS, ORG_REMOVE_MEMBERS, PATH_LIST, PATH_CREATE,
-    PATH_DETAIL, PATH_REMOVE_PERM, PATH_DELETE, PATH_CLEAR_DELETE_DATA, ORG_EDIT, PATH_EDIT, MENU_EDIT,
-    POWER_CLEAR_DELETE_DATA, POWER_PATH_MODAL_VISIBLE, POWER_MENU_MODAL_VISIBLE, POWER_CREATE_COMPONENT_TITLE,
-    POWER_EDIT, ROLE_COMPONENT_TITLE
+    ORG_LIST,
+    LOADING,
+    MENU_LIST,
+    MENU_DELETE,
+    MENU_DETAIL,
+    MENU_REMOVE_PERM,
+    MENU_CREATE,
+    POWER_LIST,
+    POWER_DELETE,
+    POWER_CREATE,
+    POWER_DETAIL,
+    ROLE_LIST,
+    ROLE_CREATE,
+    ROLE_DETAIL,
+    ROLE_DELETE,
+    POWER_CONFIG,
+    POWER_CONFIG_ADD_PATH,
+    POWER_CONFIG_UNBIND,
+    POWER_CONFIG_UNBOUND_PATH_LIST,
+    POWER_CONFIG_MENU_LIST,
+    USER_LIST,
+    USER_CREATE,
+    USER_DETAIL,
+    USER_DELETE,
+    USER_CHANGE_STATUS,
+    ALL_ORG_LIST,
+    ORG_CREATE,
+    ORG_DETAIL,
+    ORG_DELETE,
+    ORG_MEMBERS,
+    ORG_REMOVE_MEMBERS,
+    PATH_LIST,
+    PATH_CREATE,
+    PATH_DETAIL,
+    PATH_REMOVE_PERM,
+    PATH_DELETE,
+    PATH_CLEAR_DELETE_DATA,
+    ORG_EDIT,
+    PATH_EDIT,
+    MENU_EDIT,
+    POWER_CLEAR_DELETE_DATA,
+    POWER_PATH_MODAL_VISIBLE,
+    POWER_MENU_MODAL_VISIBLE,
+    POWER_CREATE_COMPONENT_TITLE,
+    POWER_EDIT,
+    ROLE_COMPONENT_TITLE,
+    REQUEST_ERR,
+    ORG_CHANGE_STATUS,
+    ORG_DETAIL_MODAL_VISIBLE,
+    USER_DETAIL_MODAL_VISIBLE, USER_CHANGE_PWD_MODAL_VISIBLE, USER_CHANGE_PWD
 } from "./actionTypes";
 
 /**------------------orgManagerReducer-------------------------**/
@@ -24,12 +66,7 @@ const initValue = {
     create: {
         orgList: []
     },
-    detail: {
-        detailData: {
-            data: {org: {}}
-        }
-
-    }
+    orgModalVisible:false
 };
 export const organManager = (state = initValue, action) => {
 
@@ -55,23 +92,14 @@ export const organManager = (state = initValue, action) => {
                     orgAllList: action
                 }
             });
-        // //请求错误
-        // case REQUEST_ERR :
-        //     return Object.assign({}, {...state}, {
-        //         loading: false,
-        //         requestErr: {
-        //             ...action
-        //         }
-        //     });
-        // //请求错误
-        // case ERROR :
-        //     return Object.assign({}, {...state}, {
-        //         loading: false,
-        //         error: {
-        //             ...action
-        //         }
-        //     });
-
+        //请求错误
+        case REQUEST_ERR :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                requestErr: {
+                    ...action
+                }
+            });
         //创建机构
         case ORG_CREATE :
             return Object.assign({}, {...state}, {
@@ -100,7 +128,7 @@ export const organManager = (state = initValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 detail: {
-                    detailData: state.detail.detailData,
+                    ...state.detail,
                     orgDelete: action
                 }
             });
@@ -109,8 +137,7 @@ export const organManager = (state = initValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 detail: {
-                    detailData: state.detail.detailData,
-                    orgDelete: state.detail.orgDelete,
+                    ...state.detail,
                     orgMembers: action
                 }
             });
@@ -119,11 +146,24 @@ export const organManager = (state = initValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 detail: {
-                    detailData: state.detail.detailData,
-                    orgDelete: state.detail.orgDelete,
-                    orgMembers: state.detail.orgMembers,
-                    orgRemoveMembers: action
+                    ...state.detail,
+                    orgRemoveMembers: action,
+
                 }
+            });
+            //移除机构下人员
+        case ORG_CHANGE_STATUS :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                detail: {
+                    ...state.detail,
+                    orgChangeStatus:action
+                }
+            });
+        case ORG_DETAIL_MODAL_VISIBLE :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                orgModalVisible:action.visible
             });
         default :
             return state
@@ -147,6 +187,14 @@ export const pathManager = (state = pathManagerInitValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: false,
                 index: {
+                    ...action
+                }
+            });
+        //请求错误
+        case REQUEST_ERR :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                requestErr: {
                     ...action
                 }
             });
@@ -217,6 +265,14 @@ export const menuManager = (state = menuManagerInitValue, action) => {
             return Object.assign({}, {...state}, {
                 loading: true,
             });
+        //请求错误
+        case REQUEST_ERR :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                requestErr: {
+                    ...action
+                }
+            });
         //index页面menuList数据
         case MENU_LIST :
             return Object.assign({}, {...state}, {
@@ -275,6 +331,14 @@ export const powerManager = (state = powerManagerInitValue, action) => {
         case LOADING :
             return Object.assign({}, {...state}, {
                 loading: true,
+            });
+        //请求错误
+        case REQUEST_ERR :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                requestErr: {
+                    ...action
+                }
             });
         //powerList
         case POWER_LIST :
@@ -358,14 +422,16 @@ export const powerManager = (state = powerManagerInitValue, action) => {
         case POWER_PATH_MODAL_VISIBLE :
             return Object.assign({}, {...state}, {
                 // pathModalVisible: false,
-                ...action
+                // ...action
+                pathModalVisible:action.pathModalVisible
             });
         //pathModalVisible
         case POWER_MENU_MODAL_VISIBLE :
             return Object.assign({}, {...state}, {
-                // menuModalVisible: false,
-                ...action
+                menuModalVisible: action.menuModalVisible,
+                // ...action
             });
+
 
         default :
             return state
@@ -379,8 +445,16 @@ const roleManagerInitValue = {
 
 export const roleManager = (state = roleManagerInitValue, action) => {
     switch (action.type) {
-        /**请求错误**/
-        case REQUESTERR :
+        // /**请求错误**/
+        // case REQUESTERR :
+        //     return Object.assign({}, {...state}, {
+        //         loading: false,
+        //         requestErr: {
+        //             ...action
+        //         }
+        //     });
+        //请求错误
+        case REQUEST_ERR :
             return Object.assign({}, {...state}, {
                 loading: false,
                 requestErr: {
@@ -434,8 +508,8 @@ const userManagerInitValue = {
 export const userManager = (state = userManagerInitValue, action) => {
     switch (action.type) {
 
-        /**请求错误**/
-        case REQUESTERR :
+        //请求错误
+        case REQUEST_ERR :
             return Object.assign({}, {...state}, {
                 loading: false,
                 requestErr: {
@@ -477,6 +551,25 @@ export const userManager = (state = userManagerInitValue, action) => {
                 loading: false,
                 changeStatus: action
             });
+
+        // changeStatus modalVisible
+        case USER_DETAIL_MODAL_VISIBLE :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                userModalVisible: action.userModalVisible
+            });
+        //changePasswordModal
+        case USER_CHANGE_PWD_MODAL_VISIBLE :
+            return Object.assign({}, {...state}, {
+                changePwdModalVisible: action.changePwdModalVisible,
+            });
+        //changePassword
+        case USER_CHANGE_PWD :
+            return Object.assign({}, {...state}, {
+                loading: false,
+                changePassword: action,
+            });
+
         default :
             return state
     }

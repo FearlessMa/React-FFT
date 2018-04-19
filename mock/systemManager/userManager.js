@@ -47,7 +47,7 @@ export const userManager = Mock.mock('/user/list', option => {
     return {
         code: 200,
         message: '成功',
-        data:{
+        data: {
             "pagination": {
                 "current": 1,
                 "pageSize": 10,
@@ -107,7 +107,7 @@ export const userCreate = Mock.mock('/user/create', option => {
     return {
         code: 200,
         message: '成功',
-        data:{
+        data: {
             "userId": "948478309976903680"
         }
     }
@@ -120,11 +120,11 @@ export const userCreate = Mock.mock('/user/create', option => {
  **/
 export const userDetail = Mock.mock('/user/detail', option => {
     const {userId} = JSON.parse(option.body);
-    if(userId){
+    if (userId) {
         return {
             code: 200,
             message: '成功',
-            data:{
+            data: {
                 "roleList": [
                     {
                         "createTime": 1515050599000,
@@ -173,7 +173,7 @@ export const userDetail = Mock.mock('/user/detail', option => {
  **/
 export const userDelete = Mock.mock('/user/delete', option => {
     const {userId} = JSON.parse(option.body);
-    if(userId){
+    if (userId) {
         return {
             code: 200,
             message: '成功',
@@ -191,7 +191,7 @@ export const userDelete = Mock.mock('/user/delete', option => {
  **/
 export const userChangeStatus = Mock.mock('/user/changeStatus', option => {
     const {userId, status} = JSON.parse(option.body);
-    if(userId && status){
+    if (userId && status) {
         return {
             code: 200,
             message: '成功',
@@ -203,3 +203,21 @@ export const userChangeStatus = Mock.mock('/user/changeStatus', option => {
     }
 });
 
+/**
+ * Path：/user/changePassword
+ * Method：POST
+ **/
+
+export const userChangePwd = Mock.mock('/user/changePassword', option => {
+    const {userId, password, newPassword} = JSON.parse(option.body);
+    if (userId && password && newPassword) {
+        return {
+            code: 200,
+            message: '成功',
+        }
+    }
+    return {
+        code: 400,
+        message: '失败',
+    }
+});

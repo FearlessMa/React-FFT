@@ -288,7 +288,8 @@ export const orgViewMembers = Mock.mock('/org/listUsersInOrg', (option) => {
 });
 
 
-/** 踢出机构用户
+/**
+ * 踢出机构用户
  * Path：/org/removeUserFromOrg
  * Method：POST
  * **/
@@ -309,4 +310,23 @@ export const orgRemoveMembers = Mock.mock('/org/removeUserFromOrg', (option) => 
 });
 
 
+/**
+ * 修改用户状态
+ * Path：/org/changeStatus
+ * Method：POST
+ * **/
+export const orgChangeStatus = Mock.mock('/org/changeStatus', (option) => {
+    const {orgId, status} = JSON.parse(option.body);
+    if (orgId && status) {
+        return {
+            code: 200,
+            message: '成功',
+        }
+    } else {
+        return {
+            code: 400,
+            message: '失败',
+        }
+    }
 
+});

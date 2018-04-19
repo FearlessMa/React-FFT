@@ -4,19 +4,25 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormComponent} from '../../common/formComponent';
-import {requestOrgDetail, requestOrgDelete} from '../redux/actions';
+import {
+    requestOrgDetail,
+    requestOrgDelete,
+    requestOrgChangeStatus,
+    dispatchOrgDetailModalVisible
+} from '../redux/actions';
 import {Row, Col, Button, Modal} from 'antd';
-// import {Switch, Route, Redirect} from 'react-router-dom';
-// import {ViewMembers, ALS} from "./viewMembers";
 import {message} from "antd/lib/index";
 
 const mapStateToProps = (state) => ({
     detail: state.systemManager.organManager.detail,
-    loading: state.systemManager.organManager.loading
+    loading: state.systemManager.organManager.loading,
+    orgModalVisible: state.systemManager.organManager.orgModalVisible
 });
 const mapDispatchToProps = (dispatch) => ({
-    orgDetailSaga: (orgId) => dispatch(requestOrgDetail(orgId)),
-    orgDeleteSaga: (orgId) => dispatch(requestOrgDelete(orgId)),
+    orgDetailSaga: orgId => dispatch(requestOrgDetail(orgId)),
+    orgDeleteSaga: orgId => dispatch(requestOrgDelete(orgId)),
+    orgChangeStatusSaga: values => dispatch(requestOrgChangeStatus(values)),
+    toggleOrgModalVisible: values => dispatch(dispatchOrgDetailModalVisible(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -24,24 +30,13 @@ export class OrganDetailContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
         const orgId = this.props.match.params.orgId;
+        this.orgId = orgId;
         if (isNaN(orgId)) {
             message.error('数据错误', 1);
             this.props.history.push('/systemManager/organManager');
         }
         this.props.orgDetailSaga({orgId});
-        this.state = {
-            visible: false,
-        }
     }
-
-    // componentDidMount(){
-    //     const orgId = Number(this.props.match.params.orgId);
-    //     if(isNaN(orgId)){
-    //         alert('错误');
-    //     }
-    //     this.props.orgDetailSaga({orgId});
-    // }
-
 
     //删除机构
     orgDelete = (orgId, name) => {
@@ -63,13 +58,12 @@ export class OrganDetailContainer extends React.Component {
     }
     //Modal组件状态切换显示
     toggleModal = () => {
-        this.setState({
-            visible: !this.state.visible
-        })
+        this.props.toggleOrgModalVisible({visible: !this.props.orgModalVisible});
     }
     //切换状态 TODO
-    toggleStatus = (values) => {
-        console.log(values)
+    toggleStatus = value => {
+        this.props.orgChangeStatusSaga({orgId: this.orgId, status: value});
+        this.toggleModal()
     }
 
     //查看人员
@@ -85,7 +79,7 @@ export class OrganDetailContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <OraganDetailContent toggleModal={this.toggleModal} visible={this.state.visible}
+                <OraganDetailContent toggleModal={this.toggleModal}
                                      orgDelete={this.orgDelete} toggleStatus={this.toggleStatus}
                                      ViewMembers={this.ViewMembers} toEdit={this.toEdit}
                                      {...this.props}
@@ -107,12 +101,10 @@ const formItemLayout = {
     },
 };
 
-const OraganDetailContent = (props) => {
+const OraganDetailContent = props => {
     let data = [];
     try {
         data = props.detail.detailData.data.org;
-        data.status = data.status === "NORMAL" ? '正常' : data.status === "CANCEL" ? '作废' : '锁定';
-
     } catch (e) {
 
     }
@@ -176,7 +168,7 @@ const OraganDetailContent = (props) => {
         {
             label: '状态',
             id: 'updateTime',
-            initialValue: data.status,
+            initialValue: data.status === "NORMAL" ? '正常' : data.status === "CANCEL" ? '作废' : data.status === "LOCKED" ? '锁定' : '',
             type: 'text',
             tag: 'input',
             disabled: true
@@ -209,7 +201,7 @@ const OraganDetailContent = (props) => {
                 </Row>
                 <Modal
                     title="更改机构状态"
-                    visible={props.visible}
+                    visible={props.orgModalVisible}
                     onCancel={props.toggleModal}
                     footer={null}
                 >

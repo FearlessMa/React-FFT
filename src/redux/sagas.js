@@ -14,7 +14,7 @@ import {
     watchRequestPowerConfigUnboundPathList, watchRequestPowerConfigMenuList, watchRequestUserList,
     watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete, watchRequestUserChangeStatus,
     watchRequestOrgRemoveMembers, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
-    watchRequestPowerEdit,watchRequestRoleEdit
+    watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus,watchRequestUserChangePwd
 } from '../systemManager/redux/sagas';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgList, watchQueryAllOrgList,
@@ -27,7 +27,7 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestRoleList, watchRequestRoleCreate, watchRequestRoleDetail, watchRequestRoleDelete,
     watchRequestUserList, watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete,
     watchRequestUserChangeStatus, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
-    watchRequestPowerEdit,watchRequestRoleEdit]);
+    watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus,watchRequestUserChangePwd]);
 //
 // export {
 //     watchLoginAction,
@@ -45,6 +45,7 @@ export const sagasRun = () => {
     sagas.run(watchRequestOrgMembers);
     sagas.run(watchRequestOrgRemoveMembers);
     sagas.run(watchRequestOrgEdit);
+    sagas.run(watchRequestOrgChangeStatus);
 
     //path
     sagas.run(watchRequestPathManager);
@@ -83,6 +84,7 @@ export const sagasRun = () => {
     sagas.run(watchRequestUserDetail);
     sagas.run(watchRequestUserDelete);
     sagas.run(watchRequestUserChangeStatus);
+    sagas.run(watchRequestUserChangePwd);
 };
 
 

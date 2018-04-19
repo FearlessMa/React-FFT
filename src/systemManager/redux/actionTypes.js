@@ -17,6 +17,8 @@ export const ORG_DELETE = 'orgDelete';
 export const ORG_MEMBERS = 'orgMembers';
 export const ORG_REMOVE_MEMBERS = 'orgRemoveMembers';
 export const ORG_EDIT = 'orgEdit';
+export const ORG_CHANGE_STATUS = 'orgChangeStatus';
+export const ORG_DETAIL_MODAL_VISIBLE = 'orgDetailModalVisible';
 
 // sagas organManager
 export const REQUEST_ORG_LIST = 'requestOrgList';
@@ -27,6 +29,7 @@ export const REQUEST_ORG_DELETE = 'requestOrgDelete';
 export const REQUEST_ORG_MENBERS = 'requestOrgMembers';
 export const REQUEST_ORG_REMOVE_MENBERS = 'requestOrgRemoveMembers';
 export const REQUEST_ORG_EDIT = 'requestOrgEdit';
+export const REQUEST_ORG_CHANGE_STATUS = 'requestOrgChangeStatus';
 
 
 /**---------pathManager-----------**/
@@ -117,6 +120,10 @@ export const USER_CREATE = 'userCreate';
 export const USER_DETAIL = 'userDetail';
 export const USER_DELETE = 'userDelete';
 export const USER_CHANGE_STATUS = 'userChangeStatus';
+export const USER_DETAIL_MODAL_VISIBLE = 'userDetailModalVisible';
+export const USER_CHANGE_PWD_MODAL_VISIBLE = 'userChangePwdModalVisible';
+export const USER_CHANGE_PWD = 'userChangePwd';
+
 
 
 // sagas
@@ -125,6 +132,7 @@ export const REQUEST_USER_CREATE = 'requestUserCreate';
 export const REQUEST_USER_DETAIL = 'requestUserDetail';
 export const REQUEST_USER_DELETE = 'requestUserDelete';
 export const REQUEST_USER_CHANGE_STATUS = 'requestUserChangeStatus';
+export const REQUEST_USER_CHANGE_PWD = 'requestUserChangePwd';
 
 
 

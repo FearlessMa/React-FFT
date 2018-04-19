@@ -2,26 +2,101 @@
  * Created by MHC on 2018/3/13.
  */
 
-import { take, fork} from 'redux-saga/effects';
+import {take, fork} from 'redux-saga/effects';
 import {
-    ORG_LIST, REQUEST_MENU_LIST, MENU_LIST, REQUEST_MENU_DELETE, MENU_DELETE, REQUEST_MENU_DETAIL, MENU_DETAIL,
-    REQUEST_MENU_REMOVE_PERM, MENU_REMOVE_PERM, REQUEST_MENU_CREATE, MENU_CREATE, REQUEST_POWER_LIST, POWER_LIST,
-    REQUEST_POWER_DELETE, POWER_DELETE, REQUEST_POWER_CREATE, POWER_CREATE, REQUEST_POWER_DETAIL, POWER_DETAIL,
-    REQUEST_ROLE_LIST, ROLE_LIST, REQUEST_ROLE_CREATE, ROLE_CREATE, REQUEST_ROLE_DETAIL, ROLE_DETAIL,
-    REQUEST_ROLE_DELETE, ROLE_DELETE, REQUEST_POWER_CONFIG, POWER_CONFIG, REQUEST_POWER_CONFIG_ADD_PATH,
-    POWER_CONFIG_ADD_PATH, REQUEST_POWER_CONFIG_UNBIND, POWER_CONFIG_UNBIND, REQUEST_POWER_CONFIG_UNBOUND_PATH_LIST,
-    POWER_CONFIG_UNBOUND_PATH_LIST, REQUEST_POWER_CONFIG_MENU_LIST, POWER_CONFIG_MENU_LIST, REQUEST_USER_LIST,
-    USER_LIST, REQUEST_USER_CREATE, USER_CREATE, REQUEST_USER_DETAIL, USER_DETAIL, REQUEST_USER_DELETE, USER_DELETE,
-    REQUEST_USER_CHANGE_STATUS, USER_CHANGE_STATUS, REQUEST_ORG_LIST, REQUEST_ALL_ORG_LIST, ALL_ORG_LIST,
-    REQUEST_ORG_CREATE, ORG_CREATE, REQUEST_ORG_DETAIL, ORG_DETAIL, REQUEST_ORG_DELETE, ORG_DELETE, REQUEST_ORG_MENBERS,
-    ORG_MEMBERS, REQUEST_ORG_REMOVE_MENBERS, ORG_REMOVE_MEMBERS, REQUEST_PATH_LIST, PATH_LIST, REQUEST_PATH_CREATE,
-    PATH_CREATE, REQUEST_PATH_DETAIL, PATH_DETAIL, REQUEST_PATH_REMOVE_PERM, PATH_REMOVE_PERM, REQUEST_PATH_DELETE,
-    PATH_DELETE, REQUEST_ORG_EDIT, ORG_EDIT, REQUEST_PATH_EDIT, PATH_EDIT, REQUEST_MENU_EDIT, MENU_EDIT,
-    POWER_PATH_MODAL_VISIBLE, POWER_MENU_MODAL_VISIBLE, REQUEST_POWER_EDIT, POWER_EDIT, REQUEST_ROLE_EDIT, ROLE_EDIT
+    ORG_LIST,
+    REQUEST_MENU_LIST,
+    MENU_LIST,
+    REQUEST_MENU_DELETE,
+    MENU_DELETE,
+    REQUEST_MENU_DETAIL,
+    MENU_DETAIL,
+    REQUEST_MENU_REMOVE_PERM,
+    MENU_REMOVE_PERM,
+    REQUEST_MENU_CREATE,
+    MENU_CREATE,
+    REQUEST_POWER_LIST,
+    POWER_LIST,
+    REQUEST_POWER_DELETE,
+    POWER_DELETE,
+    REQUEST_POWER_CREATE,
+    POWER_CREATE,
+    REQUEST_POWER_DETAIL,
+    POWER_DETAIL,
+    REQUEST_ROLE_LIST,
+    ROLE_LIST,
+    REQUEST_ROLE_CREATE,
+    ROLE_CREATE,
+    REQUEST_ROLE_DETAIL,
+    ROLE_DETAIL,
+    REQUEST_ROLE_DELETE,
+    ROLE_DELETE,
+    REQUEST_POWER_CONFIG,
+    POWER_CONFIG,
+    REQUEST_POWER_CONFIG_ADD_PATH,
+    POWER_CONFIG_ADD_PATH,
+    REQUEST_POWER_CONFIG_UNBIND,
+    POWER_CONFIG_UNBIND,
+    REQUEST_POWER_CONFIG_UNBOUND_PATH_LIST,
+    POWER_CONFIG_UNBOUND_PATH_LIST,
+    REQUEST_POWER_CONFIG_MENU_LIST,
+    POWER_CONFIG_MENU_LIST,
+    REQUEST_USER_LIST,
+    USER_LIST,
+    REQUEST_USER_CREATE,
+    USER_CREATE,
+    REQUEST_USER_DETAIL,
+    USER_DETAIL,
+    REQUEST_USER_DELETE,
+    USER_DELETE,
+    REQUEST_USER_CHANGE_STATUS,
+    USER_CHANGE_STATUS,
+    REQUEST_ORG_LIST,
+    REQUEST_ALL_ORG_LIST,
+    ALL_ORG_LIST,
+    REQUEST_ORG_CREATE,
+    ORG_CREATE,
+    REQUEST_ORG_DETAIL,
+    ORG_DETAIL,
+    REQUEST_ORG_DELETE,
+    ORG_DELETE,
+    REQUEST_ORG_MENBERS,
+    ORG_MEMBERS,
+    REQUEST_ORG_REMOVE_MENBERS,
+    ORG_REMOVE_MEMBERS,
+    REQUEST_PATH_LIST,
+    PATH_LIST,
+    REQUEST_PATH_CREATE,
+    PATH_CREATE,
+    REQUEST_PATH_DETAIL,
+    PATH_DETAIL,
+    REQUEST_PATH_REMOVE_PERM,
+    PATH_REMOVE_PERM,
+    REQUEST_PATH_DELETE,
+    PATH_DELETE,
+    REQUEST_ORG_EDIT,
+    ORG_EDIT,
+    REQUEST_PATH_EDIT,
+    PATH_EDIT,
+    REQUEST_MENU_EDIT,
+    MENU_EDIT,
+    POWER_PATH_MODAL_VISIBLE,
+    POWER_MENU_MODAL_VISIBLE,
+    REQUEST_POWER_EDIT,
+    POWER_EDIT,
+    REQUEST_ROLE_EDIT,
+    ROLE_EDIT,
+    REQUEST_ORG_CHANGE_STATUS, ORG_CHANGE_STATUS, REQUEST_USER_CHANGE_PWD, USER_CHANGE_PWD
 } from "./actionTypes";
 import {store} from '../../index';
 import {requestData, alertModal, alertNotification} from "../../common/axios";
-import {requestPathManager, requestPowerConfig, requestPowerList, requestUserDetail} from "./actions";
+import {
+    dispatchOrgDetailModalVisible,
+    requestPathManager,
+    requestPowerConfig,
+    requestPowerList,
+    requestUserDetail, requestOrgDetail, userChangePwdModalVisible
+} from "./actions";
 
 // //通知提醒
 // function alertNotification(message = '成功', description = 'success', type = 'success') {
@@ -60,10 +135,10 @@ import {requestPathManager, requestPowerConfig, requestPowerList, requestUserDet
 
 
 const createSucc = data => {
-    alertNotification('创建成功',data)
+    alertNotification('创建成功', data)
 };
 const editSucc = data => {
-    alertNotification('修改成功',data)
+    alertNotification('修改成功', data)
 };
 const deleteSuccModal = (data) => {
     alertModal('删除成功', data)
@@ -151,7 +226,6 @@ export function* watchRequestOrgDetail() {
 }
 
 
-
 /**
  * Path：/org/delete
  * Method：POST
@@ -168,7 +242,6 @@ export function* watchRequestOrgDelete() {
         }, deleteSuccModal);
     }
 }
-
 
 
 /**
@@ -210,6 +283,28 @@ const removeMembersSucc = (data) => {
     alertModal('已经移出', data)
 };
 
+/**
+ * Path：/org/changeStatus
+ * Method：POST
+ **/
+
+export function* watchRequestOrgChangeStatus() {
+    while (true) {
+        const action = yield take(REQUEST_ORG_CHANGE_STATUS);
+        yield fork(requestData, {
+            action,
+            url: '/org/changeStatus',
+            type: ORG_CHANGE_STATUS,
+            loadingMsg: '正在修改状态...'
+        }, null, succCallback)
+    }
+}
+
+const succCallback = (data, action) => {
+    store.dispatch(dispatchOrgDetailModalVisible({visible: false}));
+    store.dispatch(requestOrgDetail({orgId: action.orgId}));
+};
+
 
 /*********---------------pathManager-----------------**********/
 
@@ -244,7 +339,7 @@ export function* watchRequestPathCreate() {
             action,
             url: '/resPath/create',
             type: PATH_CREATE,
-            loadingMsg:"Path数据提交中..."
+            loadingMsg: "Path数据提交中..."
         }, createSucc);
     }
 }
@@ -260,7 +355,7 @@ export function* watchRequestPathEdit() {
             action,
             url: '/resPath/edit',
             type: PATH_EDIT,
-            loadingMsg:"Path数据修改中..."
+            loadingMsg: "Path数据修改中..."
         }, editSucc);
     }
 }
@@ -275,8 +370,8 @@ export function* watchRequestPathDetail() {
         const action = yield take(REQUEST_PATH_DETAIL);
         yield fork(requestData, {
             action,
-            url:'/resPath/detail',
-            type:PATH_DETAIL
+            url: '/resPath/detail',
+            type: PATH_DETAIL
         });
     }
 }
@@ -292,14 +387,15 @@ export function* watchRequestPathRemovePerm() {
         const action = yield take(REQUEST_PATH_REMOVE_PERM);
         yield fork(requestData, {
             action,
-            url:'/resPath/deletePermPath',
-            type:PATH_REMOVE_PERM,
-            loadingMsg:'正在解除权限...',
-        },removePermSucc);
+            url: '/resPath/deletePermPath',
+            type: PATH_REMOVE_PERM,
+            loadingMsg: '正在解除权限...',
+        }, removePermSucc);
     }
 }
-const removePermSucc = data=>{
-    alertNotification('解除权限成功',data)
+
+const removePermSucc = data => {
+    alertNotification('解除权限成功', data)
 }
 
 
@@ -313,15 +409,16 @@ export function* watchRequestPathDelete() {
         const action = yield take(REQUEST_PATH_DELETE);
         yield fork(requestData, {
             action,
-            url:'/resPath/delete',
-            type:PATH_DELETE,
-            loadingMsg:'Path删除中...'
-        },deleteSuccNot,succDispatch);
+            url: '/resPath/delete',
+            type: PATH_DELETE,
+            loadingMsg: 'Path删除中...'
+        }, deleteSuccNot, succDispatch);
     }
 }
- const succDispatch = ()=>{
+
+const succDispatch = () => {
     store.dispatch(requestPathManager());
- };
+};
 
 /*********---------------menuManager-----------------**********/
 
@@ -335,10 +432,10 @@ export function* watchRequestMenuList() {
         const action = yield take(REQUEST_MENU_LIST);
         yield fork(requestData, {
             action,
-            url:'/resMenu/list',
-            type:MENU_LIST,
-            loadingMsg:'正在获取菜单列表...',
-            dispatchLoading:true
+            url: '/resMenu/list',
+            type: MENU_LIST,
+            loadingMsg: '正在获取菜单列表...',
+            dispatchLoading: true
         });
     }
 }
@@ -353,10 +450,10 @@ export function* watchRequestMenuDelete() {
         const action = yield take(REQUEST_MENU_DELETE);
         yield fork(requestData, {
             action,
-            url:'/resMenu/delete',
-            type:MENU_DELETE,
-            loadingMsg:'菜单删除中...'
-        },deleteSuccNot);
+            url: '/resMenu/delete',
+            type: MENU_DELETE,
+            loadingMsg: '菜单删除中...'
+        }, deleteSuccNot);
     }
 }
 
@@ -371,9 +468,9 @@ export function* watchRequestMenuDetail() {
         const action = yield take(REQUEST_MENU_DETAIL);
         yield fork(requestData, {
             action,
-            url:'/resMenu/detail',
-            type:MENU_DETAIL,
-            loadingMsg:'详情查询中...'
+            url: '/resMenu/detail',
+            type: MENU_DETAIL,
+            loadingMsg: '详情查询中...'
         });
     }
 }
@@ -389,10 +486,10 @@ export function* watchRequestMenuRemovePerm() {
         const action = yield take(REQUEST_MENU_REMOVE_PERM);
         yield fork(requestData, {
             action,
-            type:MENU_REMOVE_PERM,
-            url:'/resMenu/deletePermMenu',
-            loadingMsg:'解绑中...'
-        },deleteSuccNot);
+            type: MENU_REMOVE_PERM,
+            url: '/resMenu/deletePermMenu',
+            loadingMsg: '解绑中...'
+        }, deleteSuccNot);
     }
 }
 
@@ -407,13 +504,12 @@ export function* watchRequestMenuCreate() {
         const action = yield take(REQUEST_MENU_CREATE);
         yield fork(requestData, {
             action,
-            url:'/resMenu/create',
-            type:MENU_CREATE,
-            loadingMsg:'创建中...'
-        },createSucc);
+            url: '/resMenu/create',
+            type: MENU_CREATE,
+            loadingMsg: '创建中...'
+        }, createSucc);
     }
 }
-
 
 
 /**
@@ -426,14 +522,12 @@ export function* watchRequestMenuEdit() {
         const action = yield take(REQUEST_MENU_EDIT);
         yield fork(requestData, {
             action,
-            url:'/resMenu/edit',
-            type:MENU_EDIT,
-            loadingMsg:'修改中...'
-        },editSucc);
+            url: '/resMenu/edit',
+            type: MENU_EDIT,
+            loadingMsg: '修改中...'
+        }, editSucc);
     }
 }
-
-
 
 
 /*********---------------powerManager-----------------**********/
@@ -446,12 +540,12 @@ export function* watchRequestMenuEdit() {
 export function* watchRequestPowerList() {
     while (true) {
         const action = yield take(REQUEST_POWER_LIST);
-        yield fork(requestData,{
+        yield fork(requestData, {
             action,
-            url:'/perm/list',
-            loadingMsg:'数据加载中...',
-            type:POWER_LIST,
-            dispatchLoading:true
+            url: '/perm/list',
+            loadingMsg: '数据加载中...',
+            type: POWER_LIST,
+            dispatchLoading: true
         });
     }
 }
@@ -461,23 +555,24 @@ export function* watchRequestPowerList() {
  *  Path：/perm/delete
  *  Method：POST
  * **/
-const PowerDelete =data=>{
-    alertNotification(`删除成功`,data);
+const PowerDelete = data => {
+    alertNotification(`删除成功`, data);
     // const ss =store.getState();
     // console.log('ss----');
     // console.log(ss);
     store.dispatch(requestPowerList());
 
 };
+
 export function* watchRequestPowerDelete() {
     while (true) {
         const action = yield take(REQUEST_POWER_DELETE);
         yield fork(requestData, {
             action,
-            url:'/perm/delete',
-            type:POWER_DELETE,
-            loadingMsg:'正在删除...',
-        },PowerDelete);
+            url: '/perm/delete',
+            type: POWER_DELETE,
+            loadingMsg: '正在删除...',
+        }, PowerDelete);
     }
 }
 
@@ -491,10 +586,10 @@ export function* watchRequestPowerCreate() {
         const action = yield take(REQUEST_POWER_CREATE);
         yield fork(requestData, {
             action,
-            url:'/perm/create',
-            type:POWER_CREATE,
-            loadingMsg:'创建中...'
-        },createSucc);
+            url: '/perm/create',
+            type: POWER_CREATE,
+            loadingMsg: '创建中...'
+        }, createSucc);
     }
 }
 
@@ -507,8 +602,8 @@ export function* watchRequestPowerDetail() {
         const action = yield take(REQUEST_POWER_DETAIL);
         yield fork(requestData, {
             action,
-            url:'/perm/detail',
-            type:POWER_DETAIL,
+            url: '/perm/detail',
+            type: POWER_DETAIL,
         });
     }
 }
@@ -522,10 +617,10 @@ export function* watchRequestPowerEdit() {
         const action = yield take(REQUEST_POWER_EDIT);
         yield fork(requestData, {
             action,
-            url:'/perm/edit',
-            type:POWER_EDIT,
-            loadingMsg:'修改中...'
-        },editSucc);
+            url: '/perm/edit',
+            type: POWER_EDIT,
+            loadingMsg: '修改中...'
+        }, editSucc);
     }
 }
 
@@ -540,9 +635,9 @@ export function* watchRequestPowerConfig() {
         // yield fork(powerConfig, action);
         yield fork(requestData, {
             action,
-            url:'/perm/config',
-            type:POWER_CONFIG,
-            dispatchLoading:true
+            url: '/perm/config',
+            type: POWER_CONFIG,
+            dispatchLoading: true
         });
     }
 }
@@ -568,28 +663,29 @@ export function* watchRequestPowerConfig() {
  * Method：POST
  **/
 
-const PowerConfigUnbind = (data,action) => {
-    alertNotification(`${action.cancel?'解绑':'添加'}成功`,data);
+const PowerConfigUnbind = (data, action) => {
+    alertNotification(`${action.cancel ? '解绑' : '添加'}成功`, data);
     //解绑和添加成功后要刷新页面数据
-    store.dispatch(requestPowerConfig({permId:action.permId}));
+    store.dispatch(requestPowerConfig({permId: action.permId}));
     //如果添加成功要关闭modal弹窗
-    if(!action.cancel){
+    if (!action.cancel) {
         store.dispatch({
-            type:POWER_MENU_MODAL_VISIBLE,
-            menuModalVisible:false
+            type: POWER_MENU_MODAL_VISIBLE,
+            menuModalVisible: false
         });
     }
 }
+
 export function* watchRequestPowerConfigUnbind() {
     while (true) {
         const action = yield take(REQUEST_POWER_CONFIG_UNBIND);
         // yield fork(powerConfigUnbind, action);
         yield fork(requestData, {
-            action:action.values,
-            url:'/perm/opPermRelation',
-            type:POWER_CONFIG_UNBIND,
-            loadingMsg:action.values.cancel?'解绑中...':'添加中...'
-        },PowerConfigUnbind);
+            action: action.values,
+            url: '/perm/opPermRelation',
+            type: POWER_CONFIG_UNBIND,
+            loadingMsg: action.values.cancel ? '解绑中...' : '添加中...'
+        }, PowerConfigUnbind);
     }
 }
 
@@ -613,13 +709,13 @@ export function* watchRequestPowerConfigUnbind() {
  * Path：/perm/addPermPaths
  * Method：POST
  **/
-const createSuccCallback = (data,action) => {
-    alertNotification('添加成功',data);
+const createSuccCallback = (data, action) => {
+    alertNotification('添加成功', data);
     store.dispatch({
-        type:POWER_PATH_MODAL_VISIBLE,
-        pathModalVisible:false
+        type: POWER_PATH_MODAL_VISIBLE,
+        pathModalVisible: false
     });
-    store.dispatch(requestPowerConfig({permId:action.permId}));
+    store.dispatch(requestPowerConfig({permId: action.permId}));
 };
 
 export function* watchRequestPowerConfigAddPaths() {
@@ -627,13 +723,13 @@ export function* watchRequestPowerConfigAddPaths() {
         const action = yield take(REQUEST_POWER_CONFIG_ADD_PATH);
         // yield fork(powerConfigAddPermPaths, action);
         yield fork(requestData, {
-            action,
-            url:'/perm/addPermPaths',
-            type:POWER_CONFIG_ADD_PATH,
-            loadingMsg:'添加中...',
-            dispatchLoading:true
-        },
-        createSuccCallback
+                action,
+                url: '/perm/addPermPaths',
+                type: POWER_CONFIG_ADD_PATH,
+                loadingMsg: '添加中...',
+                dispatchLoading: true
+            },
+            createSuccCallback
         );
     }
 }
@@ -648,9 +744,9 @@ export function* watchRequestPowerConfigUnboundPathList() {
         // yield fork(powerConfigUnboundPowerList, action);
         yield fork(requestData, {
             action,
-            url:'/perm/showPathsToAddPerm',
-            type:POWER_CONFIG_UNBOUND_PATH_LIST,
-            dispatchLoading:true
+            url: '/perm/showPathsToAddPerm',
+            type: POWER_CONFIG_UNBOUND_PATH_LIST,
+            dispatchLoading: true
         });
     }
 }
@@ -680,9 +776,9 @@ export function* watchRequestPowerConfigMenuList() {
         // yield fork(powerConfigMenuList, action);
         yield fork(requestData, {
             action,
-            url:'/perm/showMenusToAddPerm',
-            type:POWER_CONFIG_MENU_LIST,
-            dispatchLoading:true
+            url: '/perm/showMenusToAddPerm',
+            type: POWER_CONFIG_MENU_LIST,
+            dispatchLoading: true
         });
     }
 }
@@ -715,9 +811,9 @@ export function* watchRequestRoleList() {
         const action = yield take(REQUEST_ROLE_LIST);
         yield fork(requestData, {
             action,
-            url:'/role/list',
-            type:ROLE_LIST,
-            dispatchLoading:true,
+            url: '/role/list',
+            type: ROLE_LIST,
+            dispatchLoading: true,
         });
     }
 }
@@ -747,10 +843,10 @@ export function* watchRequestRoleCreate() {
         const action = yield take(REQUEST_ROLE_CREATE);
         yield fork(requestData, {
             action,
-            url:'/role/create',
-            type:ROLE_CREATE,
-            loadingMsg:'正在提交数据...'
-        },createSucc);
+            url: '/role/create',
+            type: ROLE_CREATE,
+            loadingMsg: '正在提交数据...'
+        }, createSucc);
     }
 }
 
@@ -764,10 +860,10 @@ export function* watchRequestRoleEdit() {
         const action = yield take(REQUEST_ROLE_EDIT);
         yield fork(requestData, {
             action,
-            url:'/role/edit',
-            type:ROLE_EDIT,
-            loadingMsg:'正在提交数据...'
-        },editSucc);
+            url: '/role/edit',
+            type: ROLE_EDIT,
+            loadingMsg: '正在提交数据...'
+        }, editSucc);
     }
 }
 
@@ -797,8 +893,8 @@ export function* watchRequestRoleDetail() {
         // yield fork(roleDetail, action);
         yield fork(requestData, {
             action,
-            url:'/role/detail',
-            type:ROLE_DETAIL,
+            url: '/role/detail',
+            type: ROLE_DETAIL,
         });
     }
 }
@@ -828,10 +924,10 @@ export function* watchRequestRoleDelete() {
         const action = yield take(REQUEST_ROLE_DELETE);
         yield fork(requestData, {
             action,
-            url:'/role/delete',
-            type:ROLE_DELETE,
-            loadingMsg:'正在删除用户...'
-        },deleteSuccNot);
+            url: '/role/delete',
+            type: ROLE_DELETE,
+            loadingMsg: '正在删除用户...'
+        }, deleteSuccNot);
     }
 }
 
@@ -862,9 +958,9 @@ export function* watchRequestUserList() {
         const action = yield take(REQUEST_USER_LIST);
         yield fork(requestData, {
             action,
-            url:'/user/list',
-            type:USER_LIST,
-            dispatchLoading:true
+            url: '/user/list',
+            type: USER_LIST,
+            dispatchLoading: true
         });
     }
 }
@@ -879,10 +975,10 @@ export function* watchRequestUserCreate() {
         const action = yield take(REQUEST_USER_CREATE);
         yield fork(requestData, {
             action,
-            url:'/user/create',
-            loadingMsg:'用户创建中...',
-            type:USER_CREATE
-        },createSucc);
+            url: '/user/create',
+            loadingMsg: '用户创建中...',
+            type: USER_CREATE
+        }, createSucc);
     }
 }
 
@@ -895,8 +991,8 @@ export function* watchRequestUserDetail() {
         const action = yield take(REQUEST_USER_DETAIL);
         yield fork(requestData, {
             action,
-            url:'/user/detail',
-            type:USER_DETAIL
+            url: '/user/detail',
+            type: USER_DETAIL
         });
     }
 }
@@ -910,10 +1006,10 @@ export function* watchRequestUserDelete() {
         const action = yield take(REQUEST_USER_DELETE);
         yield fork(requestData, {
             action,
-            url:'/user/delete',
-            type:USER_DELETE,
-            loadingMsg:'角色正在删除中...'
-        },deleteSuccNot);
+            url: '/user/delete',
+            type: USER_DELETE,
+            loadingMsg: '角色正在删除中...'
+        }, deleteSuccNot);
     }
 }
 
@@ -927,16 +1023,46 @@ export function* watchRequestUserChangeStatus() {
         const action = yield take(REQUEST_USER_CHANGE_STATUS);
         yield fork(requestData, {
             action,
-            url:'/user/changeStatus',
-            type:USER_CHANGE_STATUS,
-            loadingMsg:'状态修改中...'
-        },userChangeStatus);
+            url: '/user/changeStatus',
+            type: USER_CHANGE_STATUS,
+            loadingMsg: '状态修改中...'
+        }, userChangeStatus);
     }
 }
-const userChangeStatus = (message,action)=>{
-    alertNotification('修改成功',`${message}`);
-    store.dispatch(requestUserDetail({userId:action.userId}))
+
+const userChangeStatus = (message, action) => {
+    alertNotification('修改成功', `${message}`);
+    store.dispatch(requestUserDetail({userId: action.userId}))
+};
+
+/**
+ * Path：/user/changePassword
+ * Method：POST
+ **/
+
+export function* watchRequestUserChangePwd() {
+    while (true) {
+        const action = yield take(REQUEST_USER_CHANGE_PWD);
+        yield fork(requestData, {
+            action,
+            url: '/user/changePassword',
+            type: USER_CHANGE_PWD,
+            loadingMsg: '密码修改中...',
+            dispatchLoading: true
+        }, null, requestCallback);
+    }
 }
+
+const requestCallback = (data) => {
+    console.log(data)
+    if(Number(data.code) !== 200){
+        store.dispatch({type:USER_CHANGE_PWD,action:data})
+    }
+    if(Number(data.code) === 200){
+        alertNotification('修改成功', `${data.message}`);
+        store.dispatch(userChangePwdModalVisible({changePwdModalVisible:false}))
+    }
+};
 
 // function* userChangeStatus(action) {
 //     try {
