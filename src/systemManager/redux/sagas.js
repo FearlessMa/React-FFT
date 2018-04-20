@@ -2,7 +2,10 @@
  * Created by MHC on 2018/3/13.
  */
 
-import {take, fork} from 'redux-saga/effects';
+import {
+    take,
+    fork
+} from 'redux-saga/effects';
 import {
     ORG_LIST,
     REQUEST_MENU_LIST,
@@ -86,16 +89,27 @@ import {
     POWER_EDIT,
     REQUEST_ROLE_EDIT,
     ROLE_EDIT,
-    REQUEST_ORG_CHANGE_STATUS, ORG_CHANGE_STATUS, REQUEST_USER_CHANGE_PWD, USER_CHANGE_PWD
+    REQUEST_ORG_CHANGE_STATUS,
+    ORG_CHANGE_STATUS,
+    REQUEST_USER_CHANGE_PWD,
+    USER_CHANGE_PWD
 } from "./actionTypes";
-import {store} from '../../index';
-import {requestData, alertModal, alertNotification} from "../../common/axios";
+import {
+    store
+} from '../../index';
+import {
+    requestData,
+    alertModal,
+    alertNotification
+} from "../../common/axios";
 import {
     dispatchOrgDetailModalVisible,
     requestPathManager,
     requestPowerConfig,
     requestPowerList,
-    requestUserDetail, requestOrgDetail, userChangePwdModalVisible
+    requestUserDetail,
+    requestOrgDetail,
+    userChangePwdModalVisible
 } from "./actions";
 
 // //通知提醒
@@ -156,7 +170,12 @@ const deleteSuccNot = (data) => {
 export function* watchQueryOrgList() {
     while (true) {
         const action = yield take(REQUEST_ORG_LIST);
-        yield fork(requestData, {action, url: '/org/list', type: ORG_LIST, dispatchLoading: true});
+        yield fork(requestData, {
+            action,
+            url: '/org/list',
+            type: ORG_LIST,
+            dispatchLoading: true
+        });
     }
 }
 
@@ -169,7 +188,11 @@ export function* watchQueryOrgList() {
 export function* watchQueryAllOrgList() {
     while (true) {
         const action = yield take(REQUEST_ALL_ORG_LIST);
-        yield fork(requestData, {action, url: '/org/listAll', type: ALL_ORG_LIST});
+        yield fork(requestData, {
+            action,
+            url: '/org/listAll',
+            type: ALL_ORG_LIST
+        });
     }
 }
 
@@ -301,8 +324,12 @@ export function* watchRequestOrgChangeStatus() {
 }
 
 const succCallback = (data, action) => {
-    store.dispatch(dispatchOrgDetailModalVisible({visible: false}));
-    store.dispatch(requestOrgDetail({orgId: action.orgId}));
+    store.dispatch(dispatchOrgDetailModalVisible({
+        visible: false
+    }));
+    store.dispatch(requestOrgDetail({
+        orgId: action.orgId
+    }));
 };
 
 
@@ -666,7 +693,9 @@ export function* watchRequestPowerConfig() {
 const PowerConfigUnbind = (data, action) => {
     alertNotification(`${action.cancel ? '解绑' : '添加'}成功`, data);
     //解绑和添加成功后要刷新页面数据
-    store.dispatch(requestPowerConfig({permId: action.permId}));
+    store.dispatch(requestPowerConfig({
+        permId: action.permId
+    }));
     //如果添加成功要关闭modal弹窗
     if (!action.cancel) {
         store.dispatch({
@@ -715,7 +744,9 @@ const createSuccCallback = (data, action) => {
         type: POWER_PATH_MODAL_VISIBLE,
         pathModalVisible: false
     });
-    store.dispatch(requestPowerConfig({permId: action.permId}));
+    store.dispatch(requestPowerConfig({
+        permId: action.permId
+    }));
 };
 
 export function* watchRequestPowerConfigAddPaths() {
@@ -1032,7 +1063,9 @@ export function* watchRequestUserChangeStatus() {
 
 const userChangeStatus = (message, action) => {
     alertNotification('修改成功', `${message}`);
-    store.dispatch(requestUserDetail({userId: action.userId}))
+    store.dispatch(requestUserDetail({
+        userId: action.userId
+    }))
 };
 
 /**
@@ -1055,12 +1088,17 @@ export function* watchRequestUserChangePwd() {
 
 const requestCallback = (data) => {
     console.log(data)
-    if(Number(data.code) !== 200){
-        store.dispatch({type:USER_CHANGE_PWD,action:data})
+    if (Number(data.code) !== 200) {
+        store.dispatch({
+            type: USER_CHANGE_PWD,
+            action: data
+        })
     }
-    if(Number(data.code) === 200){
+    if (Number(data.code) === 200) {
         alertNotification('修改成功', `${data.message}`);
-        store.dispatch(userChangePwdModalVisible({changePwdModalVisible:false}))
+        store.dispatch(userChangePwdModalVisible({
+            changePwdModalVisible: false
+        }))
     }
 };
 
@@ -1078,6 +1116,3 @@ const requestCallback = (data) => {
 //         yield put({type: ERROR, ...err})
 //     }
 // }
-
-
-
