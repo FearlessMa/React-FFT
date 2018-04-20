@@ -27,7 +27,6 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class LoginComponent extends React.Component {
-
     constructor(...arg) {
         super(...arg);
         const sessionAuth = sessionStorage.getItem('isAuthenticated');
