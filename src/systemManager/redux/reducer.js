@@ -52,7 +52,10 @@ import {
     REQUEST_ERR,
     ORG_CHANGE_STATUS,
     ORG_DETAIL_MODAL_VISIBLE,
-    USER_DETAIL_MODAL_VISIBLE, USER_CHANGE_PWD_MODAL_VISIBLE, USER_CHANGE_PWD
+    USER_DETAIL_MODAL_VISIBLE,
+    USER_CHANGE_PWD_MODAL_VISIBLE,
+    USER_CHANGE_PWD,
+    ORG_ALL_TO_BLOCK_CHAIN
 } from "./actionTypes";
 
 /**------------------orgManagerReducer-------------------------**/
@@ -66,75 +69,84 @@ const initValue = {
     create: {
         orgList: []
     },
-    orgModalVisible:false
+    orgModalVisible: false
 };
 export const organManager = (state = initValue, action) => {
 
     switch (action.type) {
         //index
-        case ORG_LIST :
-            return Object.assign({}, {...state}, {
+        case ORG_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     ...action
                 }
             });
-        //loading
-        case LOADING :
-            return Object.assign({}, {...state}, {
+            //loading
+        case LOADING:
+            return Object.assign({}, { ...state
+            }, {
                 loading: true,
             });
-        //create页面
-        case ALL_ORG_LIST :
-            return Object.assign({}, {...state}, {
+            //create页面
+        case ALL_ORG_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 create: {
                     orgAllList: action
                 }
             });
-        //请求错误
-        case REQUEST_ERR :
-            return Object.assign({}, {...state}, {
+            //请求错误
+        case REQUEST_ERR:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 requestErr: {
                     ...action
                 }
             });
-        //创建机构
-        case ORG_CREATE :
-            return Object.assign({}, {...state}, {
+            //创建机构
+        case ORG_CREATE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 create: {
                     createResult: action,
                     ...state.create
                 }
             });
-        //编辑机构
-        case ORG_EDIT :
-            return Object.assign({}, {...state}, {
+            //编辑机构
+        case ORG_EDIT:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 edit: action,
             });
-        //查看详情
-        case ORG_DETAIL :
-            return Object.assign({}, {...state}, {
+            //查看详情
+        case ORG_DETAIL:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     detailData: action,
                 }
             });
-        //删除机构
-        case ORG_DELETE :
-            return Object.assign({}, {...state}, {
+            //删除机构
+        case ORG_DELETE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     ...state.detail,
                     orgDelete: action
                 }
             });
-        //查询机构下人员
-        case ORG_MEMBERS :
-            return Object.assign({}, {...state}, {
+            //查询机构下人员
+        case ORG_MEMBERS:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     ...state.detail,
@@ -142,8 +154,9 @@ export const organManager = (state = initValue, action) => {
                 }
             });
             //移除机构下人员
-        case ORG_REMOVE_MEMBERS :
-            return Object.assign({}, {...state}, {
+        case ORG_REMOVE_MEMBERS:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     ...state.detail,
@@ -152,20 +165,32 @@ export const organManager = (state = initValue, action) => {
                 }
             });
             //移除机构下人员
-        case ORG_CHANGE_STATUS :
-            return Object.assign({}, {...state}, {
+        case ORG_CHANGE_STATUS:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     ...state.detail,
-                    orgChangeStatus:action
+                    orgChangeStatus: action
                 }
             });
-        case ORG_DETAIL_MODAL_VISIBLE :
-            return Object.assign({}, {...state}, {
+            // 切换modal显示
+        case ORG_DETAIL_MODAL_VISIBLE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
-                orgModalVisible:action.visible
+                orgModalVisible: action.visible
             });
-        default :
+            //同步全部信息到区块链
+        case ORG_ALL_TO_BLOCK_CHAIN:
+            return Object.assign({}, { ...state
+            }, {
+                loading: false,
+                orgAllToBlockChain: action
+            });
+
+
+        default:
             return state
     }
 };
@@ -178,77 +203,86 @@ const pathManagerInitValue = {
 export const pathManager = (state = pathManagerInitValue, action) => {
     switch (action.type) {
         // loading
-        case LOADING :
-            return Object.assign({}, {...state}, {
+        case LOADING:
+            return Object.assign({}, { ...state
+            }, {
                 loading: true,
             });
-        // 请求列表数据
-        case PATH_LIST :
-            return Object.assign({}, {...state}, {
+            // 请求列表数据
+        case PATH_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     ...action
                 }
             });
-        //请求错误
-        case REQUEST_ERR :
-            return Object.assign({}, {...state}, {
+            //请求错误
+        case REQUEST_ERR:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 requestErr: {
                     ...action
                 }
             });
-        // 创建path
-        case PATH_CREATE :
-            return Object.assign({}, {...state}, {
+            // 创建path
+        case PATH_CREATE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 create: {
                     ...action
                 }
             });
-        // edit
-        case PATH_EDIT :
-            return Object.assign({}, {...state}, {
+            // edit
+        case PATH_EDIT:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 edit: {
                     ...action
                 }
             });
-        //detail
-        case PATH_DETAIL :
-            return Object.assign({}, {...state}, {
+            //detail
+        case PATH_DETAIL:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     ...action
                 }
             });
-        //removePerm
-        case PATH_REMOVE_PERM :
-            return Object.assign({}, {...state}, {
+            //removePerm
+        case PATH_REMOVE_PERM:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     ...state.detail,
                     removePerm: action
                 }
             });
-        //pathDelete
-        case PATH_DELETE :
-            return Object.assign({}, {...state}, {
+            //pathDelete
+        case PATH_DELETE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     ...state.index,
                     pathDelete: action
                 }
             });
-        case PATH_CLEAR_DELETE_DATA :
-            return Object.assign({}, {...state}, {
+        case PATH_CLEAR_DELETE_DATA:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     ...state.index,
                     pathDelete: ""
                 }
             });
-        default :
+        default:
             return state
     }
 };
@@ -261,58 +295,68 @@ const menuManagerInitValue = {
 export const menuManager = (state = menuManagerInitValue, action) => {
     switch (action.type) {
         // loading
-        case LOADING :
-            return Object.assign({}, {...state}, {
+        case LOADING:
+            return Object.assign({}, { ...state
+            }, {
                 loading: true,
             });
-        //请求错误
-        case REQUEST_ERR :
-            return Object.assign({}, {...state}, {
+            //请求错误
+        case REQUEST_ERR:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 requestErr: {
                     ...action
                 }
             });
-        //index页面menuList数据
-        case MENU_LIST :
-            return Object.assign({}, {...state}, {
+            //index页面menuList数据
+        case MENU_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
-                index: {...action}
+                index: { ...action
+                }
             });
-        //delete
-        case MENU_DELETE :
-            return Object.assign({}, {...state}, {
+            //delete
+        case MENU_DELETE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     ...state.index,
                     menuDelete: action
                 }
             });
-        //detail
-        case MENU_DETAIL :
-            return Object.assign({}, {...state}, {
+            //detail
+        case MENU_DETAIL:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
-                detail: {...action}
+                detail: { ...action
+                }
             });
-        case MENU_REMOVE_PERM :
-            return Object.assign({}, {...state}, {
+        case MENU_REMOVE_PERM:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: {
                     ...state.detail,
                     menuRemovePerm: action
                 }
             });
-        case MENU_CREATE :
-            return Object.assign({}, {...state}, {
+        case MENU_CREATE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 create: action
             });
-        case MENU_EDIT :
-            return Object.assign({}, {...state}, {
+        case MENU_EDIT:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 edit: action
             });
-        default :
+        default:
             return state
     }
 };
@@ -321,119 +365,135 @@ export const menuManager = (state = menuManagerInitValue, action) => {
 
 const powerManagerInitValue = {
     index: {},
-    pathModalVisible:false,
+    pathModalVisible: false,
     // componentTitle:'create'
 };
 
 export const powerManager = (state = powerManagerInitValue, action) => {
     switch (action.type) {
         // loading
-        case LOADING :
-            return Object.assign({}, {...state}, {
+        case LOADING:
+            return Object.assign({}, { ...state
+            }, {
                 loading: true,
             });
-        //请求错误
-        case REQUEST_ERR :
-            return Object.assign({}, {...state}, {
+            //请求错误
+        case REQUEST_ERR:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 requestErr: {
                     ...action
                 }
             });
-        //powerList
-        case POWER_LIST :
-            return Object.assign({}, {...state}, {
+            //powerList
+        case POWER_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     powerList: action
                 }
             });
-        //delete
-        case POWER_DELETE :
-            return Object.assign({}, {...state}, {
+            //delete
+        case POWER_DELETE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     ...state.index,
                     powerDelete: action
                 }
             });
-        //claerDeleteData
-        case POWER_CLEAR_DELETE_DATA :
-            return Object.assign({}, {...state}, {
+            //claerDeleteData
+        case POWER_CLEAR_DELETE_DATA:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: {
                     ...state.index,
                     powerDelete: {}
                 }
             });
-        //create
-        case POWER_CREATE :
-            return Object.assign({}, {...state}, {
+            //create
+        case POWER_CREATE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 create: action
             });
-        //detail
-        case POWER_DETAIL :
-            return Object.assign({}, {...state}, {
+            //detail
+        case POWER_DETAIL:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: action
             });
-        //edit
-        case POWER_EDIT :
-            return Object.assign({}, {...state}, {
+            //edit
+        case POWER_EDIT:
+            return Object.assign({}, { ...state
+            }, {
                 edit: action
             });
-        //componentTitle
-        case POWER_CREATE_COMPONENT_TITLE :
-            return Object.assign({}, {...state}, {
+            //componentTitle
+        case POWER_CREATE_COMPONENT_TITLE:
+            return Object.assign({}, { ...state
+            }, {
                 ...action
             });
-        //config
-        case POWER_CONFIG :
-            return Object.assign({}, {...state}, {
+            //config
+        case POWER_CONFIG:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 config: action
             });
-        //configAddPath
-        case POWER_CONFIG_ADD_PATH :
-            return Object.assign({}, {...state}, {
+            //configAddPath
+        case POWER_CONFIG_ADD_PATH:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 configAddPath: action
             });
-        //configUnbind
-        case POWER_CONFIG_UNBIND :
-            return Object.assign({}, {...state}, {
+            //configUnbind
+        case POWER_CONFIG_UNBIND:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 configUnbind: action
             });
-        //configUnboundPathList
-        case POWER_CONFIG_UNBOUND_PATH_LIST :
-            return Object.assign({}, {...state}, {
+            //configUnboundPathList
+        case POWER_CONFIG_UNBOUND_PATH_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 configUnboundPathList: action
             });
-        //configMenuList
-        case POWER_CONFIG_MENU_LIST :
-            return Object.assign({}, {...state}, {
+            //configMenuList
+        case POWER_CONFIG_MENU_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 configMenuList: action
             });
-        //pathModalVisible
-        case POWER_PATH_MODAL_VISIBLE :
-            return Object.assign({}, {...state}, {
+            //pathModalVisible
+        case POWER_PATH_MODAL_VISIBLE:
+            return Object.assign({}, { ...state
+            }, {
                 // pathModalVisible: false,
                 // ...action
-                pathModalVisible:action.pathModalVisible
+                pathModalVisible: action.pathModalVisible
             });
-        //pathModalVisible
-        case POWER_MENU_MODAL_VISIBLE :
-            return Object.assign({}, {...state}, {
+            //pathModalVisible
+        case POWER_MENU_MODAL_VISIBLE:
+            return Object.assign({}, { ...state
+            }, {
                 menuModalVisible: action.menuModalVisible,
                 // ...action
             });
 
 
-        default :
+        default:
             return state
     }
 };
@@ -454,48 +514,55 @@ export const roleManager = (state = roleManagerInitValue, action) => {
         //         }
         //     });
         //请求错误
-        case REQUEST_ERR :
-            return Object.assign({}, {...state}, {
+        case REQUEST_ERR:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 requestErr: {
                     ...action
                 }
             });
-        // loading
-        case LOADING :
-            return Object.assign({}, {...state}, {
+            // loading
+        case LOADING:
+            return Object.assign({}, { ...state
+            }, {
                 loading: true,
             });
-        //index
-        case ROLE_LIST :
-            return Object.assign({}, {...state}, {
+            //index
+        case ROLE_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: action
             });
-        //create
-        case ROLE_CREATE :
-            return Object.assign({}, {...state}, {
+            //create
+        case ROLE_CREATE:
+            return Object.assign({}, { ...state
+            }, {
                 create: action
             });
-        //detail
-        case ROLE_DETAIL :
-            return Object.assign({}, {...state}, {
+            //detail
+        case ROLE_DETAIL:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: action
             });
-        //detail
-        case ROLE_COMPONENT_TITLE :
-            return Object.assign({}, {...state}, {
+            //detail
+        case ROLE_COMPONENT_TITLE:
+            return Object.assign({}, { ...state
+            }, {
                 // componentTitle:
                 ...action
             });
-        //delete
-        case ROLE_DELETE :
-            return Object.assign({}, {...state}, {
+            //delete
+        case ROLE_DELETE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 delete: action
             });
-        default :
+        default:
             return state
     }
 };
@@ -509,68 +576,78 @@ export const userManager = (state = userManagerInitValue, action) => {
     switch (action.type) {
 
         //请求错误
-        case REQUEST_ERR :
-            return Object.assign({}, {...state}, {
+        case REQUEST_ERR:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 requestErr: {
                     ...action
                 }
             });
-        // loading
-        case LOADING :
-            return Object.assign({}, {...state}, {
+            // loading
+        case LOADING:
+            return Object.assign({}, { ...state
+            }, {
                 loading: true,
             });
-        // index
-        case USER_LIST :
-            return Object.assign({}, {...state}, {
+            // index
+        case USER_LIST:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 index: action
             });
-        // create
-        case USER_CREATE :
-            return Object.assign({}, {...state}, {
+            // create
+        case USER_CREATE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 create: action
             });
-        // detail
-        case USER_DETAIL :
-            return Object.assign({}, {...state}, {
+            // detail
+        case USER_DETAIL:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 detail: action
             });
-        // delete
-        case USER_DELETE :
-            return Object.assign({}, {...state}, {
+            // delete
+        case USER_DELETE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 delete: action
             });
-        // changeStatus
-        case USER_CHANGE_STATUS :
-            return Object.assign({}, {...state}, {
+            // changeStatus
+        case USER_CHANGE_STATUS:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 changeStatus: action
             });
 
-        // changeStatus modalVisible
-        case USER_DETAIL_MODAL_VISIBLE :
-            return Object.assign({}, {...state}, {
+            // changeStatus modalVisible
+        case USER_DETAIL_MODAL_VISIBLE:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 userModalVisible: action.userModalVisible
             });
-        //changePasswordModal
-        case USER_CHANGE_PWD_MODAL_VISIBLE :
-            return Object.assign({}, {...state}, {
+            //changePasswordModal
+        case USER_CHANGE_PWD_MODAL_VISIBLE:
+            return Object.assign({}, { ...state
+            }, {
                 changePwdModalVisible: action.changePwdModalVisible,
             });
-        //changePassword
-        case USER_CHANGE_PWD :
-            return Object.assign({}, {...state}, {
+            //changePassword
+        case USER_CHANGE_PWD:
+            return Object.assign({}, { ...state
+            }, {
                 loading: false,
                 changePassword: action,
             });
 
-        default :
+        default:
             return state
     }
 };

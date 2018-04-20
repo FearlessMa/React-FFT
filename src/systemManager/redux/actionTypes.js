@@ -9,7 +9,7 @@ export const LOADING = 'loading';
 /**---------organManager-----------**/
 
 //redux organManager
-export const ORG_LIST = 'OrgList' ;
+export const ORG_LIST = 'OrgList';
 export const ALL_ORG_LIST = 'allOrgList';
 export const ORG_CREATE = 'orgCreate';
 export const ORG_DETAIL = 'orgDetail';
@@ -19,6 +19,7 @@ export const ORG_REMOVE_MEMBERS = 'orgRemoveMembers';
 export const ORG_EDIT = 'orgEdit';
 export const ORG_CHANGE_STATUS = 'orgChangeStatus';
 export const ORG_DETAIL_MODAL_VISIBLE = 'orgDetailModalVisible';
+export const ORG_ALL_TO_BLOCK_CHAIN = 'orgAllToBlockChain';
 
 // sagas organManager
 export const REQUEST_ORG_LIST = 'requestOrgList';
@@ -30,6 +31,7 @@ export const REQUEST_ORG_MENBERS = 'requestOrgMembers';
 export const REQUEST_ORG_REMOVE_MENBERS = 'requestOrgRemoveMembers';
 export const REQUEST_ORG_EDIT = 'requestOrgEdit';
 export const REQUEST_ORG_CHANGE_STATUS = 'requestOrgChangeStatus';
+export const REQUEST_ORG_ALL_TO_BLOCK_CHAIN = 'requestOrgAllToBlockChain';
 
 
 /**---------pathManager-----------**/
@@ -133,16 +135,3 @@ export const REQUEST_USER_DETAIL = 'requestUserDetail';
 export const REQUEST_USER_DELETE = 'requestUserDelete';
 export const REQUEST_USER_CHANGE_STATUS = 'requestUserChangeStatus';
 export const REQUEST_USER_CHANGE_PWD = 'requestUserChangePwd';
-
-
-
-
-
-
-
-
-
-
-
-
-

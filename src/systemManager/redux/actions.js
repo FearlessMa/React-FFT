@@ -51,7 +51,10 @@ import {
     REQUEST_ROLE_EDIT,
     REQUEST_ORG_CHANGE_STATUS,
     ORG_DETAIL_MODAL_VISIBLE,
-    USER_DETAIL_MODAL_VISIBLE, USER_CHANGE_PWD_MODAL_VISIBLE, REQUEST_USER_CHANGE_PWD
+    USER_DETAIL_MODAL_VISIBLE,
+    USER_CHANGE_PWD_MODAL_VISIBLE,
+    REQUEST_USER_CHANGE_PWD,
+    ORG_ALL_TO_BLOCK_CHAIN
 } from "./actionTypes";
 
 /**--------------orgManager------------------**/
@@ -100,6 +103,11 @@ export const dispatchOrgDetailModalVisible = value => ({
     type: ORG_DETAIL_MODAL_VISIBLE,
     ...value
 });
+
+export const requestOrgAllToBlockChain = values => ({
+    type: ORG_ALL_TO_BLOCK_CHAIN,
+    ...values
+})
 
 /**--------------pathManager------------------**/
 export const requestPathManager = value => ({
@@ -333,17 +341,3 @@ export const requestUserChangePwd = value => ({
     type: REQUEST_USER_CHANGE_PWD,
     ...value
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
