@@ -19,7 +19,7 @@ antd的前端UI框架，react-router4,redux,redux-saga,Axios,generator,mockJS.
 
 ```ruby
 
-# 方法1
+# 方法1(打包后需手动将字体文件放在dist目录下)
 # 根目录创建theme/index.json添加以下内容：(修改主题配置在这里添加其他配置即可)
 {
   "@icon-url":"'../fonts/iconfont/iconfont'"
@@ -27,7 +27,7 @@ antd的前端UI框架，react-router4,redux,redux-saga,Axios,generator,mockJS.
 
 # 根目录添加fonts/iconfont/antd字体文件。
 
-# 方法2webpack配置
+# webpack配置
 const theme = require('../theme');
 
 # babel-plugin-import修改

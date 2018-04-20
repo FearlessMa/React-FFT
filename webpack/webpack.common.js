@@ -91,16 +91,16 @@ module.exports = {
                     name: 'img/[name].[ext]'
                 }
             },
-            {
-                test:/\.(eot|svg|ttf|woff|woff2)$/,
-                include:[
-                    path.resolve(__dirname,'../fonts/iconfont')
-                ],
-                loader:'file-loader',
-                options:{
-                    name:'fonts/iconfont/[name].[ext]'
-                }
-            }
+            // {
+            //     test:/\.(eot|svg|ttf|woff|woff2)$/,
+            //     include:[
+            //         path.resolve(__dirname,'../fonts/iconfont')
+            //     ],
+            //     loader:'file-loader',
+            //     options:{
+            //         name:'fonts/iconfont/[name].[ext]'
+            //     }
+            // }
         ]
     },
     resolve: {
