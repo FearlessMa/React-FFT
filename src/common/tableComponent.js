@@ -26,9 +26,7 @@ export const TableComponent = (props) => {
                     <div className='tableTitle' style={titleStyle}>{props.componentTitle}</div>
                 </Col>
                 {
-                    OtherComponent ? <Col>
-                        <OtherComponent/>
-                    </Col> : null
+                    OtherComponent ? <OtherComponent {...props}/> : null
                 }
                 {
                     btnName ? <Col span={3} offset={11}>
