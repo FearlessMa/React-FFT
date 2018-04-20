@@ -109,7 +109,6 @@ module.exports = {
             css: path.resolve(__dirname, '../css'),
             img: path.resolve(__dirname, '../img'),
             common: path.resolve(__dirname, '../src/common')
-            // dist: path.resolve(__dirname, '../dist')
         },
         extensions: ['*', '.js', '.css', '.less', '.scss']
     },
