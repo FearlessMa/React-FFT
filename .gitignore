@@ -8,7 +8,7 @@
 .DS_Store
 npm-debug.log*
 yarn-error.log
-
+.vscode
 /coverage
 .idea
 package-lock.json
