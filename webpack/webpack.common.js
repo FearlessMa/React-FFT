@@ -10,16 +10,16 @@ const theme = require('../theme');
 
 
 let entryIndex = '';
-if (process.env.NODE_ENV === "production"){
-     entryIndex = path.join(__dirname, '../src/index.js');
+if (process.env.NODE_ENV === "production") {
+    entryIndex = path.join(__dirname, '../src/index.js');
 }
-if(process.env.NODE_ENV === "development"){
-     entryIndex = [ 'react-hot-loader/patch',path.join(__dirname, '../src/index.js')];
+if (process.env.NODE_ENV === "development") {
+    entryIndex = ['react-hot-loader/patch', path.join(__dirname, '../src/index.js')];
 }
 
 
 module.exports = {
-    entry:entryIndex,
+    entry: entryIndex,
     output: {
         filename: 'js/[name].[hash].js',
         path: path.resolve(__dirname, '../dist')
@@ -37,7 +37,7 @@ module.exports = {
                                 'transform-decorators-legacy',
                                 "transform-remove-strict-mode",
                                 "react-hot-loader/babel",
-                                ["import", {libraryName: "antd", style: true}],
+                                ["import", { libraryName: "antd", style: true }],
                                 //"transform-runtime"与'babel-polyfill'一样
                                 [
                                     "transform-runtime",
@@ -63,17 +63,17 @@ module.exports = {
             // },
             {
                 test: /\.(less)$/,
-                use:[
-                    {loader:'style-loader'},
+                use: [
+                    { loader: 'style-loader' },
                     {
-                        loader:'css-loader'
+                        loader: 'css-loader'
                         ,
                         options: {
-                            url:false
+                            url: false
                         }
                     },
                     {
-                        loader:'less-loader',
+                        loader: 'less-loader',
                         options: {
                             modifyVars: theme,
                             javascriptEnabled: true,
@@ -91,16 +91,16 @@ module.exports = {
                     name: 'img/[name].[ext]'
                 }
             },
-            // {
-            //     test:/\.(eot|svg|ttf|woff|woff2)$/,
-            //     include:[
-            //         path.resolve(__dirname,'../node_modules/antd')
-            //     ],
-            //     loader:'file-loader',
-            //     options:{
-            //         name:'fonts/iconfont/[name].[ext]'
-            //     }
-            // }
+            {
+                test:/\.(eot|svg|ttf|woff|woff2)$/,
+                include:[
+                    path.resolve(__dirname,'../fonts/iconfont')
+                ],
+                loader:'file-loader',
+                options:{
+                    name:'fonts/iconfont/[name].[ext]'
+                }
+            }
         ]
     },
     resolve: {
@@ -108,7 +108,8 @@ module.exports = {
             src: path.resolve(__dirname, '../src'),
             css: path.resolve(__dirname, '../css'),
             img: path.resolve(__dirname, '../img'),
-            common: path.resolve(__dirname,'../src/common')
+            common: path.resolve(__dirname, '../src/common')
+            // dist: path.resolve(__dirname, '../dist')
         },
         extensions: ['*', '.js', '.css', '.less', '.scss']
     },
@@ -118,7 +119,11 @@ module.exports = {
             template: path.resolve(__dirname, '../index.html')
         }),
         // new ExtractTextPlugin("../dist/css/[name].css"),
-        new CleanWebpackPlugin(['../dist'])
+        new CleanWebpackPlugin(['dist'], {
+            root: path.resolve(__dirname,'../'),//根目录
+            verbose: true,
+            dry: false
+        })
     ]
 };
 

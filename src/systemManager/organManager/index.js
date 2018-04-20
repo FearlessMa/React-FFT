@@ -2,15 +2,15 @@
  * Created by MHC on 2018/3/13.
  */
 import React from 'react';
-import {Col, Row, Button} from 'antd';
-import {connect} from 'react-redux';
-import {requestOrgList} from '../redux/actions';
+import { Col, Row } from 'antd';
+import { connect } from 'react-redux';
+import { requestOrgList, requestOrgAllToBlockChain } from '../redux/actions';
 import './index.less';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import OrganCreateContainer from './createANDedit';
-import {OrganDetailContainer} from './detail';
-import {TableComponent, FormComponent, BreadcrumbComponent} from 'common';
-import {ViewMembers} from "./viewMembers";
+import { OrganDetailContainer } from './detail';
+import { TableComponent, FormComponent, BreadcrumbComponent } from 'common';
+import { ViewMembers } from "./viewMembers";
 
 
 const breadcrumbNameMap = {
@@ -26,14 +26,14 @@ const breadcrumbNameMap = {
 export const OrganLayout = props => {
     return (
         <React.Fragment>
-            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
             <Switch>
-                <Route path={`/systemManager/organManager/create`} component={OrganCreateContainer}/>
-                <Route path={`/systemManager/organManager/edit/:orgId`} component={OrganCreateContainer}/>
-                <Route path={`/systemManager/organManager/detail/:orgId`} component={OrganDetailContainer}/>
-                <Route path={`/systemManager/organManager/viewMembers/:orgId/:name`} component={ViewMembers}/>
-                <Route exact path={`/systemManager/organManager`} component={OrganContainer}/>
-                <Redirect to={`/systemManager/organManager`}/>
+                <Route path={`/systemManager/organManager/create`} component={OrganCreateContainer} />
+                <Route path={`/systemManager/organManager/edit/:orgId`} component={OrganCreateContainer} />
+                <Route path={`/systemManager/organManager/detail/:orgId`} component={OrganDetailContainer} />
+                <Route path={`/systemManager/organManager/viewMembers/:orgId/:name`} component={ViewMembers} />
+                <Route exact path={`/systemManager/organManager`} component={OrganContainer} />
+                <Redirect to={`/systemManager/organManager`} />
             </Switch>
         </React.Fragment>
     )
@@ -44,7 +44,8 @@ const mapStateToProps = (state) => ({
     loading: state.systemManager.organManager.loading
 });
 const mapDispatchToProps = (dispatch) => ({
-    queryOrgList: (v) => dispatch(requestOrgList(v))
+    queryOrgList: v => dispatch(requestOrgList(v)),
+    orgAllToBlockChainSaga: values => dispatch(requestOrgAllToBlockChain(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -63,12 +64,10 @@ class OrganContainer extends React.Component {
     }
     //分页
     paginationOnChange = (pagination) => {
-        this.props.queryOrgList({current: pagination.current, pageSize: pagination.pageSize});
+        this.props.queryOrgList({ current: pagination.current, pageSize: pagination.pageSize });
     }
 
-    allOrgToBlockChain = ()=>{
-        
-    }
+    allOrgToBlockChain = () => { }
 
     render() {
         let orgList = [];
@@ -79,12 +78,12 @@ class OrganContainer extends React.Component {
         } catch (e) {
         }
         return <OraganContent formSubmit={this.formSubmit}
-                              btnClick={this.toCreate}
-                              dataSource={orgList}
-                              pagination={pagination}
-                              allOrgToBlockChain={this.allOrgToBlockChain}
-                              onChange={this.paginationOnChange}
-                              {...this.props}/>
+            btnClick={this.toCreate}
+            dataSource={orgList}
+            pagination={pagination}
+            allOrgToBlockChain={this.allOrgToBlockChain}
+            onChange={this.paginationOnChange}
+            {...this.props} />
     }
 
 }
@@ -186,18 +185,18 @@ const OraganContent = (props) => {
                 <Row className=''>
                     <Col span={20} offset={3}>
                         <FormComponent formList={searchComponentData}
-                                       btn={{sub: '搜索'}}
-                                       layout={'inline'}
-                                       formSubmit={props.formSubmit}
+                            btn={{ sub: '搜索' }}
+                            layout={'inline'}
+                            formSubmit={props.formSubmit}
                         />
                     </Col>
                 </Row>
             </div>
             <div className="containerContent">
-                <TableComponent componentTitle={'机构列表'} 
-                                columns={columns} bordered={true} rowKey={'orgId'}
-                                btnClick={props.btnClick} pagination={props.pagination}
-                                {...props} OtherComponent={OtherComponent}/>
+                <TableComponent componentTitle={'机构列表'}
+                    columns={columns} bordered={true} rowKey={'orgId'}
+                    btnClick={props.btnClick} pagination={props.pagination}
+                    {...props} OtherComponent={OtherComponent} />
             </div>
         </React.Fragment>
     )
