@@ -2,14 +2,14 @@
  * Created by MHC on 2018/3/13.
  */
 import React from 'react';
-import {Col, Row} from 'antd';
+import {Col, Row, Button} from 'antd';
 import {connect} from 'react-redux';
 import {requestOrgList} from '../redux/actions';
 import './index.less';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import OrganCreateContainer from './createANDedit';
 import {OrganDetailContainer} from './detail';
-import {TableComponent, FormComponent,BreadcrumbComponent} from 'common';
+import {TableComponent, FormComponent, BreadcrumbComponent} from 'common';
 import {ViewMembers} from "./viewMembers";
 
 
@@ -21,7 +21,6 @@ const breadcrumbNameMap = {
     '/systemManager/organManager/edit': '编辑机构',
     '/systemManager/organManager/viewMembers': '编辑人员',
 };
-
 
 
 export const OrganLayout = props => {
@@ -160,6 +159,14 @@ const searchComponentData = [
  *  其他为antd的table属性
  *
  * **/
+
+const OtherComponent = () => {
+
+    return (<React.Fragment>
+        <Button>123</Button>
+    </React.Fragment>)
+};
+
 const OraganContent = (props) => {
 
     return (
@@ -179,11 +186,12 @@ const OraganContent = (props) => {
                 <TableComponent componentTitle={'机构列表'} btnName={'创建机构'}
                                 columns={columns} bordered={true} rowKey={'orgId'}
                                 btnClick={props.btnClick} pagination={props.pagination}
-                                {...props}/>
+                                {...props} OtherComponent={OtherComponent}/>
             </div>
         </React.Fragment>
     )
 };
+
 
 
 
