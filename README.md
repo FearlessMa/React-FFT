@@ -71,7 +71,7 @@ webpack配置
 # babel-plugin-import修改
     ["import", {libraryName: "antd", style: 'css'}]
     # 改为
-    ["import", {libraryName: "antd", style: true}] 
+    ["import", {libraryName: "antd", style: true}]
 # loader修改
     {
         test: /\.(less)$/,
@@ -303,4 +303,4 @@ const breadcrumbNameMap = {
 
 ```
 
-## 持续更新中...
+## 持续更新中
