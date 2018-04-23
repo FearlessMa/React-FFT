@@ -54,7 +54,8 @@ import {
     USER_DETAIL_MODAL_VISIBLE,
     USER_CHANGE_PWD_MODAL_VISIBLE,
     REQUEST_USER_CHANGE_PWD,
-    ORG_ALL_TO_BLOCK_CHAIN
+    REQUEST_ORG_ALL_TO_BLOCK_CHAIN,
+    REQUEST_ORG_TO_BLOCK_CHAIN
 } from "./actionTypes";
 
 /**--------------orgManager------------------**/
@@ -105,7 +106,11 @@ export const dispatchOrgDetailModalVisible = value => ({
 });
 
 export const requestOrgAllToBlockChain = values => ({
-    type: ORG_ALL_TO_BLOCK_CHAIN,
+    type: REQUEST_ORG_ALL_TO_BLOCK_CHAIN,
+    ...values
+})
+export const requestOrgToBlockChain = values => ({
+    type: REQUEST_ORG_TO_BLOCK_CHAIN,
     ...values
 })
 

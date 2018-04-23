@@ -92,7 +92,11 @@ import {
     REQUEST_ORG_CHANGE_STATUS,
     ORG_CHANGE_STATUS,
     REQUEST_USER_CHANGE_PWD,
-    USER_CHANGE_PWD
+    USER_CHANGE_PWD,
+    REQUEST_ORG_ALL_TO_BLOCK_CHAIN,
+    ORG_ALL_TO_BLOCK_CHAIN,
+    REQUEST_ORG_TO_BLOCK_CHAIN,
+    ORG_TO_BLOCK_CHAIN
 } from "./actionTypes";
 import {
     store
@@ -109,7 +113,8 @@ import {
     requestPowerList,
     requestUserDetail,
     requestOrgDetail,
-    userChangePwdModalVisible
+    userChangePwdModalVisible,
+    requestOrgList
 } from "./actions";
 
 // //通知提醒
@@ -331,6 +336,48 @@ const succCallback = (data, action) => {
         orgId: action.orgId
     }));
 };
+
+/**
+ * 同步所有未同步的机构信息
+ * Path：/org/syncAllToBlockChain
+ * Method：POST
+ * **/
+
+export function* watchRequestOrgAllToBlockChain() {
+    while (true) {
+        const action = yield take(REQUEST_ORG_ALL_TO_BLOCK_CHAIN);
+        yield fork(requestData, {
+            action,
+            url: '/org/syncAllToBlockChain',
+            type: ORG_ALL_TO_BLOCK_CHAIN,
+            loadingMsg: '正在同步...',
+            dispatchLoading:true,
+        }, null, blockChainCallback)
+    }
+}
+
+const blockChainCallback = (data)=>{
+    alertNotification(data.message,data.message)
+    store.dispatch(requestOrgList());
+}
+
+/**
+ * 同步单独未同步的机构信息
+ * Path：/org/syncToBlockChain
+ * Method：POST
+ * **/
+export function* watchRequestOrgToBlockChain() {
+    while (true) {
+        const action = yield take(REQUEST_ORG_TO_BLOCK_CHAIN);
+        yield fork(requestData, {
+            action,
+            url: '/org/syncToBlockChain',
+            type: ORG_TO_BLOCK_CHAIN,
+            loadingMsg: '正在同步...',
+            dispatchLoading:true,
+        }, null, blockChainCallback)
+    }
+}
 
 
 /*********---------------pathManager-----------------**********/

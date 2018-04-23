@@ -106,6 +106,9 @@ webpack配置
 
 #### 2.1.1接口返回数据类型
 
+* src/common/axios里可以配置config对象来设置所需的各种功能
+* 参照[axios使用文档](https://www.kancloud.cn/yunye/axios/234845)
+
 ```ruby
 
 const res = {
@@ -159,7 +162,7 @@ export function* watchRequestPathDelete() {
 const succCallback = message => {
     alertModal('删除成功', message)
 };
-
+# code不等于200时需要处理其他事件的回调
 const dispatchCallback = (data,action)=>{
     store.dispatch(requestPathManager());
 };

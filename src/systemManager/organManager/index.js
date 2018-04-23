@@ -2,9 +2,9 @@
  * Created by MHC on 2018/3/13.
  */
 import React from 'react';
-import { Col, Row } from 'antd';
+import { Col, Row, Button } from 'antd';
 import { connect } from 'react-redux';
-import { requestOrgList, requestOrgAllToBlockChain } from '../redux/actions';
+import { requestOrgList, requestOrgAllToBlockChain, requestOrgToBlockChain } from '../redux/actions';
 import './index.less';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import OrganCreateContainer from './createANDedit';
@@ -45,7 +45,8 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     queryOrgList: v => dispatch(requestOrgList(v)),
-    orgAllToBlockChainSaga: values => dispatch(requestOrgAllToBlockChain(values))
+    orgAllToBlockChainSaga: values => dispatch(requestOrgAllToBlockChain(values)),
+    orgToBlockChainSgag: values => dispatch(requestOrgToBlockChain(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -59,15 +60,21 @@ class OrganContainer extends React.Component {
         this.props.history.push("/systemManager/organManager/create");
     }
 
-    formSubmit = (values) => {
+    formSubmit = values => {
         this.props.queryOrgList(values)
     }
     //分页
-    paginationOnChange = (pagination) => {
+    paginationOnChange = pagination => {
         this.props.queryOrgList({ current: pagination.current, pageSize: pagination.pageSize });
     }
 
-    allOrgToBlockChain = () => { }
+    allOrgToBlockChain = () => {
+        this.props.orgAllToBlockChainSaga();
+    }
+
+    toBlockChain = orgId => {
+        this.props.orgToBlockChainSgag({ orgId });
+    }
 
     render() {
         let orgList = [];
@@ -77,7 +84,82 @@ class OrganContainer extends React.Component {
             pagination = this.props.index.data.pagination;
         } catch (e) {
         }
-        return <OraganContent formSubmit={this.formSubmit}
+
+        const columns = [
+            {
+                title: '机构名称',
+                dataIndex: 'name',
+                render: (text, record) => <a href={`#/systemManager/organManager/detail/${record.orgId}`}>{text}</a>,
+            },
+            {
+                title: '真实机构号',
+                dataIndex: 'realOrgId',
+            },
+            {
+                title: '机构简称',
+                dataIndex: 'shortName',
+            },
+            {
+                title: '状态',
+                dataIndex: 'status',
+                render: (text) => {
+                    let show = text;
+                    if (text === "NORMAL") {
+                        show = "正常";
+                    } else if (text === "CANCEL") {
+                        show = "作废";
+                    } else if (text === "LOCKED") {
+                        show = "锁定";
+                    } else {
+                        show = text;
+                    }
+                    return (
+                        <span>{show}</span>
+                    )
+                }
+            },
+            {
+                title: '创建时间',
+                dataIndex: 'createTime',
+                render: text => <span>{new Date(text).toLocaleString().substr(0, 9)}</span>
+            },
+            {
+                title: '更新时间',
+                dataIndex: 'updateTime',
+                render: text => <span>{new Date(text).toLocaleString()}</span>
+            },
+            {
+                title: '机构同步状态',
+                dataIndex: 'syncStatus',
+                render: text => {
+                    switch (text) {
+                        case "0":
+                            return <span>未同步</span>
+                        case "1":
+                            return <span>已同步</span>
+                        case "2":
+                            return <span>已修改</span>
+                        default:
+                            return null
+
+                    }
+                }
+            },
+            {
+                title: '操作',
+                dataIndex: '',
+                render: (text, record) => {
+                    if (record.syncStatus !== "1") {
+                        return <Button onClick={this.toBlockChain.bind(this, record.orgId)}>同步</Button>
+                    }
+                    return <Button disabled={true}>同步</Button>
+                }
+            },
+        ];
+
+        return <OraganContent
+            formSubmit={this.formSubmit}
+            columns={columns}
             btnClick={this.toCreate}
             dataSource={orgList}
             pagination={pagination}
@@ -88,50 +170,7 @@ class OrganContainer extends React.Component {
 
 }
 
-const columns = [
-    {
-        title: '机构名称',
-        dataIndex: 'name',
-        render: (text, record) => <a href={`#/systemManager/organManager/detail/${record.orgId}`}>{text}</a>,
-    },
-    {
-        title: '真实机构号',
-        dataIndex: 'realOrgId',
-    },
-    {
-        title: '机构简称',
-        dataIndex: 'shortName',
-    },
-    {
-        title: '状态',
-        dataIndex: 'status',
-        render: (text) => {
-            let show = text;
-            if (text === "NORMAL") {
-                show = "正常";
-            } else if (text === "CANCEL") {
-                show = "作废";
-            } else if (text === "LOCKED") {
-                show = "锁定";
-            } else {
-                show = text;
-            }
-            return (
-                <span>{show}</span>
-            )
-        }
-    },
-    {
-        title: '创建时间',
-        dataIndex: 'createTime',
-        render: text => <span>{new Date(text).toLocaleString().substr(0, 9)}</span>
-    },
-    {
-        title: '更新时间',
-        dataIndex: 'updateTime',
-        render: text => <span>{new Date(text).toLocaleString()}</span>
-    },
-];
+
 
 const searchComponentData = [
     {
@@ -165,7 +204,7 @@ const searchComponentData = [
  *
  * **/
 
-const OtherComponent = (props) => {
+const OtherComponent = props => {
 
     return (<React.Fragment>
         <Col span={3} offset={7}>
@@ -177,7 +216,7 @@ const OtherComponent = (props) => {
     </React.Fragment>)
 };
 
-const OraganContent = (props) => {
+const OraganContent = props => {
 
     return (
         <React.Fragment>
@@ -194,7 +233,7 @@ const OraganContent = (props) => {
             </div>
             <div className="containerContent">
                 <TableComponent componentTitle={'机构列表'}
-                    columns={columns} bordered={true} rowKey={'orgId'}
+                    columns={props.columns} bordered={true} rowKey={'orgId'}
                     btnClick={props.btnClick} pagination={props.pagination}
                     {...props} OtherComponent={OtherComponent} />
             </div>

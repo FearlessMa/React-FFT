@@ -20,6 +20,7 @@ export const ORG_EDIT = 'orgEdit';
 export const ORG_CHANGE_STATUS = 'orgChangeStatus';
 export const ORG_DETAIL_MODAL_VISIBLE = 'orgDetailModalVisible';
 export const ORG_ALL_TO_BLOCK_CHAIN = 'orgAllToBlockChain';
+export const ORG_TO_BLOCK_CHAIN = 'orgToBlockChain';
 
 // sagas organManager
 export const REQUEST_ORG_LIST = 'requestOrgList';
@@ -32,6 +33,7 @@ export const REQUEST_ORG_REMOVE_MENBERS = 'requestOrgRemoveMembers';
 export const REQUEST_ORG_EDIT = 'requestOrgEdit';
 export const REQUEST_ORG_CHANGE_STATUS = 'requestOrgChangeStatus';
 export const REQUEST_ORG_ALL_TO_BLOCK_CHAIN = 'requestOrgAllToBlockChain';
+export const REQUEST_ORG_TO_BLOCK_CHAIN = 'requestOrgToBlockChain';
 
 
 /**---------pathManager-----------**/

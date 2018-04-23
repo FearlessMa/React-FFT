@@ -10,7 +10,7 @@ import Mock from 'mockjs';
  * **/
 //queryList 首页表格数据
 export const queryorganListMock = Mock.mock('/org/list', (option) => {
-    const {name, realOrgId, current, pageSize} = JSON.parse(option.body);
+    const { name, realOrgId, current, pageSize } = JSON.parse(option.body);
     let orgList = Mock.mock({
         "orgList|10": [
             {
@@ -24,6 +24,7 @@ export const queryorganListMock = Mock.mock('/org/list', (option) => {
                 "realOrgId": "1",
                 "shortName": "中国民生银行",
                 "status": "NORMAL",
+                "syncStatus|1": ["0", "1", "2"],
                 "sysSyncDate": 1515052850000,
                 "updateTime": 1515052850000
             }
@@ -114,7 +115,7 @@ export const queryAllOrgList = Mock.mock('/org/listAll', () => {
  * **/
 
 export const orgCreate = Mock.mock('/org/create', (option) => {
-    const {createData} = JSON.parse(option.body);
+    const { createData } = JSON.parse(option.body);
     console.log('createData');
     console.log(createData);
     return {
@@ -147,7 +148,7 @@ export const orgEdit = Mock.mock('/org/edit', (option) => {
  * Path：/org/detail
  * * */
 export const orgDetail = Mock.mock('/org/detail', (option) => {
-    const {orgId} = JSON.parse(option.body);
+    const { orgId } = JSON.parse(option.body);
     if (orgId == 948826538287435776) {
         return {
             code: 200,
@@ -200,7 +201,7 @@ export const orgDetail = Mock.mock('/org/detail', (option) => {
 // Method：POST
 // TeslaFunctionName：cancelOrg
 export const orgDelete = Mock.mock('/org/delete', (option) => {
-    const {orgId} = JSON.parse(option.body);
+    const { orgId } = JSON.parse(option.body);
     if (orgId == 948826538287435776) {
         return {
             code: 200,
@@ -228,7 +229,7 @@ export const orgDelete = Mock.mock('/org/delete', (option) => {
  * **/
 
 export const orgViewMembers = Mock.mock('/org/listUsersInOrg', (option) => {
-    const {orgId} = JSON.parse(option.body);
+    const { orgId } = JSON.parse(option.body);
     if (orgId == 948826538287435776) {
         return {
             code: 200,
@@ -294,7 +295,7 @@ export const orgViewMembers = Mock.mock('/org/listUsersInOrg', (option) => {
  * Method：POST
  * **/
 export const orgRemoveMembers = Mock.mock('/org/removeUserFromOrg', (option) => {
-    const {orgId, userId} = JSON.parse(option.body);
+    const { orgId, userId } = JSON.parse(option.body);
     if (orgId && userId) {
         return {
             code: 200,
@@ -316,7 +317,7 @@ export const orgRemoveMembers = Mock.mock('/org/removeUserFromOrg', (option) => 
  * Method：POST
  * **/
 export const orgChangeStatus = Mock.mock('/org/changeStatus', (option) => {
-    const {orgId, status} = JSON.parse(option.body);
+    const { orgId, status } = JSON.parse(option.body);
     if (orgId && status) {
         return {
             code: 200,
@@ -329,4 +330,38 @@ export const orgChangeStatus = Mock.mock('/org/changeStatus', (option) => {
         }
     }
 
+});
+
+/**
+ * 同步所有未同步的机构信息
+ * Path：/org/syncAllToBlockChain
+ * Method：POST
+ * **/
+
+export const orgAllToBlockChain = Mock.mock('/org/syncAllToBlockChain', option => {
+    return {
+        code: 200,
+        messahe: '成功'
+    }
+});
+
+/**
+ * 同步单个未同步的机构信息
+ * Path：/org/syncToBlockChain
+ * Method：POST
+ * **/
+
+export const orgToBlockChain = Mock.mock('/org/syncToBlockChain', option => {
+    const { orgId } = JSON.parse(option.body);
+    if(orgId){
+        return {
+            code: 200,
+            messahe: '成功'
+        }
+    }else{
+        return {
+            code: 400,
+            messahe: '成功'
+        }
+    }
 });

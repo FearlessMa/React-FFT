@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/1.
  */
 import createSagaMiddleware from 'redux-saga';
-import {watchLoginAction} from '../login/redux/sagas';
+import { watchLoginAction } from '../login/redux/sagas';
 import {
     watchQueryOrgList, watchQueryAllOrgList, watchRequestOrgCreate, watchRequestOrgDetail,
     watchRequestOrgDelete, watchRequestOrgMembers, watchRequestPathManager, watchRequestPathCreate,
@@ -14,7 +14,8 @@ import {
     watchRequestPowerConfigUnboundPathList, watchRequestPowerConfigMenuList, watchRequestUserList,
     watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete, watchRequestUserChangeStatus,
     watchRequestOrgRemoveMembers, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
-    watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus,watchRequestUserChangePwd
+    watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
+    watchRequestOrgAllToBlockChain,watchRequestOrgToBlockChain
 } from '../systemManager/redux/sagas';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgList, watchQueryAllOrgList,
@@ -27,7 +28,8 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestRoleList, watchRequestRoleCreate, watchRequestRoleDetail, watchRequestRoleDelete,
     watchRequestUserList, watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete,
     watchRequestUserChangeStatus, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
-    watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus,watchRequestUserChangePwd]);
+    watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
+    watchRequestOrgAllToBlockChain,watchRequestOrgToBlockChain]);
 //
 // export {
 //     watchLoginAction,
@@ -46,6 +48,8 @@ export const sagasRun = () => {
     sagas.run(watchRequestOrgRemoveMembers);
     sagas.run(watchRequestOrgEdit);
     sagas.run(watchRequestOrgChangeStatus);
+    sagas.run(watchRequestOrgAllToBlockChain);
+    sagas.run(watchRequestOrgToBlockChain);
 
     //path
     sagas.run(watchRequestPathManager);
@@ -54,6 +58,7 @@ export const sagasRun = () => {
     sagas.run(watchRequestPathRemovePerm);
     sagas.run(watchRequestPathDelete);
     sagas.run(watchRequestPathEdit);
+
     //menuManager
     sagas.run(watchRequestMenuList);
     sagas.run(watchRequestMenuDelete);
@@ -61,6 +66,7 @@ export const sagasRun = () => {
     sagas.run(watchRequestMenuRemovePerm);
     sagas.run(watchRequestMenuCreate);
     sagas.run(watchRequestMenuEdit);
+
     //powerManager
     sagas.run(watchRequestPowerList);
     sagas.run(watchRequestPowerDelete);
@@ -72,12 +78,14 @@ export const sagasRun = () => {
     sagas.run(watchRequestPowerConfigUnboundPathList);
     sagas.run(watchRequestPowerConfigMenuList);
     sagas.run(watchRequestPowerEdit);
+
     // roleManager
     sagas.run(watchRequestRoleList);
     sagas.run(watchRequestRoleCreate);
     sagas.run(watchRequestRoleDetail);
     sagas.run(watchRequestRoleDelete);
     sagas.run(watchRequestRoleEdit);
+
     // userManager
     sagas.run(watchRequestUserList);
     sagas.run(watchRequestUserCreate);

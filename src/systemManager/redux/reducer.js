@@ -55,7 +55,8 @@ import {
     USER_DETAIL_MODAL_VISIBLE,
     USER_CHANGE_PWD_MODAL_VISIBLE,
     USER_CHANGE_PWD,
-    ORG_ALL_TO_BLOCK_CHAIN
+    ORG_ALL_TO_BLOCK_CHAIN,
+    ORG_TO_BLOCK_CHAIN
 } from "./actionTypes";
 
 /**------------------orgManagerReducer-------------------------**/
@@ -188,7 +189,13 @@ export const organManager = (state = initValue, action) => {
                 loading: false,
                 orgAllToBlockChain: action
             });
-
+            //同步单个信息到区块链
+        case ORG_TO_BLOCK_CHAIN:
+            return Object.assign({}, { ...state
+            }, {
+                loading: false,
+                orgToBlockChain: action
+            });
 
         default:
             return state
