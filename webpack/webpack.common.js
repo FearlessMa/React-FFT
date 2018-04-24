@@ -108,7 +108,8 @@ module.exports = {
             src: path.resolve(__dirname, '../src'),
             css: path.resolve(__dirname, '../css'),
             img: path.resolve(__dirname, '../img'),
-            common: path.resolve(__dirname, '../src/common')
+            common: path.resolve(__dirname, '../src/common'),
+            publicConfig:path.resolve(__dirname,'../publicConfig')
         },
         extensions: ['*', '.js', '.css', '.less', '.scss']
     },
@@ -126,3 +127,4 @@ module.exports = {
     ]
 };
 
+console.log(path.resolve(__dirname,'../publicConfig'))

@@ -181,7 +181,7 @@ const dispatchCallback = (data,action)=>{
 * treeSelectProps : selectTree组件配置 Obj 详情antd组件的selectTree
 * treeData : Tree组件数据
 * btn : {{back:'返回',sub:'提交'}} 显示按钮 Object
-* layout : 'horizontal','vertical','inline' (horizontal值时填写formItemLayout和formSubBtnLayout）
+* layout : 'horizontal','vertical','inline' (为horizontal值时,填写formItemLayout和formSubBtnLayout）
 * formItemLayout ：表单输入布局  Obj
 * formSubBtnLayout ： 提交按钮布局   Obj
 * toBack : 返回按钮的onClick回调 默认调用window.history.go(-1)   Fun
@@ -213,11 +213,11 @@ const formList = [
 
 tranTreeData
 
- * 转为树形结构最终代码
- * selectData: 数据数组         例如 orgList      Array
- * id: 数据id                 例如  'orgId'       String
- * parentId : 数据parentId    例如  'parentOrgId'              String
- * name : 组件显示的name属性     例如    'orgName'                  String
+* 转为树形结构最终代码
+* selectData: 数据数组         例如 orgList      Array
+* id: 数据id                 例如  'orgId'       String
+* parentId : 数据parentId    例如  'parentOrgId'              String
+* name : 组件显示的name属性     例如    'orgName'                  String
 
 ```ruby
 

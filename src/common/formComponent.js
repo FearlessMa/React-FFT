@@ -3,12 +3,12 @@
  */
 
 import React from 'react';
-import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox } from 'antd';
+import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox, DatePicker } from 'antd';
 
-const {TextArea} = Input;
+const { TextArea } = Input;
 const TreeNode = TreeSelect.TreeNode;
-const FormItem = Form.Item ;
-const FromCreate =Form.create;
+const FormItem = Form.Item;
+const FromCreate = Form.create;
 
 /**
  * From组件接收的props
@@ -31,7 +31,7 @@ const FromCreate =Form.create;
  * **/
 
 @FromCreate()
-export class FormComponent extends React.Component{
+export class FormComponent extends React.Component {
     // constructor(props){
     //     super(props);
     //     // this.state={
@@ -40,7 +40,7 @@ export class FormComponent extends React.Component{
     //     // }
     // }
 
-    onSubmit = (e)=>{
+    onSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -58,107 +58,116 @@ export class FormComponent extends React.Component{
     //
     // }
 
-    toBack = ()=>{
+    toBack = () => {
         window.history.go(-1);
     }
 
-    render(){
-        let { layout, form, formItemLayout, formSubBtnLayout,
-            formList, toBack, selectData, btn, moreItemInRow, treeSelectProps, treeData, onChange,checkboxData} = this.props;
-        const { getFieldDecorator } = form;
+    render() {
+        let {
+            layout, form, formItemLayout, formSubBtnLayout,
+            formList, toBack, selectData, btn, moreItemInRow,
+            treeSelectProps, treeData, onChange, checkboxData,
+            formSubmit
+        } = this.props;
+        const { getFieldDecorator, getFieldValue } = form;
         formItemLayout = formItemLayout || {};
-        formSubBtnLayout = formSubBtnLayout ||{};
+        formSubBtnLayout = formSubBtnLayout || {};
         formList = formList || [];
-        toBack = toBack ||this.toBack;
+        toBack = toBack || this.toBack;
         selectData = selectData || [];
-        checkboxData = checkboxData ||[];
-        treeSelectProps = treeSelectProps || Object.assign({allowClear:true,showSearch:true},treeSelectProps);
-        moreItemInRow = moreItemInRow || false ;
-        btn = btn || {sub:null,back:null};
+        checkboxData = checkboxData || [];
+        treeSelectProps = treeSelectProps || Object.assign({ allowClear: true, showSearch: true }, treeSelectProps);
+        moreItemInRow = moreItemInRow || false;
+        btn = btn || { sub: null, back: null };
         return (
-            <Form onSubmit={btn.sub?this.onSubmit:null} layout={layout} onChange={onChange?onChange:null}>
-                {moreItemInRow?<Row>
+            <Form onSubmit={formSubmit ? this.onSubmit : null} layout={layout} onChange={onChange ? onChange : null}>
+                {moreItemInRow ? <Row>
                     {
                         formList.map((item, i) => {
                             return (
                                 <Col span={11} offset={0} key={`${item.id}-${i}`}>
                                     <FormItem key={`${item.id}-${i}`} {...formItemLayout} label={item.label}>
                                         {
-                                            createFormItem(getFieldDecorator, item, i, selectData,treeSelectProps,treeData,
-                                                checkboxData)
+                                            createFormItem(getFieldDecorator, item, i, selectData, treeSelectProps, treeData,
+                                                checkboxData, getFieldValue)
                                         }
                                     </FormItem>
                                 </Col>
                             )
                         })
                     }
-                </Row>:
+                </Row> :
                     formList.map((item, i) => {
                         return (
-                                <FormItem key={`${item.id}-${i}`} {...formItemLayout} label={item.label}>
-                                    {
-                                        createFormItem(getFieldDecorator, item, i, selectData,treeSelectProps,treeData,
-                                            checkboxData)
-                                    }
-                                </FormItem>
+                            <FormItem key={`${item.id}-${i}`} {...formItemLayout} label={item.label}>
+                                {
+                                    createFormItem(getFieldDecorator, item, i, selectData, treeSelectProps, treeData,
+                                        checkboxData, getFieldValue)
+                                }
+                            </FormItem>
                         )
                     })
                 }
-                    <FormItem {...formSubBtnLayout}>
-                        {btn.sub?<Button  type={'primary'} htmlType={'submit'}>{btn.sub}</Button>:null}
-                        {btn.back?<Button onClick={toBack} style={{marginLeft:30}}>{btn.back}</Button>:null}
-                    </FormItem>
+                <FormItem {...formSubBtnLayout}>
+                    {
+                        this.props.children
+                    }
+                </FormItem>
+                <FormItem {...formSubBtnLayout}>
+                    {btn.sub ? <Button type={'primary'} htmlType={'submit'}>{btn.sub}</Button> : null}
+                    {btn.back ? <Button onClick={toBack} style={{ marginLeft: 30 }}>{btn.back}</Button> : null}
+                </FormItem>
 
             </Form>
         )
     }
 }
 
-const createFormItem =(getFieldDecorator,item,index,selectData,treeSelectProps,treeData,checkboxData)=>{
-    let disabled = item.disabled || false ;
-    if(!item.rules)item.rules={};
-    if(!item.initialValue)item.initialValue='';
+const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectProps, treeData, checkboxData, getFieldValue) => {
+    let disabled = item.disabled || false;
+    if (!item.rules) item.rules = {};
+    if (!item.initialValue) item.initialValue = '';
     let type = item.type || 'text';
-    switch(item.tag){
+    switch (item.tag) {
 
-        case 'input' :
+        case 'input':
             return (
-                getFieldDecorator( item.id,{
-                        rules:[item.rules],
-                        initialValue:item.initialValue
-                    }
-                )(<Input type={type} disabled={disabled}/>)
+                getFieldDecorator(item.id, {
+                    rules: [item.rules],
+                    initialValue: item.initialValue
+                }
+                )(<Input type={type} disabled={disabled} />)
             );
 
-        case 'textarea' :
+        case 'textarea':
             return (
-                getFieldDecorator( item.id,{
-                        rules:[item.rules],
-                        initialValue:item.initialValue
-                    }
-                )(<TextArea autosize={{minRows:3,maxRows:6}} type={type} disabled={disabled}/>)
+                getFieldDecorator(item.id, {
+                    rules: [item.rules],
+                    initialValue: item.initialValue
+                }
+                )(<TextArea autosize={{ minRows: 3, maxRows: 6 }} type={type} disabled={disabled} />)
             );
 
-        case 'treeSelect' :
+        case 'treeSelect':
 
-            return(
-                getFieldDecorator( item.id,{
-                        rules:[item.rules],
-                        initialValue:item.initialValue
-                    }
-                )(<TreeSelect   disabled={disabled} {...treeSelectProps} >
+            return (
+                getFieldDecorator(item.id, {
+                    rules: [item.rules],
+                    initialValue: item.initialValue
+                }
+                )(<TreeSelect disabled={disabled} {...treeSelectProps} >
                     {
                         treeNodeFun(selectData)
                     }
                 </TreeSelect>)
             );
-        case 'tree' :
+        case 'tree':
             return (
-                getFieldDecorator( item.id,{
-                        rules:[item.rules],
-                        initialValue:item.initialValue
-                    }
-                )(<Tree   disabled={disabled}  showLine>
+                getFieldDecorator(item.id, {
+                    rules: [item.rules],
+                    initialValue: item.initialValue
+                }
+                )(<Tree disabled={disabled} showLine>
                     {
                         treeNodeFun1(treeData)
                     }
@@ -166,52 +175,64 @@ const createFormItem =(getFieldDecorator,item,index,selectData,treeSelectProps,t
             );
         case "checkbox":
             return (
-                getFieldDecorator( item.id,{
-                        rules:[item.rules],
-                        initialValue:item.initialValue,
-                    }
-                )( <Checkbox.Group options={checkboxData} />)
+                getFieldDecorator(item.id, {
+                    rules: [item.rules],
+                    initialValue: item.initialValue,
+                }
+                )(<Checkbox.Group options={checkboxData} />)
             );
-        default :
+        case "date":
+            return (
+                getFieldDecorator(
+                    item.id,
+                    {
+                        rules:[{
+                            ...item.rules,
+                            type:'object'
+                        }],
+                    }
+                )(<DatePicker style={{width:'100%'}} />)
+            )
+        default:
             return null
     }
 };
 
-const treeNodeFun = (data)=>(
-    data.map((item)=>{
-        if(item.children){
+const treeNodeFun = (data) => (
+    data.map((item) => {
+        if (item.children) {
             return <TreeNode title={item.name} value={item.id} key={item.id}>
                 {treeNodeFun(item.children)}
             </TreeNode>
         }
-        return <TreeNode title={item.name} value={item.id} key={item.id}/>
+        return <TreeNode title={item.name} value={item.id} key={item.id} />
     })
 );
-const treeNodeFun1 = (data)=>(
-    data.map((item)=>{
-        if(item.children){
+const treeNodeFun1 = (data) => (
+    data.map((item) => {
+        if (item.children) {
             return <Tree.TreeNode title={item.name} value={item.id} key={item.id}>
                 {treeNodeFun1(item.children)}
             </Tree.TreeNode>
         }
-        return <Tree.TreeNode title={item.name} value={item.id} key={item.id}/>
+        return <Tree.TreeNode title={item.name} value={item.id} key={item.id} />
     })
 );
 
-export function tranCheckboxData(dataList,label,value){
-    if(!Array.isArray(dataList)){
+export function tranCheckboxData(dataList, label, value) {
+    if (!Array.isArray(dataList)) {
         throw new Error('tranCheckboxData的参数dataList不是一个数组');
     }
-    label=label+'';
-    value=value+'';
+    label = label + '';
+    value = value + '';
 
-    let checkboxData=[];
-    dataList.map(item=>{
+    let checkboxData = [];
+    dataList.map(item => {
         checkboxData.push({
-            label:item[label],
-            value:item[value]
+            label: item[label],
+            value: item[value]
         });
-        return null ;
+        return null;
     });
     return checkboxData
 }

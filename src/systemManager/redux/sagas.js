@@ -351,13 +351,13 @@ export function* watchRequestOrgAllToBlockChain() {
             url: '/org/syncAllToBlockChain',
             type: ORG_ALL_TO_BLOCK_CHAIN,
             loadingMsg: '正在同步...',
-            dispatchLoading:true,
+            dispatchLoading: true,
         }, null, blockChainCallback)
     }
 }
 
-const blockChainCallback = (data)=>{
-    alertNotification(data.message,data.message)
+const blockChainCallback = (data) => {
+    alertNotification(data.message, data.message)
     store.dispatch(requestOrgList());
 }
 
@@ -374,7 +374,7 @@ export function* watchRequestOrgToBlockChain() {
             url: '/org/syncToBlockChain',
             type: ORG_TO_BLOCK_CHAIN,
             loadingMsg: '正在同步...',
-            dispatchLoading:true,
+            dispatchLoading: true,
         }, null, blockChainCallback)
     }
 }
@@ -801,12 +801,12 @@ export function* watchRequestPowerConfigAddPaths() {
         const action = yield take(REQUEST_POWER_CONFIG_ADD_PATH);
         // yield fork(powerConfigAddPermPaths, action);
         yield fork(requestData, {
-                action,
-                url: '/perm/addPermPaths',
-                type: POWER_CONFIG_ADD_PATH,
-                loadingMsg: '添加中...',
-                dispatchLoading: true
-            },
+            action,
+            url: '/perm/addPermPaths',
+            type: POWER_CONFIG_ADD_PATH,
+            loadingMsg: '添加中...',
+            dispatchLoading: true
+        },
             createSuccCallback
         );
     }

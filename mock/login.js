@@ -23,7 +23,7 @@ const templateRoot =Mock.mock({
         updateTime: '@now()'
     }]
 });
-const permChildTemplate = Mock.mock({
+const systemManagerTemplate = Mock.mock({
     'array|6':[{
         'action|+1':[
             'systemManager/powerManager',
@@ -49,25 +49,17 @@ const permChildTemplate = Mock.mock({
         updateTime: '@now()'
     }]
 });
-const permChildTemplate1 = Mock.mock({
-    'array|6':[{
+const otherMenuListTemplate = Mock.mock({
+    'array|2':[{
         'action|+1':[
-            '权限管理',
-            '菜单管理',
-            '角色管理',
-            '用户管理',
-            'systemManager.organManager',
-            '结构权限管理'
+            'businessSystem/fundsModule',
+            'businessSystem/fundsModule112'
         ],
         menuId: '@increment()',
         createTime:'@now()',
         'menuName|+1':[
-            '权限管理',
-            '菜单管理',
-            '角色管理',
-            '用户管理',
-            '机构管理',
-            '结构权限管理'
+            '资金',
+            '资金1'
         ],
         parentMenuId:300,
         sort:'@increment()',
@@ -75,10 +67,11 @@ const permChildTemplate1 = Mock.mock({
         updateTime: '@now()'
     }]
 });
+
 export const menuList =  [
     ...templateRoot.array,
-    ...permChildTemplate.array,
-    ...permChildTemplate1.array
+    ...systemManagerTemplate.array,
+    ...otherMenuListTemplate.array
 ];
 export const loginMock =Mock.mock('/login',function (option) {
     const {username,password} = JSON.parse(option.body);

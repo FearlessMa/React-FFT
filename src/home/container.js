@@ -9,6 +9,7 @@ import {MenuManagerLayout} from "../systemManager/menuManager";
 import {PowerManagerLayout} from "../systemManager/powerManager";
 import {RoleManagerLayout} from "../systemManager/roleManager";
 import {UserManagerLayout} from "../systemManager/userManager";
+import { FundsModuleLayout } from '../businessSystem/fundsModule';
 
 const AllRoutes = props => {
     return (
@@ -21,6 +22,7 @@ const AllRoutes = props => {
                 <Route path={`/systemManager/powerManager`} component={PowerManagerLayout}/>
                 <Route path={`/systemManager/roleManager`} component={RoleManagerLayout}/>
                 <Route path={`/systemManager/userManager`} component={UserManagerLayout}/>
+                <Route path={`/businessSystem/fundsModule`} component={FundsModuleLayout}/>
                 <Redirect to={`${props.match.path}`}/>
             </Switch>
         </div>

@@ -223,7 +223,8 @@ const OraganContent = props => {
             <div className="containerHeader">
                 <Row className=''>
                     <Col span={20} offset={3}>
-                        <FormComponent formList={searchComponentData}
+                        <FormComponent
+                            formList={searchComponentData}
                             btn={{ sub: '搜索' }}
                             layout={'inline'}
                             formSubmit={props.formSubmit}

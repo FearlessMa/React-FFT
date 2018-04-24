@@ -27,6 +27,6 @@ export function* watchLoginAction() {
 
 }
 
-const errLogin = () => {
+const errLogin = (data) => {
     store.dispatch(clearLoadingAction())
 };
