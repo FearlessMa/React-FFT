@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox, DatePicker } from 'antd';
+import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox, DatePicker, Select, Option } from 'antd';
 
 const { TextArea } = Input;
 const TreeNode = TreeSelect.TreeNode;
@@ -69,7 +69,7 @@ export class FormComponent extends React.Component {
             treeSelectProps, treeData, onChange, checkboxData,
             formSubmit
         } = this.props;
-        const { getFieldDecorator, getFieldValue } = form;
+        const { getFieldDecorator } = form;
         formItemLayout = formItemLayout || {};
         formSubBtnLayout = formSubBtnLayout || {};
         formList = formList || [];
@@ -89,7 +89,7 @@ export class FormComponent extends React.Component {
                                     <FormItem key={`${item.id}-${i}`} {...formItemLayout} label={item.label}>
                                         {
                                             createFormItem(getFieldDecorator, item, i, selectData, treeSelectProps, treeData,
-                                                checkboxData, getFieldValue)
+                                                checkboxData)
                                         }
                                     </FormItem>
                                 </Col>
@@ -102,30 +102,33 @@ export class FormComponent extends React.Component {
                             <FormItem key={`${item.id}-${i}`} {...formItemLayout} label={item.label}>
                                 {
                                     createFormItem(getFieldDecorator, item, i, selectData, treeSelectProps, treeData,
-                                        checkboxData, getFieldValue)
+                                        checkboxData)
                                 }
                             </FormItem>
                         )
                     })
                 }
-                <FormItem {...formSubBtnLayout}>
+                {/* <FormItem {...formSubBtnLayout}> */}
                     {
                         this.props.children
                     }
-                </FormItem>
-                <FormItem {...formSubBtnLayout}>
+                {/* </FormItem> */}
+                {btn ? <FormItem {...formSubBtnLayout}>
                     {btn.sub ? <Button type={'primary'} htmlType={'submit'}>{btn.sub}</Button> : null}
                     {btn.back ? <Button onClick={toBack} style={{ marginLeft: 30 }}>{btn.back}</Button> : null}
-                </FormItem>
-
+                </FormItem> : null
+                }
             </Form>
         )
     }
 }
 
-const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectProps, treeData, checkboxData, getFieldValue) => {
+const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectProps, treeData, checkboxData) => {
     let disabled = item.disabled || false;
     if (!item.rules) item.rules = {};
+    if (!Array.isArray(item.rules)) {
+        item.rules = [item.rules];
+    }
     if (!item.initialValue) item.initialValue = '';
     let type = item.type || 'text';
     switch (item.tag) {
@@ -133,7 +136,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
         case 'input':
             return (
                 getFieldDecorator(item.id, {
-                    rules: [item.rules],
+                    rules: item.rules,
                     initialValue: item.initialValue
                 }
                 )(<Input type={type} disabled={disabled} />)
@@ -142,7 +145,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
         case 'textarea':
             return (
                 getFieldDecorator(item.id, {
-                    rules: [item.rules],
+                    rules: item.rules,
                     initialValue: item.initialValue
                 }
                 )(<TextArea autosize={{ minRows: 3, maxRows: 6 }} type={type} disabled={disabled} />)
@@ -152,7 +155,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
 
             return (
                 getFieldDecorator(item.id, {
-                    rules: [item.rules],
+                    rules: item.rules,
                     initialValue: item.initialValue
                 }
                 )(<TreeSelect disabled={disabled} {...treeSelectProps} >
@@ -164,7 +167,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
         case 'tree':
             return (
                 getFieldDecorator(item.id, {
-                    rules: [item.rules],
+                    rules: item.rules,
                     initialValue: item.initialValue
                 }
                 )(<Tree disabled={disabled} showLine>
@@ -176,22 +179,31 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
         case "checkbox":
             return (
                 getFieldDecorator(item.id, {
-                    rules: [item.rules],
+                    rules: item.rules,
                     initialValue: item.initialValue,
                 }
-                )(<Checkbox.Group options={checkboxData} />)
+                )(<Checkbox.Group options={checkboxData} disabled={disabled} />)
             );
         case "date":
             return (
                 getFieldDecorator(
                     item.id,
                     {
-                        rules:[{
-                            ...item.rules,
-                            type:'object'
-                        }],
+                        rules: item.rules,
                     }
-                )(<DatePicker style={{width:'100%'}} />)
+                )(<DatePicker style={{ width: '100%' }} {...item.config} disabled={disabled} />)
+            )
+        case "select":
+            return (
+                getFieldDecorator(item.id, {
+                    rules: item.rules,
+                    initialValue: item.initialValue,
+                }
+                )(<Select {...item.config} disabled={disabled}>
+                    {item.options.map((optItem, i) => {
+                        return (<Select.Option key={i} value={optItem.value} {...optItem.config}>{optItem.name}</Select.Option>)
+                    })}
+                </Select>)
             )
         default:
             return null

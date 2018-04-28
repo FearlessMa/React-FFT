@@ -2,12 +2,12 @@
  * @Author: mhc 
  * @Date: 2018-04-23 15:25:19 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-23 15:28:07
+ * @Last Modified time: 2018-04-25 14:18:00
  */
 
-import {message, Modal} from "antd";
-import {store} from '../src/index';
-import {logoutAction} from "../src/home";
+import { message, Modal } from "antd";
+import { store } from '../src/index';
+import { logoutAction } from "../src/home";
 
 export const axiosConfig = {
     // `baseURL` 将自动加在 `url` 前面，除非 `url` 是一个绝对 URL。
@@ -17,7 +17,10 @@ export const axiosConfig = {
     //拦截器
     transformResponse: [(data) => {
         data = JSON.parse(data);
-        if (Number(data.code) === 400) {
+        if (typeof data.code !== 'number') {
+            data.code = data.code - 0;
+        }
+        if (data.code === 400) {
             Modal.error(
                 {
                     title: '请求失败',
@@ -28,7 +31,7 @@ export const axiosConfig = {
                 }
             );
         }
-        if (Number(data.code) === 401) {
+        if (data.code === 401) {
             Modal.error(
                 {
                     title: '当前未登录',
@@ -42,10 +45,10 @@ export const axiosConfig = {
                 }
             );
         }
-        if (Number(data.code) === 402) {
+        if (data.code === 402) {
             message.error(data.message, 1)
         }
-        if (Number(data.code) === 403) {
+        if (data.code === 403) {
             Modal.error(
                 {
                     title: '无访问权限',
@@ -57,7 +60,7 @@ export const axiosConfig = {
                 }
             );
         }
-        if (Number(data.code) === 404) {
+        if (data.code === 404) {
             Modal.error(
                 {
                     title: '资源不存在',
@@ -69,7 +72,7 @@ export const axiosConfig = {
                 }
             );
         }
-        if (Number(data.code) === 500) {
+        if (data.code === 500) {
             Modal.error(
                 {
                     title: '系统错误',

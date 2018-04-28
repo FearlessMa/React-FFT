@@ -6,8 +6,8 @@
  */
 
 //引入所有公共配置
-import { fundsModulePath } from './router';
-import {axiosConfig} from './axios';
+import { fundsModulePath, publishFundsPath } from './router';
+import { axiosConfig } from './axios';
 
 //index为所有公共配置出口
-export { fundsModulePath, axiosConfig };
+export { fundsModulePath, publishFundsPath, axiosConfig };

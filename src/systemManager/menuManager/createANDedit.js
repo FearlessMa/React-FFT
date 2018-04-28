@@ -4,9 +4,9 @@
 
 import React from 'react';
 // import {Row, Col, notification} from 'antd';
-import {FormComponent} from '../../common/formComponent';
-import {connect} from 'react-redux';
-import {requestMenuCreate, requestMenuDetail, requestMenuEdit} from "../redux/actions";
+import { FormComponent } from '../../common/formComponent';
+import { connect } from 'react-redux';
+import { requestMenuCreate, requestMenuDetail, requestMenuEdit } from "../redux/actions";
 
 const mapStateToProps = state => ({
     create: state.systemManager.menuManager.create,
@@ -31,7 +31,7 @@ export class MenuCreateContainer extends React.Component {
             //TODO
         }
         if (menuId) {
-            this.props.menuDetailSaga({menuId});
+            this.props.menuDetailSaga({ menuId });
             this.state = {
                 componentTitle: 'edit',
             };
@@ -45,7 +45,7 @@ export class MenuCreateContainer extends React.Component {
     onSubmit = (values) => {
         const menuId = this.menuId;
         if (menuId) {
-            this.props.menuEditSaga({menuId, ...values});
+            this.props.menuEditSaga({ menuId, ...values });
         } else {
             this.props.menuCreateSaga(values)
         }
@@ -69,7 +69,7 @@ export class MenuCreateContainer extends React.Component {
         return (
             <React.Fragment>
                 <MenuCreateContent {...this.props} formSubmit={this.onSubmit}
-                                   componentTitle={this.state.componentTitle}/>
+                    componentTitle={this.state.componentTitle} />
             </React.Fragment>
         );
     }
@@ -79,21 +79,21 @@ export class MenuCreateContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 4, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 4, offset: 1 },
         // sm: {span:11}
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10},
+        xs: { span: 24 },
+        sm: { span: 10 },
         // sm:{ span: 13}
     },
 };
 
 const formSubBtnLayout = {
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10, offset: 5},
+        xs: { span: 24 },
+        sm: { span: 10, offset: 5 },
     }
 };
 
@@ -154,8 +154,13 @@ const MenuCreateContent = (props) => {
     return (
         <React.Fragment>
             <div className='containerContent'>
-                <FormComponent btn={{sub: title, back: '返回'}} formList={formList} formSubmit={props.formSubmit}
-                               layout={'horizontal'} formItemLayout={formItemLayout} formSubBtnLayout={formSubBtnLayout}
+                <FormComponent
+                    btn={{ sub: title, back: '返回' }}
+                    formList={formList}
+                    formSubmit={props.formSubmit}
+                    layout={'horizontal'}
+                    formItemLayout={formItemLayout}
+                    formSubBtnLayout={formSubBtnLayout}
                 />
             </div>
         </React.Fragment>

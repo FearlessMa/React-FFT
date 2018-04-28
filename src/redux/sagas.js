@@ -15,8 +15,13 @@ import {
     watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete, watchRequestUserChangeStatus,
     watchRequestOrgRemoveMembers, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
-    watchRequestOrgAllToBlockChain,watchRequestOrgToBlockChain
+    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain
 } from '../systemManager/redux/sagas';
+
+import {
+    watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
+    watchReuqestForfaiterList,watchReuqestSyncAllForfaiterList
+} from '../businessSystem/redux/sgags';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgList, watchQueryAllOrgList,
     watchRequestOrgCreate, watchRequestOrgDetail, watchRequestOrgDelete, watchRequestOrgMembers,
@@ -29,7 +34,11 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestUserList, watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete,
     watchRequestUserChangeStatus, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
-    watchRequestOrgAllToBlockChain,watchRequestOrgToBlockChain]);
+    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,
+    //资金
+    watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
+    watchReuqestForfaiterList,watchReuqestSyncAllForfaiterList
+]);
 //
 // export {
 //     watchLoginAction,
@@ -93,6 +102,18 @@ export const sagasRun = () => {
     sagas.run(watchRequestUserDelete);
     sagas.run(watchRequestUserChangeStatus);
     sagas.run(watchRequestUserChangePwd);
+
+    /* *-----------资金查询 fundsModule ---------* */
+    // fundsPublish
+    sagas.run(watchRequestFundsPublish);
+    sagas.run(watchRequestFundsOffshef);
+    sagas.run(watchRequestPublishCreate);
+    //创建页面查询包买商
+    sagas.run(watchReuqestParentScForfaiterList);
+    
+    /* *-----------forfaiterModule ---------* */
+    sagas.run(watchReuqestForfaiterList);
+    sagas.run(watchReuqestSyncAllForfaiterList);
 };
 
 

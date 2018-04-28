@@ -12,13 +12,14 @@ const templateRoot =Mock.mock({
         'menuName|+1':[
             '首页',
             '系统管理',
-            '其他业务模块',
+            '福费廷',
         ],
         parentMenuId:'Root',
         sort:'@increment()',
         'tab|+1':[
             'home',
             'mail',
+            'api',
         ],
         updateTime: '@now()'
     }]
@@ -53,15 +54,34 @@ const otherMenuListTemplate = Mock.mock({
     'array|2':[{
         'action|+1':[
             'businessSystem/fundsModule',
-            'businessSystem/fundsModule112'
+            'businessSystem/forfaiter'
+        ],
+        // menuId: '@increment()',
+        'menuId|+1': [600,700],
+        createTime:'@now()',
+        'menuName|+1':[
+            '资金',
+            '包买商'
+        ],
+        parentMenuId:300,
+        sort:'@increment()',
+        tab: "",
+        updateTime: '@now()'
+    }]
+});
+const fundsModuleTemplate = Mock.mock({
+    'array|2':[{
+        'action|+1':[
+            'businessSystem/fundsModule/publishFunds',
+            'businessSystem/fundsModule/receivedFunds'
         ],
         menuId: '@increment()',
         createTime:'@now()',
         'menuName|+1':[
-            '资金',
-            '资金1'
+            '发布的资金',
+            '接收的资金'
         ],
-        parentMenuId:300,
+        parentMenuId:600,
         sort:'@increment()',
         tab: "",
         updateTime: '@now()'
@@ -71,7 +91,8 @@ const otherMenuListTemplate = Mock.mock({
 export const menuList =  [
     ...templateRoot.array,
     ...systemManagerTemplate.array,
-    ...otherMenuListTemplate.array
+    ...otherMenuListTemplate.array,
+    ...fundsModuleTemplate.array
 ];
 export const loginMock =Mock.mock('/login',function (option) {
     const {username,password} = JSON.parse(option.body);

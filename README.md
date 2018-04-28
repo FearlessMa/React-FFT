@@ -133,14 +133,15 @@ const res = {
 ##### 2.1.2使用方法
 
 * 方法名称 requestData
-* requestData(config = {action, url, type, loadingMsg, dispatchLoading}, succCallback, callback
+* requestData(config = {action, url, type, loadingMsg, dispatchLoading,method}, succCallback, callback
 * 参数如下
 * config :{
     action : axios 的请求参数,
     url : 请求地址,
     type ： 请求成功后 dispatch的type,
     loadingMsg ： 请求开始时 提示框的显示信息 （默认值：正在获取数据...）,
-    dispatchLoading : 是否向store发送type:loading
+    dispatchLoading : 是否向store发送type:loading,
+    method:不传默认post方法,(可选值'get','post')
  }
 * succCallback : 请求成功后且data.code=200时回调函数 Fun 默认接受两个参数data.message为请求返回结果message，action为此次saga的action。
 * dispatchCallback: 请求完成后可发送dispatch(action),dispatchCallback默认接受两个参数data为请求返回结果，action为此次saga的action。
@@ -155,6 +156,7 @@ export function* watchRequestPathDelete() {
             url:'/resPath/delete',
             type:PATH_DELETE,
             loadingMsg:'Path删除中...'
+            # method没有 默认 method:'post'
         },succCallback,dispatchCallback);
     }
 }

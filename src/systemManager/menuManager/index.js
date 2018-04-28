@@ -2,13 +2,13 @@
  * Created by MHC on 2018/3/21.
  */
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {TableComponent, FormComponent, tranTreeData, BreadcrumbComponent} from 'common';
-import {Button, Row, Col, Modal} from 'antd';
-import {connect} from 'react-redux';
-import {requestMenuDelete, requestMenuList} from "../redux/actions";
-import {MenuDetailContainer} from "./detail";
-import {MenuCreateContainer} from "./createANDedit";
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { TableComponent, FormComponent, tranTreeData, BreadcrumbComponent } from 'common';
+import { Button, Row, Col, Modal } from 'antd';
+import { connect } from 'react-redux';
+import { requestMenuDelete, requestMenuList } from "../redux/actions";
+import { MenuDetailContainer } from "./detail";
+import { MenuCreateContainer } from "./createANDedit";
 
 
 const breadcrumbNameMap = {
@@ -22,13 +22,13 @@ const breadcrumbNameMap = {
 export const MenuManagerLayout = props => {
     return (
         <React.Fragment>
-            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
             <Switch>
-                <Route exact path={`/systemManager/menuManager`} component={MenuManagerContainer}/>
-                <Route path={`/systemManager/menuManager/create`} component={MenuCreateContainer}/>
-                <Route path={`/systemManager/menuManager/detail/:menuId`} component={MenuDetailContainer}/>
-                <Route path={`/systemManager/menuManager/edit/:menuId`} component={MenuCreateContainer}/>
-                <Redirect to={'/systemManager/menuManager'}/>
+                <Route exact path={`/systemManager/menuManager`} component={MenuManagerContainer} />
+                <Route path={`/systemManager/menuManager/create`} component={MenuCreateContainer} />
+                <Route path={`/systemManager/menuManager/detail/:menuId`} component={MenuDetailContainer} />
+                <Route path={`/systemManager/menuManager/edit/:menuId`} component={MenuCreateContainer} />
+                <Redirect to={'/systemManager/menuManager'} />
             </Switch>
         </React.Fragment>
 
@@ -70,7 +70,7 @@ class MenuManagerContainer extends React.Component {
             cancelText: '取消',
             onOk() {
                 console.log(record.menuName);
-                menuDeleteSaga({menuId: record.menuId});
+                menuDeleteSaga({ menuId: record.menuId });
             },
             onCancel() {
                 console.log(record.menuName)
@@ -80,7 +80,7 @@ class MenuManagerContainer extends React.Component {
 
     //分页
     paginationOnChange = (pagination) => {
-        this.props.menuListSaga({current: pagination.current, pageSize: pagination.pageSize});
+        this.props.menuListSaga({ current: pagination.current, pageSize: pagination.pageSize });
     }
 
     toEdit = (menuId) => {
@@ -126,19 +126,24 @@ class MenuManagerContainer extends React.Component {
                         <div>
                             <Button onClick={this.toEdit.bind(this, record.menuId)}>编辑</Button>
                             <Button type={'danger'}
-                                    onClick={this.delete.bind(this, record)}
-                                    style={{
-                                        marginLeft: 5,
-                                    }}>删除</Button>
+                                onClick={this.delete.bind(this, record)}
+                                style={{
+                                    marginLeft: 5,
+                                }}>删除</Button>
                         </div>
                     );
                 }
             }
         ];
         return (
-            <MenuManagerContent {...this.props} formSubmit={this.onSubmit} columns={columns}
-                                componentTitle={'菜单列表'} btnClick={this.btnClick}
-                                btnName={'创建菜单'} onChange={this.paginationOnChange}/>
+            <MenuManagerContent
+                {...this.props}
+                formSubmit={this.onSubmit}
+                columns={columns}
+                componentTitle={'菜单列表'}
+                btnClick={this.btnClick}
+                btnName={'创建菜单'}
+                onChange={this.paginationOnChange} />
         );
     }
 
@@ -173,17 +178,18 @@ const MenuManagerContent = (props) => {
                 {/*菜单管理*/}
                 <Row>
                     <Col offset={3}>
-                        <FormComponent formList={searchComponentData}
-                                       btn={{sub: '搜索'}}
-                                       layout={'inline'}
-                                       formSubmit={props.formSubmit}
+                        <FormComponent
+                            formList={searchComponentData}
+                            btn={{ sub: '搜索' }}
+                            layout={'inline'}
+                            formSubmit={props.formSubmit}
                         />
                     </Col>
                 </Row>
             </div>
             <div className='containerContent'>
                 <TableComponent {...props} dataSource={menuList} pagination={pagination}
-                                rowKey={'menuId'}/>
+                    rowKey={'menuId'} />
             </div>
         </React.Fragment>
     )

@@ -171,10 +171,10 @@ const OrganLayout = (props) => {
 
         },
     ];
-    try {
-        console.log(this.props.detail)
-    } catch (err) {
-    }
+    // try {
+    //     console.log(this.props.detail)
+    // } catch (err) {
+    // }
     return (
         <React.Fragment>
             <div className='containerContent'>

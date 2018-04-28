@@ -2,23 +2,20 @@
  * Created by MHC on 2018/3/1.
  */
 import Mock from 'mockjs';
-import {loginMock} from './login';
-import {queryorganListMock, queryAllOrgList, orgCreate} from './systemManager/organManager';
-import {pathManager} from './systemManager/pathManager';
-import {menuListTemplate} from './systemManager/menuManager';
-import {powerManager} from "./systemManager/powerManager";
-import {roleList} from "./systemManager/roleManager";
-import {userManager} from "./systemManager/userManager";
+import './login';
+import './systemManager/organManager';
+import './systemManager/pathManager';
+import './systemManager/menuManager';
+import "./systemManager/powerManager";
+import "./systemManager/roleManager";
+import "./systemManager/userManager";
+import './businessSystem/fundsModule';
+import './businessSystem/forfaiter';
+
+
+
 Mock.setup({
-    timeout:'500-1500'
+    timeout: '500-1500'
 });
 
-loginMock;
-queryorganListMock;
-queryAllOrgList;
-orgCreate;
-pathManager;
-menuListTemplate;
-powerManager;
-roleList;
-userManager
+

@@ -2,16 +2,16 @@
  * Created by MHC on 2018/3/15.
  */
 import React from 'react';
-import {connect} from 'react-redux';
-import {FormComponent} from '../../common/formComponent';
+import { connect } from 'react-redux';
+import { FormComponent } from '../../common/formComponent';
 import {
     requestOrgDetail,
     requestOrgDelete,
     requestOrgChangeStatus,
     dispatchOrgDetailModalVisible
 } from '../redux/actions';
-import {Row, Col, Button, Modal} from 'antd';
-import {message} from "antd/lib/index";
+import { Row, Col, Button, Modal } from 'antd';
+import { message } from "antd/lib/index";
 
 const mapStateToProps = (state) => ({
     detail: state.systemManager.organManager.detail,
@@ -35,7 +35,7 @@ export class OrganDetailContainer extends React.Component {
             message.error('数据错误', 1);
             this.props.history.push('/systemManager/organManager');
         }
-        this.props.orgDetailSaga({orgId});
+        this.props.orgDetailSaga({ orgId });
     }
 
     //删除机构
@@ -49,20 +49,20 @@ export class OrganDetailContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                orgDeleteSaga({orgId});
+                orgDeleteSaga({ orgId });
             },
             onCancel() {
-                console.log(name);//TODO
+                // console.log(name);//TODO
             },
         });
     }
     //Modal组件状态切换显示
     toggleModal = () => {
-        this.props.toggleOrgModalVisible({visible: !this.props.orgModalVisible});
+        this.props.toggleOrgModalVisible({ visible: !this.props.orgModalVisible });
     }
     //切换状态 TODO
     toggleStatus = value => {
-        this.props.orgChangeStatusSaga({orgId: this.orgId, status: value});
+        this.props.orgChangeStatusSaga({ orgId: this.orgId, status: value });
         this.toggleModal()
     }
 
@@ -80,9 +80,9 @@ export class OrganDetailContainer extends React.Component {
         return (
             <React.Fragment>
                 <OraganDetailContent toggleModal={this.toggleModal}
-                                     orgDelete={this.orgDelete} toggleStatus={this.toggleStatus}
-                                     ViewMembers={this.ViewMembers} toEdit={this.toEdit}
-                                     {...this.props}
+                    orgDelete={this.orgDelete} toggleStatus={this.toggleStatus}
+                    ViewMembers={this.ViewMembers} toEdit={this.toEdit}
+                    {...this.props}
                 />
             </React.Fragment>
         );
@@ -92,12 +92,12 @@ export class OrganDetailContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 11}
+        xs: { span: 24 },
+        sm: { span: 11 }
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 13}
+        xs: { span: 24 },
+        sm: { span: 13 }
     },
 };
 
@@ -207,10 +207,10 @@ const OraganDetailContent = props => {
                 >
                     {data.status !== 'NORMAL' ? <Button onClick={() => {
                         props.toggleStatus('NORMAL')
-                    }} style={{marginRight: 30}}>开启</Button> : null}
+                    }} style={{ marginRight: 30 }}>开启</Button> : null}
                     {data.status !== 'LOCKED' ? <Button onClick={() => {
                         props.toggleStatus('LOCKED')
-                    }} style={{marginRight: 30}}>锁定</Button> : null}
+                    }} style={{ marginRight: 30 }}>锁定</Button> : null}
                     {data.status !== 'CANCEL' ? <Button onClick={() => {
                         props.toggleStatus('CANCEL')
                     }}>作废</Button> : null}

@@ -3,10 +3,11 @@
  */
 
 // import React from 'react';
-import {FormComponent, tranCheckboxData} from './formComponent';
-import {TableComponent} from './tableComponent';
-import {tranTreeData} from './tranTreeData';
-import {axiosPost} from './axios';
-import {BreadcrumbComponent} from './breadcrumbComponent'
+import { FormComponent, tranCheckboxData } from './formComponent';
+import { TableComponent } from './tableComponent';
+import { tranTreeData } from './tranTreeData';
+import { axiosPost, requestData, alertNotification, alertModal } from './axios';
+import { BreadcrumbComponent } from './breadcrumbComponent'
 
-export {FormComponent, TableComponent, tranTreeData, tranCheckboxData, axiosPost, BreadcrumbComponent}
+export { FormComponent, TableComponent, tranTreeData, tranCheckboxData, axiosPost, requestData, alertNotification, 
+    alertModal, BreadcrumbComponent }

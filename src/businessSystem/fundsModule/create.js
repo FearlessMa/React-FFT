@@ -1,0 +1,377 @@
+/*
+ * @Author: mhc 
+ * @Date: 2018-04-25 15:15:22 
+ * @Last Modified by: mhc
+ * @Last Modified time: 2018-04-28 17:59:37
+ */
+
+
+import React from 'react';
+import { FormComponent, TableComponent } from 'common';
+import { connect } from 'react-redux';
+import { requestFundsPublishCreate, reuqestParentScForfaiterList } from '../redux/actions';
+
+import { Modal, Table, notification } from 'antd';
+
+
+const mapStateToProps = state => ({
+    parentScForfaiterList: state.businessSystem.fundsModule.parentScForfaiterList,
+    // modalTableLoading: state.businessSystem.forfaiterModule.loading,
+})
+const mapDispatchToProps = dispatch => ({
+    fundsPublishCreateSaga: values => dispatch(requestFundsPublishCreate(values)),
+    modalForfaiterListSaga: values => dispatch(reuqestParentScForfaiterList(values)),
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+export class PublishCreateContainer extends React.Component {
+    constructor(...arg) {
+        super(...arg);
+        this.state = {
+            modalVisible: false,
+            //最终存储已选择的包买商数据
+            selectedForfaiter: [],
+            //modal框已选择的数据
+            modalSelectedForfaiter: []
+        }
+    }
+
+    onSubmit = values => {
+        const { selectedForfaiter } = this.state;
+        values.priceValidEnd = new Date(values.priceValidEnd).getTime();
+        values.priceValidStart = new Date(values.priceValidStart).getTime();
+        const list = this.formatForfaiterList(selectedForfaiter);
+        values.forfaiter = JSON.stringify(list);
+        if (!selectedForfaiter[0]) {
+            notification['error']({
+                message: '错误！',
+                description: '包买商为必选'
+            })
+        } else {
+            this.props.fundsPublishCreateSaga(values);
+        }
+    }
+
+    // 创建包买商列表数据forfaiter
+    formatForfaiterList = list => {
+        const forfaiterList = [];
+        const listMap = {};
+        list.map(item => {
+            if (item['rootSwiftCode']) {
+                listMap[item['rootSwiftCode']] = {
+                    BK_NM_C: item['rootName'],
+                    BK_SC: item['rootSwiftCode'],
+                    FORFEITER: []
+                }
+            } else {
+                listMap[item['swiftCode']] = {
+                    BK_NM_C: item['forfaiterName'],
+                    BK_SC: item['swiftCode'],
+                    FORFEITER: []
+                }
+            }
+            return null
+        })
+        list.map(item => {
+            if (item['rootSwiftCode'] in listMap) {
+                listMap[item['rootSwiftCode']].FORFEITER.push({
+                    NM: item.forfaiterName,
+                    SC: item.swiftCode
+                })
+            }
+            return null
+        });
+        for (let key in listMap) {
+            forfaiterList.push(listMap[key]);
+        }
+        return forfaiterList
+    }
+    //切换显示
+    toggleModal = (type) => {
+        this.setState({
+            modalVisible: !this.state.modalVisible
+        })
+        if (type === 'btn') {
+            this.props.modalForfaiterListSaga({ forfaiterStatus: 'publish' })
+        }
+    }
+    //modal确认按钮回调
+    modalTableValue = () => {
+        this.setState({
+            selectedForfaiter: this.state.modalSelectedForfaiter,
+            modalVisible: !this.state.modalVisible
+        })
+    }
+
+    //modal 中table选择的数据
+    rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            this.setState({
+                modalSelectedForfaiter: selectedRows
+            })
+        },
+    };
+
+    // 删除已选中包买商
+    deleteSelectedForfaiter = (record) => {
+        const newData = this.state.selectedForfaiter.filter((item) => {
+            if (item.swiftCode !== record.swiftCode) {
+                return true
+            }
+        });
+        this.setState({
+            selectedForfaiter: newData
+        });
+    }
+
+    //分页
+    paginationOnChange = pagination => {
+        this.props.modalForfaiterListSaga({ current: pagination.current, pageSize: pagination.pageSize });
+    }
+
+    render() {
+        //扩展columns删除操作
+        const tableDeleteColumns = [
+            {
+                title: '操作',
+                dataIndex: '',
+                render: (text, record) => {
+                    return <a href="javascript:;" onClick={this.deleteSelectedForfaiter.bind(this, record)}>删除</a>
+                }
+            },
+        ];
+        return <React.Fragment>
+            <PublishCreateContent
+                formSubmit={this.onSubmit}
+                toggleModal={this.toggleModal}
+                modalTableValue={this.modalTableValue}
+                rowSelection={this.rowSelection}
+                tableDeleteColumns={tableDeleteColumns}
+                paginationOnChange={this.paginationOnChange}
+                {...this.state}
+                {...this.props}
+            />
+        </React.Fragment>
+    }
+}
+
+
+const PublishCreateContent = props => {
+    console.log('props')
+    console.log(props)
+    let forfaiterData = [];
+    const selectedColumns = tableColumns.concat(props.tableDeleteColumns);
+    try {
+        forfaiterData = props.parentScForfaiterList.data.forfaiterList;
+    } catch (e) { }
+    return (<React.Fragment>
+        <div className={'containerContent'}>
+            <FormComponent
+                formList={formList}
+                layout={'horizontal'}
+                moreItemInRow={true}
+                formItemLayout={formItemLayout}
+                formSubBtnLayout={formSubBtnLayout}
+                btn={{ sub: '提交', back: '返回' }}
+                formSubmit={props.formSubmit}
+            >
+                <TableComponent
+                    componentTitle={'包买商列表'}
+                    btnName={'添加包买商'}
+                    columns={selectedColumns}
+                    dataSource={props.selectedForfaiter}
+                    rowKey='swiftCode'
+                    btnClick={props.toggleModal.bind(this, 'btn')}
+                    scroll={{ y: 240 }}
+                    pagination={false}
+                ></TableComponent>
+                <ul>
+                    <li>
+                        选择添加总行默认包括所有分行
+                    </li>
+                    <li style={{ color: 'red' }}>
+                        包买商为必选
+                    </li>
+                </ul>
+            </FormComponent>
+            <Modal
+                //modal 
+                title="包买商列表"
+                visible={props.modalVisible}
+                onOk={props.modalTableValue}
+                onCancel={props.toggleModal}
+                cancelText={'取消'}
+                style={{ minWidth: '80%' }}
+            >
+                <FormComponent
+                    //modal搜索
+                    formList={ModalsearchComponentData}
+                    formSubmit={props.formSubmit}
+                    btn={{ sub: '搜索' }}
+                    layout={'inline'}
+                //formItemLayout={formItemLayout}
+                //formSubBtnLayout={modalFormSubBtnLayout}
+                //moreItemInRow={true}
+                />
+                <Table
+                    //modal table
+                    rowKey='swiftCode'
+                    columns={tableColumns}
+                    dataSource={forfaiterData}
+                    scroll={{ y: 400 }}
+                    //扩展子table
+                    //expandedRowRender={expandedRowRender}
+                    //点击扩展图标是回调
+                    //onExpand={props.onExpand}
+                    //显示选择框
+                    rowSelection={props.rowSelection}
+                    onChange={props.paginationOnChange}
+                    //loading={props.modalTableLoading}
+                />
+            </Modal>
+        </div>
+    </React.Fragment>)
+}
+
+
+const formList = [
+    {
+        label: '包买商名称',
+        id: 'forfaiterNm',
+        tag: 'input',
+        type: 'text',
+        rules: {
+            required: true,
+            message: '包买商名称必填'
+        }
+    },
+    {
+        label: '包买商BIC',
+        id: 'forfaiterSc',
+        tag: 'input',
+        type: 'text',
+        rules: {
+            required: true,
+            message: '包买商BIC必填'
+        }
+    },
+    {
+        label: '包买商联系人',
+        id: 'forfaiterAtten',
+        tag: 'input',
+        type: 'text',
+    },
+    {
+        label: '包买商联系方式',
+        id: 'forfaiterContacts',
+        tag: 'input',
+        type: 'text',
+    },
+    {
+        label: '融资期限',
+        id: 'financingMaturity',
+        tag: 'input',
+        type: 'text',
+    },
+    {
+        label: '价格',
+        id: 'price',
+        tag: 'input',
+        type: 'text',
+        rules: {
+            required: true,
+            message: '价格必填'
+        }
+    },
+    {
+        label: '价格有效开始时间',
+        id: 'priceValidStart',
+        tag: 'date',
+        rules: {
+            required: true,
+            message: '价格有效开始时间必填',
+            type: 'object'
+        },
+        config: {
+            placeholder: ''
+        }
+    },
+    {
+        label: '价格有效结束时间',
+        id: 'priceValidEnd',
+        tag: 'date',
+        rules: {
+            required: true,
+            message: '价格有效结束时间必填',
+            type: 'object'
+        },
+        config: {
+            placeholder: ''
+        }
+    },
+    {
+        label: '其他要求',
+        id: 'requirements',
+        tag: 'textarea',
+        type: 'text',
+    },
+];
+
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8, offset: 1 },
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 15 },
+    },
+}
+
+const formSubBtnLayout = {
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 10, offset: 8 },
+    }
+};
+//table columns数据
+const tableColumns = [
+    {
+        title: '包买商名称',
+        dataIndex: 'forfaiterName',
+    },
+    {
+        title: 'swiftCode',
+        dataIndex: 'swiftCode',
+    },
+];
+//modal 搜索
+const ModalsearchComponentData = [
+    {
+        label: '机构名称',
+        id: 'forfaiterNm',
+        type: 'text',
+        tag: 'input',
+    },
+    {
+        label: '结构BIC',
+        id: 'parentSwiftCode',
+        type: 'text',
+        tag: 'input',
+    },
+    {
+        label: '包买商BIC',
+        id: 'swiftCode',
+        tag: 'input',
+    },
+];
+//modal
+const modalFormSubBtnLayout = {
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 4, offset: 20 },
+    }
+};
+
+
+

@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/16.
  */
 import React from 'react';
-import {Table, Col, Row} from 'antd';
+import { Table, Col, Row } from 'antd';
 
 
 /**
@@ -16,7 +16,7 @@ import {Table, Col, Row} from 'antd';
  *
  * **/
 export const TableComponent = (props) => {
-    let {btnName, titleStyle, btnStyle, OtherComponent} = props;
+    let { btnName, titleStyle, btnStyle, OtherComponent, children } = props;
     btnName = btnName || false;
     OtherComponent = OtherComponent || false;
     return (
@@ -26,7 +26,7 @@ export const TableComponent = (props) => {
                     <div className='tableTitle' style={titleStyle}>{props.componentTitle}</div>
                 </Col>
                 {
-                    OtherComponent ? <OtherComponent {...props}/> : null
+                    OtherComponent ? <OtherComponent {...props} /> : null
                 }
                 {
                     btnName ? <Col span={3} offset={11}>
@@ -34,6 +34,7 @@ export const TableComponent = (props) => {
                     </Col> : null
                 }
             </Row>
+            {children ? children : null}
             <Table {...props} />
         </React.Fragment>
     )

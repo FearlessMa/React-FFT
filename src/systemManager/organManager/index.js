@@ -132,6 +132,9 @@ class OrganContainer extends React.Component {
                 title: '机构同步状态',
                 dataIndex: 'syncStatus',
                 render: text => {
+                    if(typeof text !== 'string'){
+                        String(text)
+                    }
                     switch (text) {
                         case "0":
                             return <span>未同步</span>

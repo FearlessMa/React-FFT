@@ -2,10 +2,8 @@
  * Created by MHC on 2018/3/13.
  */
 
-import {
-    take,
-    fork
-} from 'redux-saga/effects';
+ import { take, fork } from 'redux-saga/effects';
+
 import {
     ORG_LIST,
     REQUEST_MENU_LIST,
@@ -98,14 +96,9 @@ import {
     REQUEST_ORG_TO_BLOCK_CHAIN,
     ORG_TO_BLOCK_CHAIN
 } from "./actionTypes";
-import {
-    store
-} from '../../index';
-import {
-    requestData,
-    alertModal,
-    alertNotification
-} from "../../common/axios";
+
+import { store } from '../../index';
+import { requestData, alertModal, alertNotification } from "../../common/axios";
 import {
     dispatchOrgDetailModalVisible,
     requestPathManager,
@@ -140,6 +133,7 @@ import {
 //         }
 //     );
 // }
+
 
 /**         requestData 参数
  * config :{
@@ -346,12 +340,15 @@ const succCallback = (data, action) => {
 export function* watchRequestOrgAllToBlockChain() {
     while (true) {
         const action = yield take(REQUEST_ORG_ALL_TO_BLOCK_CHAIN);
+        // const {action1 , callbackData} = action;
         yield fork(requestData, {
             action,
             url: '/org/syncAllToBlockChain',
             type: ORG_ALL_TO_BLOCK_CHAIN,
             loadingMsg: '正在同步...',
             dispatchLoading: true,
+            //回调参数
+            // callbackData
         }, null, blockChainCallback)
     }
 }
