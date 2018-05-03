@@ -2,12 +2,12 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:41:51 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-28 13:58:58
+ * @Last Modified time: 2018-05-03 14:13:38
  */
 
 import { requestData, alertNotification } from 'common';
 import { take, fork } from 'redux-saga/effects';
-import { REQUEST_FUNDS_PUBLISH_LIST, FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, SYNC_ALL_FORFAITER } from './actionTypes';
+import { REQUEST_FUNDS_PUBLISH_LIST, FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, FUNDS_DETAIL_LIST } from './actionTypes';
 import { requestFundsPublishList, requestForfaiterList } from './actions';
 import { store } from '../../index';
 
@@ -108,6 +108,46 @@ export function* watchReuqestParentScForfaiterList() {
     }
 }
 
+
+/** 接收的资金列表
+ * Path：/capital/listReceivedCapital
+ * Method：POST
+ **/
+
+export function* watchRequestFundsReceived() {
+    while (true) {
+        const action = yield take(REQUEST_FUNDS_RECEIVED_LIST);
+        yield fork(requestData, {
+            action,
+            url: '/capital/listReceivedCapital',
+            type: FUNDS_RECEIVED_LIST,
+            loadingMsg: '获取接收资金数据...',
+            dispatchLoading: true
+        })
+    }
+}
+/**
+ * Path：/capital/detail
+ * Method：POST
+**/
+
+export function * watchRequestFundsDetailList(){
+    while(true){
+        const action = yield take(REQUEST_FUNDS_DETAIL_LIST);
+        yield fork(requestData,{
+            action,
+            url:'/capital/detail',
+            type:FUNDS_DETAIL_LIST,
+            loadingMsg:'正在加载资金详情...',
+        })
+    }
+}
+
+
+
+/*********--------------------包买商-----------------**********/
+
+
 /**包买商列表
  * Path：/forfaiter/list
  * Method：POST
@@ -144,7 +184,7 @@ export function* watchReuqestSyncAllForfaiterList() {
     }
 }
 const syncCallback = (data) => {
-    if (String(data.code) === '200'){
+    if (String(data.code) === '200') {
         alertNotification(data.message, data.message);
         store.dispatch(requestForfaiterList())
     }

@@ -2,12 +2,12 @@
  * @Author: mhc 
  * @Date: 2018-04-24 15:09:54 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-27 18:18:35
+ * @Last Modified time: 2018-05-03 14:28:20
  */
 
 import Mock from 'mockjs';
 
-/**
+/** 发布的资金
  *  Path：/capital/listPublishedCapital
  *  Method：POST
 **/
@@ -124,7 +124,7 @@ export const forfaiterListByParentSc = Mock.mock('/forfaiter/listByParentSc', op
                 ]
             }
         }
-    } else if (parentSwiftCode == 'MSBCCNBJ200') { 
+    } else if (parentSwiftCode == 'MSBCCNBJ200') {
         return {
             code: 200,
             message: '成功!',
@@ -183,4 +183,84 @@ export const forfaiterListByParentSc = Mock.mock('/forfaiter/listByParentSc', op
             }
         }
     }
+})
+
+
+/** 接收的资金列表
+ * Path：/capital/listReceivedCapital
+ * Method：POST
+ **/
+
+export const receivedFundsList = Mock.mock('/capital/listReceivedCapital', (option) => {
+
+    return Mock.mock({
+        "code": 200,
+        "data": {
+            "capitalList|5": [
+                {
+                    "capitalId": "@id()",
+                    "forfaiterNm": "中信银行",
+                    "forfaiterSc": "MSBCCNBJ100",
+                    "forfaiterAtten": "李四",
+                    "forfaiterContacts": "18200000000",
+                    "financingMaturity": "",
+                    "price": 0.15,
+                    "requirements": "",
+                    "priceValidStart": 1515052850000,
+                    "priceValidEnd": 1515052850000,
+                    "capitalStatus|+1": ['0', "1", '2', '3', '4'],
+                    "forfaiter": "",
+                    "txId": "943d7109-070b-4f87-9da7-1824e0e6683a",
+                    "tranType": "1",
+                    "tranDate": 1515052850000,
+                    "extend": ""
+                }
+            ],
+            "pagination": {
+                "current": 1,
+                "pageSize": 10,
+                "total": 50,
+                "totalPage": 5
+            }
+        },
+        "message": "SUCCESS"
+    })
+})
+
+/**
+ * Path：/capital/detail
+ * Method：POST
+**/
+
+export const fundsDetail = Mock.mock('/capital/detail', option => {
+    const { capitalId } = JSON.parse(option.body);
+    if(capitalId){
+        return {
+            code: 200,
+            message: '成功',
+            data: {
+                "capitalId": "979524062367059968",
+                "forfaiterNm": "民生银行北京分行",
+                "forfaiterSc": "MSBCCNBJ100",
+                "forfaiterAtten": "李四",
+                "forfaiterContacts": "18200000000",
+                "financingMaturity": "",
+                "price": 0.15,
+                "requirements": "",
+                "priceValidStart": 1515052850000,
+                "priceValidEnd": 1515052850000,
+                "capitalStatus": "1",
+                "forfaiter": "",
+                "txId": "943d7109-070b-4f87-9da7-1824e0e6683a",
+                "tranType": "1",
+                "tranDate": 1515052850000,
+                "extend": ""
+            }
+        }
+    }
+    return {
+        code:400,
+        message:'失败'
+    }
+    
 })

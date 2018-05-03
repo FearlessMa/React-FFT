@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-25 15:15:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-28 17:59:37
+ * @Last Modified time: 2018-05-03 15:36:32
  */
 
 
@@ -11,7 +11,7 @@ import { FormComponent, TableComponent } from 'common';
 import { connect } from 'react-redux';
 import { requestFundsPublishCreate, reuqestParentScForfaiterList } from '../redux/actions';
 
-import { Modal, Table, notification } from 'antd';
+import { Modal, Table, notification, Divider, Row, Col } from 'antd';
 
 
 const mapStateToProps = state => ({
@@ -118,6 +118,7 @@ export class PublishCreateContainer extends React.Component {
             if (item.swiftCode !== record.swiftCode) {
                 return true
             }
+            return null
         });
         this.setState({
             selectedForfaiter: newData
@@ -166,6 +167,13 @@ const PublishCreateContent = props => {
     } catch (e) { }
     return (<React.Fragment>
         <div className={'containerContent'}>
+            <Row>
+                <Col span={24}>
+                    <div style={{ textAlign: 'center' }}>
+                        <Divider><h2>创建资金</h2></Divider>
+                    </div>
+                </Col>
+            </Row>
             <FormComponent
                 formList={formList}
                 layout={'horizontal'}
@@ -226,7 +234,7 @@ const PublishCreateContent = props => {
                     //显示选择框
                     rowSelection={props.rowSelection}
                     onChange={props.paginationOnChange}
-                    //loading={props.modalTableLoading}
+                //loading={props.modalTableLoading}
                 />
             </Modal>
         </div>
@@ -365,13 +373,13 @@ const ModalsearchComponentData = [
         tag: 'input',
     },
 ];
-//modal
-const modalFormSubBtnLayout = {
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 4, offset: 20 },
-    }
-};
+// //modal
+// const modalFormSubBtnLayout = {
+//     wrapperCol: {
+//         xs: { span: 24 },
+//         sm: { span: 4, offset: 20 },
+//     }
+// };
 
 
 

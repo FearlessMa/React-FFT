@@ -2,10 +2,10 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:42:41 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-28 10:21:54
+ * @Last Modified time: 2018-05-03 09:58:22
  */
 
-import { FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, FUNDS_PUBLISH_CREATE, PARENT_SC_FORFAITER_LIST, FORFAITER_LIST, SYNC_ALL_FORFAITER } from "./actionTypes";
+import { FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, FUNDS_PUBLISH_CREATE, PARENT_SC_FORFAITER_LIST, FORFAITER_LIST, SYNC_ALL_FORFAITER, FUNDS_RECEIVED_LIST, FUNDS_DETAIL_LIST } from "./actionTypes";
 import { REQUEST_ERR } from "../../login/redux/actionTypes";
 import { LOADING } from "../../systemManager/redux/actionTypes";
 
@@ -56,18 +56,25 @@ export const fundsModule = (state = fundsInitValue, action) => {
             });
         //创建页 包买商列表
         case PARENT_SC_FORFAITER_LIST:
-            // if (action.data.forfaiterList[0]['isRoot'] === '1') {
-            //     action.data.forfaiterList.map((item) => {
-            //         item.children = [];
-            //     })
-            // }else{
-            //     state.parentScForfaiterList.data.forfaiterList.find((item)=>{
-            //         item.swiftCode
-            //     })
-            // }
             return Object.assign({}, state, {
                 loading: false,
                 parentScForfaiterList: {
+                    ...action
+                }
+            });
+        //接收到的资金列表
+        case FUNDS_RECEIVED_LIST:
+            return Object.assign({}, state, {
+                loading: false,
+                receivedList: {
+                    ...action
+                }
+            });
+        //资金详情
+        case FUNDS_DETAIL_LIST:
+            return Object.assign({}, state, {
+                loading: false,
+                fundsDetail: {
                     ...action
                 }
             });

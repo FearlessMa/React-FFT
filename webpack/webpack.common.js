@@ -4,7 +4,7 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const theme = require('../theme');
 
@@ -117,13 +117,14 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'react all',
             template: path.resolve(__dirname, '../index.html')
-        }),
-        // new ExtractTextPlugin("../dist/css/[name].css"),
-        new CleanWebpackPlugin(['dist'], {
-            root: path.resolve(__dirname,'../'),//根目录
-            verbose: true,
-            dry: false
         })
+        // ,
+        // new ExtractTextPlugin("../dist/css/[name].css"),
+        // new CleanWebpackPlugin(['dist'], {
+        //     root: path.resolve(__dirname,'../'),//根目录
+        //     verbose: true,
+        //     dry: false
+        // })
     ]
 };
 

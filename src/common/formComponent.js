@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox, DatePicker, Select, Option } from 'antd';
+import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox, DatePicker, Select } from 'antd';
 
 const { TextArea } = Input;
 const TreeNode = TreeSelect.TreeNode;

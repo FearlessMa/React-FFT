@@ -2,45 +2,74 @@
  * @Author: mhc 
  * @Date: 2018-04-23 14:15:38 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-28 17:45:00
+ * @Last Modified time: 2018-05-03 15:23:11
  */
 
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { publishFundsPath } from 'publicConfig';
-import { FormComponent, TableComponent } from 'common';
-import { Col, Row, Button, Icon, Modal,Form } from 'antd';
+//引入发布资金路径
+import { publishFundsPath, receivedFundsPath, fundsModuleMap } from 'publicConfig';
+import { FormComponent, TableComponent, BreadcrumbComponent } from 'common';
+import { Col, Row, Button, Icon, Modal, Form } from 'antd';
 import { connect } from 'react-redux';
-import { requestFundsPublishList, requestFundsOffshef } from '../redux/actions';
+import { requestFundsPublishList, requestFundsOffshef, requestFundsReceivedList } from '../redux/actions';
 import { PublishCreateContainer } from './create'
 import { FundsDetailContainer } from './detail';
 
+
+
+
+//路由
 export const FundsModuleLayout = props => {
-    return <Switch>
-        <Route exact path={publishFundsPath.basePath} component={FundsModuleContainer} />
-        <Route path={publishFundsPath.createPath} component={PublishCreateContainer} />
-        <Route path={`${publishFundsPath.detailPath}${publishFundsPath.detailParam}`} component={FundsDetailContainer} />
+    return <React.Fragment>
+        <BreadcrumbComponent {...props} breadcrumbNameMap={fundsModuleMap} />
+        <Switch>
+            <Route exact path={`${publishFundsPath.basePath}`} component={PublishFunds} />
+            <Route exact path={`${receivedFundsPath.basePath}`} component={ReceivedFunds} />
+            <Route path={publishFundsPath.createPath} component={PublishCreateContainer} />
+            <Route path={`${publishFundsPath.detailPath}${publishFundsPath.detailParam}`} component={FundsDetailContainer} />
+            <Route path={`${receivedFundsPath.detailPath}${receivedFundsPath.detailParam}`} component={FundsDetailContainer} />
+            <Redirect to={publishFundsPath.basePath} />>
     </Switch>
+    </React.Fragment>
+}
+
+//我接收到的
+
+const ReceivedFunds = props => {
+    return <FundsModuleContainer {...props} description='receivedFunds' />
+}
+//我发布的
+
+const PublishFunds = props => {
+    return <FundsModuleContainer {...props} description='publishFunds' />
 }
 
 
 const mapStateToProps = state => ({
     publishLoading: state.businessSystem.fundsModule.loading,
-    publishList: state.businessSystem.fundsModule.publishList
+    publishList: state.businessSystem.fundsModule.publishList,
+    receivedList: state.businessSystem.fundsModule.receivedList
 });
 const mapDispatchToProps = dispatch => ({
     requestFundsPublishSaga: values => dispatch(requestFundsPublishList(values)),
-    requestOffshefSaga: values => dispatch(requestFundsOffshef(values))
+    requestOffshefSaga: values => dispatch(requestFundsOffshef(values)),
+    requestFundsReceivedSaga: values => dispatch(requestFundsReceivedList(values))
 });
 @connect(mapStateToProps, mapDispatchToProps)
 class FundsModuleContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
         this.state = {
-            collapsed: true
+            collapsed: true,
         };
-        this.props.requestFundsPublishSaga();
+        if (this.props.description === 'publishFunds') {
+            this.props.requestFundsPublishSaga();
+        } else if (this.props.description === 'receivedFunds') {
+            this.props.requestFundsReceivedSaga()
+        }
     }
+
 
     formSubmit = (values) => {
         if (values.priceValidStart === undefined || values.priceValidStart === 0) {
@@ -54,7 +83,11 @@ class FundsModuleContainer extends React.Component {
             values.priceValidEnd = new Date(values.priceValidEnd).getTime();
         }
         console.log(values);
-        this.props.requestFundsPublishSaga();
+        if (this.props.description === 'publishFunds') {
+            this.props.requestFundsPublishSaga(values);
+        } else if (this.props.description === 'receivedFunds') {
+            this.props.requestFundsReceivedSaga(values);
+        }
     }
 
     toggleCollapsed = () => {
@@ -91,7 +124,11 @@ class FundsModuleContainer extends React.Component {
 
     //分页
     paginationOnChange = pagination => {
-        this.props.requestFundsPublishSaga({ current: pagination.current, pageSize: pagination.pageSize });
+        if (this.props.description === 'publishFunds') {
+            this.props.requestFundsPublishSaga({ current: pagination.current, pageSize: pagination.pageSize });
+        } else if (this.props.description === 'receivedFunds') {
+            this.props.requestFundsReceivedSaga({ current: pagination.current, pageSize: pagination.pageSize });
+        }
     }
 
     render() {
@@ -100,12 +137,15 @@ class FundsModuleContainer extends React.Component {
             data = data.concat(searchOtherData);
         }
 
-        const publishColumns = [
+        const publicColumns = [
             {
                 title: '包买商名称',
                 dataIndex: 'forfaiterNm',
                 render: (text, record) => {
-                    return <a href={`#${publishFundsPath.detailPath}/${record.capitalId}`}>{text}</a>
+                    if (this.props.description === 'publishFunds') {
+                        return <a href={`#${publishFundsPath.detailPath}/${record.capitalId}`}>{text}</a>
+                    }
+                    return <a href={`#${receivedFundsPath.detailPath}/${record.capitalId}`}>{text}</a>
                 }
             },
             {
@@ -159,28 +199,30 @@ class FundsModuleContainer extends React.Component {
                     return <span>{state}</span>
                 }
             },
-            {
-                title: '操作',
-                dataIndex: '',
-                render: (text, record) => {
-                    if (typeof record.capitalStatus !== 'string') { String(record.capitalStatus) }
-                    if (record.capitalStatus === '1') {
-                        return <Button onClick={this.offshelf.bind(this, record.capitalId)} type={'danger'} >下架</Button>
-                    } else {
-                        return <Button disabled='disabled' >下架</Button>
-                    }
-                }
-            },
+
         ];
+        const publishColumns = [{
+            title: '操作',
+            dataIndex: '',
+            render: (text, record) => {
+                if (typeof record.capitalStatus !== 'string') { String(record.capitalStatus) }
+                if (record.capitalStatus === '1') {
+                    return <Button onClick={this.offshelf.bind(this, record.capitalId)} type={'danger'} >下架</Button>
+                } else {
+                    return <Button disabled='disabled' >下架</Button>
+                }
+            }
+        },]
 
         return (<FundsModuleContent
             formSubmit={this.formSubmit}
             collapsed={this.state.collapsed}
             searchComponentData={data}
             toggleCollapsed={this.toggleCollapsed}
-            columns={publishColumns}
+            publicColumns={publicColumns}
             onChange={this.paginationOnChange}
             toCreateFunds={this.toCreateFunds}
+            publishColumns={publishColumns}
             {...this.props}
         />)
     }
@@ -265,19 +307,51 @@ const formSubBtnLayout = {
 
 
 const FundsModuleContent = props => {
-    const { collapsed, searchComponentData, toggleCollapsed, columns, toCreateFunds } = props;
+    const { collapsed, searchComponentData, toggleCollapsed, publicColumns, publishColumns, toCreateFunds, description } = props;
     const formConfig = {
         moreItemInRow: !collapsed,
         formItemLayout: collapsed ? null : formItemLayout,
         layout: collapsed ? 'inline' : null,
         formSubBtnLayout: collapsed ? null : formSubBtnLayout
     };
-    let tableData = [];
-    let pagination = [];
+    let publishData = [];
+    let publishPagination = [];
+    let tableConfig = {};
+    let receivedData = [];
+    let receivedPaginaton = [];
     try {
-        tableData = props.publishList.data.capitalList;
-        pagination = props.publishList.data.pagination;
+        // 发布的资金数据
+        publishData = props.publishList.data.capitalList;
+        publishPagination = props.publishList.data.pagination;
     } catch (e) { }
+    try {
+        // 接收的资金数据
+        receivedData = props.receivedList.data.capitalList;
+        receivedPaginaton = props.receivedList.data.pagination;
+    } catch (e) { }
+    if (description === 'publishFunds') {
+        //发布资金
+        publicColumns.push(...publishColumns)
+        const publishFundsConfig = {
+            columns: publicColumns,
+            dataSource: publishData,
+            // loading: props.publishLoading,
+            componentTitle: '发布的资金列表',
+            btnName: '资金发布',
+            btnClick: toCreateFunds,
+            pagination: publishPagination
+        }
+        tableConfig = publishFundsConfig;
+    } else {
+        //接收的资金
+        const receivedFundsCongig = {
+            columns: publicColumns,
+            dataSource: receivedData,
+            componentTitle: '接收的资金列表',
+            pagination: receivedPaginaton
+        }
+        tableConfig = receivedFundsCongig
+    }
     return (
         <React.Fragment>
             <div className="containerHeader">
@@ -303,18 +377,17 @@ const FundsModuleContent = props => {
             </div>
             <div className="containerContent">
                 <TableComponent
-                    columns={columns}
-                    dataSource={tableData}
-                    loading={props.publishLoading}
+                    //公共
                     rowKey={'capitalId'}
                     onChange={props.onChange}
-                    pagination={pagination}
                     bordered={true}
-                    componentTitle={'发布的资金列表'}
-                    btnName={'资金发布'}
-                    btnClick={toCreateFunds}
+                    loading={props.publishLoading}
+                    {...tableConfig}
                 />
             </div>
         </React.Fragment>
     )
 }
+
+
+

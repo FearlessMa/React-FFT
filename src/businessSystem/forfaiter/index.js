@@ -2,14 +2,15 @@
  * @Author: mhc 
  * @Date: 2018-04-28 09:31:17 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-28 13:51:49
+ * @Last Modified time: 2018-05-03 15:33:58
  */
 
 import React from 'react';
-import { FormComponent, TableComponent } from 'common';
+import { FormComponent, TableComponent, BreadcrumbComponent } from 'common';
 import { Row, Col, Button, Icon, Form } from 'antd';
 import { connect } from 'react-redux';
 import { requestForfaiterList, requestSyncAllForfaiter } from '../redux/actions';
+import { forfaiterMap } from 'publicConfig';
 
 
 
@@ -174,6 +175,7 @@ const ForfaitorContent = props => {
 
 
     return <React.Fragment>
+        <BreadcrumbComponent {...props} breadcrumbNameMap={forfaiterMap} />
         <div className={'containerHeader'}>
             <Row>
                 <Col offset={collapsed ? 5 : 0}>

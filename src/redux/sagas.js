@@ -20,7 +20,7 @@ import {
 
 import {
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
-    watchReuqestForfaiterList,watchReuqestSyncAllForfaiterList
+    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived,watchRequestFundsDetailList
 } from '../businessSystem/redux/sgags';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgList, watchQueryAllOrgList,
@@ -37,7 +37,7 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,
     //资金
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
-    watchReuqestForfaiterList,watchReuqestSyncAllForfaiterList
+    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived,watchRequestFundsDetailList
 ]);
 //
 // export {
@@ -110,7 +110,9 @@ export const sagasRun = () => {
     sagas.run(watchRequestPublishCreate);
     //创建页面查询包买商
     sagas.run(watchReuqestParentScForfaiterList);
-    
+    sagas.run(watchRequestFundsReceived);
+    sagas.run(watchRequestFundsDetailList);
+
     /* *-----------forfaiterModule ---------* */
     sagas.run(watchReuqestForfaiterList);
     sagas.run(watchReuqestSyncAllForfaiterList);
