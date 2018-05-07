@@ -3,9 +3,10 @@
  */
 
 import React from 'react';
-import {FormComponent} from '../../common/formComponent';
-import {connect} from 'react-redux';
-import {requestPathCreate, requestPathDetail, requestPathEdit} from "../redux/actions";
+import { FormComponent } from '../../common/formComponent';
+import { connect } from 'react-redux';
+import { requestPathCreate, requestPathDetail, requestPathEdit } from "../redux/actions";
+import { Row, Col, Divider } from 'antd';
 
 
 const mapStateToProps = state => ({
@@ -28,11 +29,11 @@ export class CreatePathContainer extends React.Component {
             if (isNaN(pathId)) {
                 this.props.history.push('/systemManager/pathManager');
             }
-            this.state={
+            this.state = {
                 componentTitle: 'edit',
             };
-            this.props.pathDetailSaga({pathId});
-        }else {
+            this.props.pathDetailSaga({ pathId });
+        } else {
             this.state = {
                 componentTitle: 'create',
             }
@@ -42,7 +43,7 @@ export class CreatePathContainer extends React.Component {
     onSubmit = (values) => {
         const pathId = this.pathId;
         if (pathId) {
-            this.props.pathEditSaga({...values, pathId});
+            this.props.pathEditSaga({ ...values, pathId });
         } else {
             this.props.pathCreateSaga(values);
         }
@@ -52,7 +53,7 @@ export class CreatePathContainer extends React.Component {
         return (
             <React.Fragment>
                 <CreatePathContent componentTitle={this.state.componentTitle}
-                                   formSubmit={this.onSubmit} {...this.props}/>
+                    formSubmit={this.onSubmit} {...this.props} />
             </React.Fragment>
         );
     }
@@ -61,21 +62,21 @@ export class CreatePathContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 4, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 4, offset: 4 },
         // sm: {span:11}
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10},
+        xs: { span: 24 },
+        sm: { span: 10 },
         // sm:{ span: 13}
     },
 };
 
 const formSubBtnLayout = {
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10, offset: 5},
+        xs: { span: 24 },
+        sm: { span: 10, offset: 10 },
     }
 };
 
@@ -118,8 +119,20 @@ const CreatePathContent = (props) => {
     return (
         <React.Fragment>
             <div className='containerContent'>
-                <FormComponent btn={{sub: title, back: '返回'}} formList={formList} formSubmit={props.formSubmit}
-                               layout={'horizontal'} formItemLayout={formItemLayout} formSubBtnLayout={formSubBtnLayout}
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>{title}Path</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
+                <FormComponent
+                    btn={{ sub: title, back: '返回' }}
+                    formList={formList}
+                    formSubmit={props.formSubmit}
+                    layout={'horizontal'}
+                    formItemLayout={formItemLayout}
+                    formSubBtnLayout={formSubBtnLayout}
                 />
             </div>
         </React.Fragment>

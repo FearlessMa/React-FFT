@@ -2,10 +2,10 @@
  * Created by MHC on 2018/3/21.
  */
 import React from 'react';
-import {Row, Col, Table, Button, Modal} from 'antd';
-import {FormComponent} from '../../common/formComponent';
-import {connect} from 'react-redux';
-import {requestMenuDetail, requestMenuRemovePerm} from "../redux/actions";
+import { Row, Col, Table, Button, Modal, Divider } from 'antd';
+import { FormComponent } from '../../common/formComponent';
+import { connect } from 'react-redux';
+import { requestMenuDetail, requestMenuRemovePerm } from "../redux/actions";
 
 const mapStateToProps = state => ({
     detail: state.systemManager.menuManager.detail,
@@ -25,7 +25,7 @@ export class MenuDetailContainer extends React.Component {
         if (isNaN(menuId)) {
             this.props.history.push('/systemManager/menuManager');
         }
-        this.props.menuDetailSaga({menuId});
+        this.props.menuDetailSaga({ menuId });
     }
 
     toBack = () => {
@@ -51,7 +51,7 @@ export class MenuDetailContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                menuRemovePermSaga({permId: record.permId, menuId});
+                menuRemovePermSaga({ permId: record.permId, menuId });
                 // console.log(record.permId)
                 // console.log(menuId)
             },
@@ -62,7 +62,7 @@ export class MenuDetailContainer extends React.Component {
         });
     }
 
-    toEdit=()=>{
+    toEdit = () => {
         const menuId = this.menuId;
         this.props.history.push(`/systemManager/menuManager/edit/${menuId}`);
     }
@@ -85,14 +85,14 @@ export class MenuDetailContainer extends React.Component {
                 title: '操作',
                 dataIndex: '',
                 render: (text, record) => <div>
-                    <Button onClick={this.deletePermMenu.bind(this,record)} type={'danger'}>解绑</Button>
+                    <Button onClick={this.deletePermMenu.bind(this, record)} type={'danger'}>解绑</Button>
                 </div>
             },
         ];
         return (
             <React.Fragment>
                 <MenuDetailContent {...this.props} columns={columns} toBack={this.toBack}
-                                   toEdit={this.toEdit}/>
+                    toEdit={this.toEdit} />
             </React.Fragment>
         );
     }
@@ -102,12 +102,12 @@ export class MenuDetailContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 8, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 8, offset: 1 },
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 15},
+        xs: { span: 24 },
+        sm: { span: 15 },
     },
 }
 
@@ -120,7 +120,7 @@ const MenuDetailContent = (props) => {
         // if(props.detail.code != 200){
         //     message.error('未查询到数据');
         // }
-    } catch (err) {}
+    } catch (err) { }
     const formList = [
         {
             label: '菜单ID',
@@ -150,14 +150,25 @@ const MenuDetailContent = (props) => {
     return (
         <React.Fragment>
             {/*<div className='containerHeader'>*/}
-                {/*菜单详情*/}
+            {/*菜单详情*/}
             {/*</div>*/}
             <div className='containerContent'>
-                <FormComponent formList={formList} layout={'horizontal'} formItemLayout={formItemLayout}
-                               moreItemInRow={true} laoding={props.loading}
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>菜单详情</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
+                <FormComponent
+                    formList={formList}
+                    layout={'horizontal'}
+                    formItemLayout={formItemLayout}
+                    moreItemInRow={true}
+                    laoding={props.loading}
                 />
                 <Row>
-                    <Table loading={props.loading} columns={props.columns} dataSource={dataSource} rowKey={'permId'} bordered={true}/>
+                    <Table loading={props.loading} columns={props.columns} dataSource={dataSource} rowKey={'permId'} bordered={true} />
                 </Row>
                 <Row>
                     <Col span={4} offset={8}>

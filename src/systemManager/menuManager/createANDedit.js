@@ -7,6 +7,8 @@ import React from 'react';
 import { FormComponent } from '../../common/formComponent';
 import { connect } from 'react-redux';
 import { requestMenuCreate, requestMenuDetail, requestMenuEdit } from "../redux/actions";
+import { Row, Col, Divider } from 'antd';
+
 
 const mapStateToProps = state => ({
     create: state.systemManager.menuManager.create,
@@ -80,7 +82,7 @@ export class MenuCreateContainer extends React.Component {
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
-        sm: { span: 4, offset: 1 },
+        sm: { span: 4, offset: 4 },
         // sm: {span:11}
     },
     wrapperCol: {
@@ -93,7 +95,7 @@ const formItemLayout = {
 const formSubBtnLayout = {
     wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 10, offset: 5 },
+        sm: { span: 10, offset: 10 },
     }
 };
 
@@ -154,6 +156,13 @@ const MenuCreateContent = (props) => {
     return (
         <React.Fragment>
             <div className='containerContent'>
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>{title}菜单</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
                 <FormComponent
                     btn={{ sub: title, back: '返回' }}
                     formList={formList}

@@ -2,10 +2,10 @@
  * Created by MHC on 2018/3/20.
  */
 import React from 'react';
-import {Row, Col, Table, Button, Modal} from 'antd';
-import {FormComponent} from '../../common/formComponent';
-import {connect} from 'react-redux';
-import {requestPathDetail, requestPathRemovePrem} from "../redux/actions";
+import { Row, Col, Table, Button, Modal, Divider } from 'antd';
+import { FormComponent } from '../../common/formComponent';
+import { connect } from 'react-redux';
+import { requestPathDetail, requestPathRemovePrem } from "../redux/actions";
 
 const mapStateToProps = state => ({
     detail: state.systemManager.pathManager.detail,
@@ -25,7 +25,7 @@ export class PathDetailContainer extends React.Component {
         if (isNaN(pathId)) {
             this.props.history.push('/systemManager/pathManager');
         }
-        this.props.pathDetailSaga({pathId});
+        this.props.pathDetailSaga({ pathId });
     }
 
     toBack = () => {
@@ -42,7 +42,7 @@ export class PathDetailContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                removePermSaga({permId: record.permId, pathId});
+                removePermSaga({ permId: record.permId, pathId });
             },
             onCancel() {
                 //TODO
@@ -79,8 +79,12 @@ export class PathDetailContainer extends React.Component {
         ];
         return (
             <React.Fragment>
-                <PathDetailContent {...this.props} columns={columns} toBack={this.toBack}
-                                   toEdit={this.toEdit}/>
+                <PathDetailContent
+                    {...this.props}
+                    columns={columns}
+                    toBack={this.toBack}
+                    toEdit={this.toEdit}
+                />
             </React.Fragment>
         );
     }
@@ -89,12 +93,12 @@ export class PathDetailContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 8, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 8, offset: 1 },
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 15},
+        xs: { span: 24 },
+        sm: { span: 15 },
     },
 }
 
@@ -138,11 +142,22 @@ const PathDetailContent = (props) => {
     return (
         <React.Fragment>
             <div className='containerContent'>
-                <FormComponent formList={formList} layout={'horizontal'} formItemLayout={formItemLayout}
-                               moreItemInRow={true} laoding={props.loading}
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>Path详情</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
+                <FormComponent
+                    formList={formList}
+                    layout={'horizontal'}
+                    formItemLayout={formItemLayout}
+                    moreItemInRow={true}
+                    laoding={props.loading}
                 />
                 <Row>
-                    <Table columns={props.columns} dataSource={dataSource} rowKey={'permId'} bordered={true}/>
+                    <Table columns={props.columns} dataSource={dataSource} rowKey={'permId'} bordered={true} />
                 </Row>
                 <Row>
                     <Col span={4} offset={8}>

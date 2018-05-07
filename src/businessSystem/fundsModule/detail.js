@@ -2,14 +2,15 @@
  * @Author: mhc 
  * @Date: 2018-04-26 09:51:29 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 15:24:12
+ * @Last Modified time: 2018-05-07 17:18:01
  */
 
 import React from 'react';
-import { Row, Col, Button,Divider } from 'antd';
+import { Row, Col, Button, Divider, Table } from 'antd';
 import './index.less';
 import { connect } from 'react-redux';
 import { requestFundsDetail } from '../redux/actions';
+
 
 const FundsMap = {
     capitalId: 'id',
@@ -45,13 +46,13 @@ export class FundsDetailContainer extends React.Component {
         this.capitalId = capitalId;
         this.props.fundsDetailSaga({ capitalId });
     }
-    goBack=()=>{
+    goBack = () => {
         window.history.go(-1)
     }
 
     render() {
         return (<React.Fragment>
-            <FundsDetaulContent fundsDetail={this.props.fundsDetail} goBack={this.goBack}/>
+            <FundsDetaulContent fundsDetail={this.props.fundsDetail} goBack={this.goBack} />
         </React.Fragment>)
     }
 
@@ -59,8 +60,10 @@ export class FundsDetailContainer extends React.Component {
 
 const FundsDetaulContent = props => {
     let detailList = [];
+    let forfaiterList = [];
     try {
         let dataList = props.fundsDetail.data;
+        forfaiterList = tranTreeList(JSON.parse(dataList.forfaiter));
         detailList = tranFundsList(dataList, FundsMap);
     } catch (e) { }
     if (typeof detailList !== 'object') { detailList = [] }
@@ -91,11 +94,34 @@ const FundsDetaulContent = props => {
                     })
                 }
             </Row>
+            <Row style={{ marginTop: '100px' }}>
+                <div id='forfaiterTable'>
+                    <Table
+                        columns={columns}
+                        dataSource={forfaiterList}
+                        rowKey={'SC'}
+                        pagination={false}
+                        title={() => <h3>包买商列表</h3>}
+                        bordered={true}
+                    //scroll={{ y: 400 }}
+                    />
+                </div>
+            </Row>
         </div>
     </React.Fragment>)
 }
 
-
+const columns = [
+    {
+        title: '名称',
+        dataIndex: 'NM'
+    },
+    {
+        title: 'swiftCode',
+        dataIndex: 'SC'
+    },
+];
+//转换显示
 function tranFundsList(list, listMap) {
     const newList = [];
     for (let k in list) {
@@ -146,10 +172,30 @@ function tranFundsList(list, listMap) {
                         return null;
                 }
                 break;
+            case 'forfaiter':
+                item.value = <a>请看下方列表</a>;
+                break;
             default:
                 return item.value
         }
         return null
     })
     return newList
+}
+
+//forfaiter 列表转化为树形结构
+function tranTreeList(list) {
+    if (!Array.isArray(list)) {
+        alert('fortaiter列表不是一个数组！');
+        return
+    }
+    list.map(item => {
+        if (Array.isArray(item.FORFEITER)) {
+            item.children = item.FORFEITER;
+        }
+        item.SC = item.BK_SC;
+        item.NM = item.BK_NM_C;
+        return null
+    });
+    return list
 }

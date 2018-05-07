@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:41:51 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 14:13:38
+ * @Last Modified time: 2018-05-07 14:25:41
  */
 
 import { requestData, alertNotification } from 'common';
@@ -131,14 +131,14 @@ export function* watchRequestFundsReceived() {
  * Method：POST
 **/
 
-export function * watchRequestFundsDetailList(){
-    while(true){
+export function* watchRequestFundsDetailList() {
+    while (true) {
         const action = yield take(REQUEST_FUNDS_DETAIL_LIST);
-        yield fork(requestData,{
+        yield fork(requestData, {
             action,
-            url:'/capital/detail',
-            type:FUNDS_DETAIL_LIST,
-            loadingMsg:'正在加载资金详情...',
+            url: '/capital/detail',
+            type: FUNDS_DETAIL_LIST,
+            loadingMsg: '正在加载资金详情...',
         })
     }
 }
@@ -189,3 +189,67 @@ const syncCallback = (data) => {
         store.dispatch(requestForfaiterList())
     }
 }
+
+
+// /*********--------------------dict-----------------**********/
+
+// /**
+//  * Path：/dict/list
+//  * Method：POST
+// **/
+// export function* watchReuqestdictList() {
+//     while (true) {
+//         const action = yield take(REQUEST_DICT_LIST);
+//         yield fork(requestData, {
+//             action,
+//             url: '/dict/list',
+//             type: DICT_LIST,
+//             loadingMsg: '字典数据...',
+//             dispatchLoading: true
+//         })
+//     }
+// }
+
+
+
+// /**
+//  * Path：/dict/detail
+//  * Method：POST
+// **/
+
+// export function* watchReuqestdictDetail() {
+//     while (true) {
+//         const action = yield take(REQUEST_DICT_DETAIL);
+//         yield fork(requestData, {
+//             action,
+//             url: '/dict/detail',
+//             type: DICT_DETAIL,
+//             loadingMsg: '字典详情加载中...',
+//             dispatchLoading: true
+//         })
+//     }
+// }
+
+// /**
+//  * Path：/dict/delete
+//  * Method：POST
+// **/
+
+// export function* watchRequestDictDelete() {
+//     while (true) {
+//         const action = yield take(REQUEST_DICT_DELETE);
+//         yield fork(requestData, {
+//             action,
+//             url: '/dict/delete',
+//             type: DICT_DELETE,
+//             loadingMsg: '正在删除中...'
+//         }, null, dictDeleteCallback)
+//     }
+// }
+
+// const dictDeleteCallback = data => {
+//     if (String(data.code) === '200') {
+//         alertNotification(data.message, data.message);
+//         store.dispatch(requestDictList())
+//     }
+// }

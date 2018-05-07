@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/28.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
     requestUserChangePwd,
     requestUserChangeStatus,
@@ -11,8 +11,8 @@ import {
     userChangePwdModalVisible,
     userDetailModalVisible
 } from "../redux/actions";
-import {Row, Col, Button, Modal, Input, message} from "antd";
-import {FormComponent} from '../../common';
+import { Row, Col, Button, Modal, Input, message, Divider } from "antd";
+import { FormComponent } from '../../common';
 
 
 const mapStateToProps = state => ({
@@ -39,7 +39,7 @@ export class UserDetailContainer extends React.Component {
         if (isNaN(userId)) {
             this.props.history.push('/systemManager/userManager');
         }
-        this.props.userDetailSaga({userId});
+        this.props.userDetailSaga({ userId });
         this.state = {
             password: '',
             newPassword: ''
@@ -56,7 +56,7 @@ export class UserDetailContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                userDeleteSaga({userId})
+                userDeleteSaga({ userId })
             },
             onCancel() {
                 //TODO
@@ -66,13 +66,13 @@ export class UserDetailContainer extends React.Component {
 
     //Modal组件状态切换显示
     toggleModal = () => {
-        this.props.dispatchUserModalVisible({userModalVisible: !this.props.userModalVisible});
+        this.props.dispatchUserModalVisible({ userModalVisible: !this.props.userModalVisible });
     }
 
     //切换状态
     toggleStatus = status => {
         const userId = this.userId;
-        this.props.userChangeStatusSaga({userId, status});
+        this.props.userChangeStatusSaga({ userId, status });
         this.toggleModal();
     }
 
@@ -82,7 +82,7 @@ export class UserDetailContainer extends React.Component {
     }
 
     toggleChangePwdModal = () => {
-        this.props.disUserPwdModalVisible({changePwdModalVisible: !this.props.changePwdModalVisible});
+        this.props.disUserPwdModalVisible({ changePwdModalVisible: !this.props.changePwdModalVisible });
     }
 
     onChangePwdValue = (e) => {
@@ -93,7 +93,7 @@ export class UserDetailContainer extends React.Component {
 
     submitPwd = () => {
         const userId = this.userId;
-        const {password, newPassword} = this.state;
+        const { password, newPassword } = this.state;
         if (newPassword && password) {
             this.props.userChangePwdSaga({
                 userId,
@@ -109,12 +109,12 @@ export class UserDetailContainer extends React.Component {
         return (
             <React.Fragment>
                 <UserDetailContent userDelete={this.userDelete}
-                                   toggleModal={this.toggleModal}
-                                   toggleStatus={this.toggleStatus}
-                                   toggleChangePwdModal={this.toggleChangePwdModal}
-                                   onChangePwdValue={this.onChangePwdValue}
-                                   submitPwd={this.submitPwd}
-                                   toEdit={this.toEdit} {...this.props}/>
+                    toggleModal={this.toggleModal}
+                    toggleStatus={this.toggleStatus}
+                    toggleChangePwdModal={this.toggleChangePwdModal}
+                    onChangePwdValue={this.onChangePwdValue}
+                    submitPwd={this.submitPwd}
+                    toEdit={this.toEdit} {...this.props} />
             </React.Fragment>
         );
     }
@@ -123,12 +123,12 @@ export class UserDetailContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 8, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 8, offset: 1 },
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 15},
+        xs: { span: 24 },
+        sm: { span: 15 },
     },
 };
 
@@ -260,12 +260,19 @@ const UserDetailContent = props => {
     return (
         <React.Fragment>
             <div className="containerContent">
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>用户详情</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
                 <FormComponent formList={formList} formItemLayout={formItemLayout}
-                               moreItemInRow={true} layout={'horizontal'}/>
+                    moreItemInRow={true} layout={'horizontal'} />
                 <Row>
                     <Col offset={3} className='detailBtn'>
                         <Button onClick={props.userDelete}
-                                type={'danger'}>删除</Button>
+                            type={'danger'}>删除</Button>
                         <Button onClick={props.toggleModal}>状态</Button>
                         <Button onClick={props.toEdit} type={'primary'}>修改</Button>
                         <Button onClick={props.toggleChangePwdModal}>修改密码</Button>
@@ -282,25 +289,25 @@ const UserDetailContent = props => {
                 >
                     {initData.status !== 'NORMAL' ? <Button onClick={() => {
                         props.toggleStatus('NORMAL')
-                    }} style={{marginRight: 30}}>开启</Button> : null}
+                    }} style={{ marginRight: 30 }}>开启</Button> : null}
                     {initData.status !== 'LOCKED' ? <Button onClick={() => {
                         props.toggleStatus('LOCKED')
-                    }} style={{marginRight: 30}}>锁定</Button> : null}
+                    }} style={{ marginRight: 30 }}>锁定</Button> : null}
                     {initData.status !== 'CANCEL' ? <Button onClick={() => {
                         props.toggleStatus('CANCEL')
                     }}>作废</Button> : null}
                 </Modal>
-                <Modal {...changePwdModalProps} style={{minWidth: '60%'}}>
-                    <Row style={{height: 30, lineHeight: '30px', margin: 10}}>
+                <Modal {...changePwdModalProps} style={{ minWidth: '60%' }}>
+                    <Row style={{ height: 30, lineHeight: '30px', margin: 10 }}>
                         <Col span={2} offset={5}>原密码:</Col>
                         <Col span={10} offset={1}>
-                            <Input type={'password'} id={'password'} onChange={props.onChangePwdValue}/>
+                            <Input type={'password'} id={'password'} onChange={props.onChangePwdValue} />
                         </Col>
                     </Row>
-                    <Row style={{height: 30, lineHeight: '30px', margin: 10}}>
+                    <Row style={{ height: 30, lineHeight: '30px', margin: 10 }}>
                         <Col span={2} offset={5}>新密码:</Col>
                         <Col span={10} offset={1}>
-                            <Input type={'password'} id={'newPassword'} onChange={props.onChangePwdValue}/>
+                            <Input type={'password'} id={'newPassword'} onChange={props.onChangePwdValue} />
                         </Col>
                     </Row>
                 </Modal>

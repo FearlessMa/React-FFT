@@ -55,8 +55,12 @@ import {
     USER_CHANGE_PWD_MODAL_VISIBLE,
     REQUEST_USER_CHANGE_PWD,
     REQUEST_ORG_ALL_TO_BLOCK_CHAIN,
-    REQUEST_ORG_TO_BLOCK_CHAIN
+    REQUEST_ORG_TO_BLOCK_CHAIN,
+    REQUEST_DICT_LIST,
+    REQUEST_DICT_DETAIL,
+    REQUEST_DICT_CREATE
 } from "./actionTypes";
+import { REQUEST_DICT_DELETE } from "../../businessSystem/redux/actionTypes";
 
 /**--------------orgManager------------------**/
 
@@ -346,3 +350,26 @@ export const requestUserChangePwd = value => ({
     type: REQUEST_USER_CHANGE_PWD,
     ...value
 });
+
+
+/**---------dict------------**/
+
+export const requestDictList = values => ({
+    type: REQUEST_DICT_LIST,
+    ...values
+})
+
+export const requestDictDetail = values => ({
+    type: REQUEST_DICT_DETAIL,
+    ...values
+})
+
+export const requestDictDelete = values => ({
+    type: REQUEST_DICT_DELETE,
+    ...values
+})
+
+export const requestDictCreate = values => ({
+    type: REQUEST_DICT_CREATE,
+    ...values
+})

@@ -2,12 +2,14 @@
  * Created by MHC on 2018/3/22.
  */
 import React from 'react';
-import {FormComponent, tranTreeData} from '../../common';
-import {connect} from 'react-redux';
+import { FormComponent, tranTreeData } from '../../common';
+import { connect } from 'react-redux';
 import {
     powerCreateComponentTitle, requestPowerCreate, requestPowerDetail, requestPowerEdit,
     requestPowerList
 } from "../redux/actions";
+import { Row, Col, Divider } from 'antd';
+
 
 
 const mapStateToProps = state => ({
@@ -21,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
     powerCreateSaga: values => dispatch(requestPowerCreate(values)),
     powerCreateComponentTitle: values => dispatch(powerCreateComponentTitle(values)),
     powerDetailSaga: values => dispatch(requestPowerDetail(values)),
-    powerEditSaga : values=>dispatch(requestPowerEdit(values))
+    powerEditSaga: values => dispatch(requestPowerEdit(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -34,16 +36,16 @@ export class PowerCreateContainer extends React.Component {
             if (isNaN(permId)) {
                 this.props.history.push('/systemManager/powerManager');
             }
-            this.props.powerCreateComponentTitle({componentTitle: 'edit'});
-            this.props.powerDetailSaga({permId});
+            this.props.powerCreateComponentTitle({ componentTitle: 'edit' });
+            this.props.powerDetailSaga({ permId });
         }
         this.props.powerListSaga();
     }
 
     onSubmit = values => {
-        values.parentPermId = values.parentPermId === undefined ?  '' : values.parentPermId;
+        values.parentPermId = values.parentPermId === undefined ? '' : values.parentPermId;
         if (this.props.powerComponentTitle === 'edit') {
-            this.props.powerEditSaga({permId: this.permId, ...values});
+            this.props.powerEditSaga({ permId: this.permId, ...values });
         } else {
             this.props.powerCreateSaga(values);
         }
@@ -52,7 +54,7 @@ export class PowerCreateContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <PowerCreateContent formSubmit={this.onSubmit} {...this.props}/>
+                <PowerCreateContent formSubmit={this.onSubmit} {...this.props} />
             </React.Fragment>
         );
     }
@@ -62,21 +64,21 @@ export class PowerCreateContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 4, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 4, offset: 4 },
         // sm: {span:11}
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10},
+        xs: { span: 24 },
+        sm: { span: 10 },
         // sm:{ span: 13}
     },
 };
 
 const formSubBtnLayout = {
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10, offset: 5},
+        xs: { span: 24 },
+        sm: { span: 10, offset: 10 },
     }
 };
 
@@ -119,9 +121,22 @@ const PowerCreateContent = (props) => {
     return (
         <React.Fragment>
             <div className='containerContent'>
-                <FormComponent btn={{sub: componentTitle, back: '返回'}} formList={formList}
-                               formSubmit={props.formSubmit} selectData={selectData} selectDataName={'permName'}
-                               layout={'horizontal'} formItemLayout={formItemLayout} formSubBtnLayout={formSubBtnLayout}
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>{componentTitle}权限</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
+                <FormComponent
+                    btn={{ sub: componentTitle, back: '返回' }}
+                    formList={formList}
+                    formSubmit={props.formSubmit}
+                    selectData={selectData}
+                    selectDataName={'permName'}
+                    layout={'horizontal'}
+                    formItemLayout={formItemLayout}
+                    formSubBtnLayout={formSubBtnLayout}
                 />
             </div>
         </React.Fragment>

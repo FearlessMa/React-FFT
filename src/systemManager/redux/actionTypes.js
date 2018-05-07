@@ -137,3 +137,17 @@ export const REQUEST_USER_DETAIL = 'requestUserDetail';
 export const REQUEST_USER_DELETE = 'requestUserDelete';
 export const REQUEST_USER_CHANGE_STATUS = 'requestUserChangeStatus';
 export const REQUEST_USER_CHANGE_PWD = 'requestUserChangePwd';
+
+
+/**---------dict------------**/
+
+// reducer
+export const DICT_LIST = 'dictList';
+export const DICT_DETAIL = 'dictDetail';
+export const DICT_DELETE = 'dictDelete';
+export const DICT_CREATE = 'DictCreate';
+// saga
+export const REQUEST_DICT_LIST = 'requestDictList';
+export const REQUEST_DICT_DETAIL = 'requestDictDetail';
+export const REQUEST_DICT_DELETE = 'requestDictDelete';
+export const REQUEST_DICT_CREATE = 'requestDictCreate';

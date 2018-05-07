@@ -2,10 +2,10 @@
  * Created by MHC on 2018/3/23.
  */
 import React from 'react';
-import {FormComponent, tranTreeData} from '../../common';
-import {requestRoleDelete, requestRoleDetail} from "../redux/actions";
-import {connect} from "react-redux";
-import {Row, Col, Button, Modal} from 'antd';
+import { FormComponent, tranTreeData } from '../../common';
+import { requestRoleDelete, requestRoleDetail } from "../redux/actions";
+import { connect } from "react-redux";
+import { Row, Col, Button, Modal, Divider } from 'antd';
 
 
 const mapStateToProps = state => ({
@@ -25,7 +25,7 @@ export class RoleDetailContainer extends React.Component {
         if (isNaN(roleId)) {
             this.props.history.push('/systemManager/roleManager');
         }
-        this.props.roleDetailSaga({roleId});
+        this.props.roleDetailSaga({ roleId });
     }
 
     roleDelete = (roleId, roleName) => {
@@ -37,7 +37,7 @@ export class RoleDetailContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                roleDeleteSaga({roleId})
+                roleDeleteSaga({ roleId })
             },
             onCancel() {
                 // console.log(roleId,roleName);
@@ -53,7 +53,7 @@ export class RoleDetailContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <RoleDetailContent roleDelete={this.roleDelete} toEdit={this.toEdit} {...this.props}/>
+                <RoleDetailContent roleDelete={this.roleDelete} toEdit={this.toEdit} {...this.props} />
             </React.Fragment>
         );
     }
@@ -63,12 +63,12 @@ export class RoleDetailContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 8, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 8, offset: 1 },
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 15},
+        xs: { span: 24 },
+        sm: { span: 15 },
     },
 };
 
@@ -122,9 +122,21 @@ const RoleDetailContent = props => {
     return (
         <React.Fragment>
             <div className="containerContent">
-                <FormComponent formList={formList} layout={'horizontal'} loading={props.loading}
-                               formItemLayout={formItemLayout} moreItemInRow={true} treeData={treeData}
-                    // selectData={treeSelectData}
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>角色详情</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
+                <FormComponent
+                    formList={formList}
+                    layout={'horizontal'}
+                    loading={props.loading}
+                    formItemLayout={formItemLayout}
+                    moreItemInRow={true}
+                    treeData={treeData}
+                // selectData={treeSelectData}
                 />
                 <Row>
                     <Col offset={3} className='detailBtn'>

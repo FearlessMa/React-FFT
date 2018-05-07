@@ -15,12 +15,15 @@ import {
     watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete, watchRequestUserChangeStatus,
     watchRequestOrgRemoveMembers, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
-    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain
+    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,
+    //字典
+    watchReuqestdictList, watchReuqestdictDetail,watchRequestDictDelete,watchRequestDictCreate
 } from '../systemManager/redux/sagas';
 
 import {
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
-    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived,watchRequestFundsDetailList
+    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived, watchRequestFundsDetailList
+    
 } from '../businessSystem/redux/sgags';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgList, watchQueryAllOrgList,
@@ -35,9 +38,12 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestUserChangeStatus, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
     watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,
+    //字典
+    watchReuqestdictList, watchReuqestdictDetail,watchRequestDictDelete,watchRequestDictCreate,
     //资金
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
-    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived,watchRequestFundsDetailList
+    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived, watchRequestFundsDetailList,
+   
 ]);
 //
 // export {
@@ -116,6 +122,12 @@ export const sagasRun = () => {
     /* *-----------forfaiterModule ---------* */
     sagas.run(watchReuqestForfaiterList);
     sagas.run(watchReuqestSyncAllForfaiterList);
+
+    /* *-----------dict字典 ---------* */
+    sagas.run(watchReuqestdictList);
+    sagas.run(watchReuqestdictDetail);
+    sagas.run(watchRequestDictDelete);
+    sagas.run(watchRequestDictCreate);
 };
 
 

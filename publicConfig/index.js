@@ -6,19 +6,21 @@
  */
 
 //引入所有公共配置
-import { fundsModulePath, publishFundsPath, receivedFundsPath } from './router';
+import { fundsModulePath, publishFundsPath, receivedFundsPath, dictModulePath } from './router';
 import { axiosConfig } from './axios';
-import {fundsModuleMap,forfaiterMap} from './breadcrumbNameMap';
+import { fundsModuleMap, forfaiterMap, dictMap } from './breadcrumbNameMap';
 
 //index为所有公共配置出口
-export { 
+export {
     //axios
     axiosConfig,
     //面包屑导航配置
     fundsModuleMap,
     forfaiterMap,
+    dictMap,
     //router配置
-    fundsModulePath, 
-    publishFundsPath, 
+    fundsModulePath,
+    publishFundsPath,
     receivedFundsPath,
+    dictModulePath
 };

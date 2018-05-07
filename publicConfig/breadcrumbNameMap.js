@@ -6,7 +6,7 @@
  */
 
 
- /* ******************资金 fundsModule***************** */
+/* ******************资金 fundsModule***************** */
 export const fundsModuleMap = {
     '/businessSystem': '福费廷',
     '/businessSystem/fundsModule': '资金',
@@ -17,9 +17,17 @@ export const fundsModuleMap = {
     '/businessSystem/fundsModule/receivedFunds/detail': '资金详情',
 };
 
- /* ******************forfaiter***************** */
+/* ******************forfaiter***************** */
 
 export const forfaiterMap = {
     '/businessSystem': '福费廷',
     '/businessSystem/forfaiter': '包买商',
 }
+/**----------dict-----------**/
+
+export const dictMap = {
+    '/systemManager': '系统管理',
+    '/systemManager/dictManager': '字典管理',
+    '/systemManager/dictManager/create': '创建字典',
+    '/systemManager/dictManager/detail': '字典详情',
+};

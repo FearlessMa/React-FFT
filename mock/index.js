@@ -11,7 +11,7 @@ import "./systemManager/roleManager";
 import "./systemManager/userManager";
 import './businessSystem/fundsModule';
 import './businessSystem/forfaiter';
-
+import './businessSystem/dictModule';
 
 
 Mock.setup({

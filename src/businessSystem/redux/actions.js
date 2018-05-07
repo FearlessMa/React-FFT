@@ -55,3 +55,21 @@ export const requestSyncAllForfaiter = values => ({
     type: REQUEST_SYNC_ALL_FORFAITER,
     ...values
 })
+
+// /**---------dict------------**/
+
+// export const requestDictList = values => ({
+//     type: REQUEST_DICT_LIST,
+//     ...values
+// })
+
+// export const requestDictDetail = values => ({
+//     type: REQUEST_DICT_DETAIL,
+//     ...values
+// })
+
+// export const requestDictDelete = values => ({
+//     type: REQUEST_DICT_DELETE,
+//     ...values
+// })
+

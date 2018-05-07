@@ -94,7 +94,15 @@ import {
     REQUEST_ORG_ALL_TO_BLOCK_CHAIN,
     ORG_ALL_TO_BLOCK_CHAIN,
     REQUEST_ORG_TO_BLOCK_CHAIN,
-    ORG_TO_BLOCK_CHAIN
+    ORG_TO_BLOCK_CHAIN,
+    REQUEST_DICT_LIST,
+    REQUEST_DICT_DETAIL,
+    REQUEST_DICT_DELETE,
+    DICT_LIST,
+    DICT_DETAIL,
+    DICT_DELETE,
+    REQUEST_DICT_CREATE,
+    DICT_CREATE
 } from "./actionTypes";
 
 import { store } from '../../index';
@@ -107,35 +115,11 @@ import {
     requestUserDetail,
     requestOrgDetail,
     userChangePwdModalVisible,
-    requestOrgList
+    requestOrgList,
+    requestDictList
 } from "./actions";
 
-// //通知提醒
-// function alertNotification(message = '成功', description = 'success', type = 'success') {
-//     notification[type]({
-//         message,
-//         description,
-//     });
-// }
-//
-// //modal弹窗
-// function alertModal(title = '成功', content = 'succ', type = 'success', okText = '确认', onOk) {
-//     const funOk = () => {
-//         window.history.go(-1);
-//     };
-//     if (onOk !== null) onOk = onOk || funOk;
-//     Modal[type](
-//         {
-//             title,
-//             content,
-//             okText,
-//             onOk
-//         }
-//     );
-// }
-
-
-/**         requestData 参数
+/**   requestData 参数
  * config :{
  *  action : axios 的请求参数
  *  url : 请求地址
@@ -1160,3 +1144,87 @@ const requestCallback = (data) => {
 //         yield put({type: ERROR, ...err})
 //     }
 // }
+
+/*********--------------------dict-----------------**********/
+
+/**
+ * Path：/dict/list
+ * Method：POST
+**/
+export function* watchReuqestdictList() {
+    while (true) {
+        const action = yield take(REQUEST_DICT_LIST);
+        yield fork(requestData, {
+            action,
+            url: '/dict/list',
+            type: DICT_LIST,
+            loadingMsg: '字典数据...',
+            dispatchLoading: true
+        })
+    }
+}
+
+
+
+/**
+ * Path：/dict/detail
+ * Method：POST
+**/
+
+export function* watchReuqestdictDetail() {
+    while (true) {
+        const action = yield take(REQUEST_DICT_DETAIL);
+        yield fork(requestData, {
+            action,
+            url: '/dict/detail',
+            type: DICT_DETAIL,
+            loadingMsg: '字典详情加载中...',
+            dispatchLoading: true
+        })
+    }
+}
+
+/**
+ * Path：/dict/delete
+ * Method：POST
+**/
+
+export function* watchRequestDictDelete() {
+    while (true) {
+        const action = yield take(REQUEST_DICT_DELETE);
+        yield fork(requestData, {
+            action,
+            url: '/dict/delete',
+            type: DICT_DELETE,
+            loadingMsg: '正在删除中...'
+        }, null, dictDeleteCallback)
+    }
+}
+
+const dictDeleteCallback = data => {
+    if (String(data.code) === '200') {
+        alertNotification(data.message, data.message);
+        store.dispatch(requestDictList())
+    }
+}
+
+/**
+ * Path：/dict/create
+ * Method：POST
+**/
+export function* watchRequestDictCreate() {
+    while (true) {
+        const action = yield take(REQUEST_DICT_CREATE);
+        yield fork(requestData, {
+            action,
+            url: '/dict/create',
+            type: DICT_CREATE,
+            loadingMsg: '正在创建中...'
+        }, null, dictCreateCallback)
+    }
+}
+const dictCreateCallback = data => {
+    if (String(data.code) === '200') {
+        alertNotification(data.message, data.message);
+    }
+}

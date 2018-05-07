@@ -56,7 +56,11 @@ import {
     USER_CHANGE_PWD_MODAL_VISIBLE,
     USER_CHANGE_PWD,
     ORG_ALL_TO_BLOCK_CHAIN,
-    ORG_TO_BLOCK_CHAIN
+    ORG_TO_BLOCK_CHAIN,
+    DICT_LIST,
+    DICT_DELETE,
+    DICT_DETAIL,
+    DICT_CREATE
 } from "./actionTypes";
 
 /**------------------orgManagerReducer-------------------------**/
@@ -658,3 +662,59 @@ export const userManager = (state = userManagerInitValue, action) => {
             return state
     }
 };
+
+/**------------------字典 dict-------------------------**/
+const dictModuleInitvalue = {}
+
+export const dictModule = (state = dictModuleInitvalue, action) => {
+    switch (action.type) {
+        //loading
+        case LOADING:
+            return Object.assign({}, state, {
+                loading: true,
+            });
+        //请求错误
+        case REQUEST_ERR:
+            return Object.assign({}, state, {
+                loading: false,
+                requestErr: {
+                    ...action
+                }
+            });
+        //请求字列表
+        case DICT_LIST:
+            return Object.assign({}, state, {
+                loading: false,
+                dictList: {
+                    ...action
+                }
+            });
+        //字典详情
+        case DICT_DETAIL:
+            return Object.assign({}, state, {
+                loading: false,
+                dictDetail: {
+                    ...action
+                }
+            });
+        //删除字典
+        case DICT_DELETE:
+            return Object.assign({}, state, {
+                loading: false,
+                dictDelete: {
+                    ...action
+                }
+            });
+        //创建字典
+        case DICT_CREATE:
+            return Object.assign({}, state, {
+                loading: false,
+                dictCreate: {
+                    ...action
+                }
+            });
+
+        default:
+            return state;
+    }
+}

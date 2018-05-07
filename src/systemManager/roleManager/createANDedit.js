@@ -2,12 +2,13 @@
  * Created by MHC on 2018/3/23.
  */
 import React from 'react';
-import {FormComponent, tranTreeData} from '../../common';
+import { FormComponent, tranTreeData } from '../../common';
 import {
     requestPowerList, requestRoleCreate, requestRoleDetail, requestRoleEdit, roleComponentTitle
 } from "../redux/actions";
-import {connect} from "react-redux";
-import {TreeSelect} from 'antd';
+import { connect } from "react-redux";
+import { TreeSelect, Row, Col, Divider } from 'antd';
+
 
 
 const mapStateToProps = state => ({
@@ -21,7 +22,7 @@ const mapDispatchToProps = dispatch => ({
     roleCreateSaga: values => dispatch(requestRoleCreate(values)),
     roleDetailSaga: values => dispatch(requestRoleDetail(values)),
     roleComponentTitle: values => dispatch(roleComponentTitle(values)),
-    requestRoleEditSaga:values=>dispatch(requestRoleEdit(values))
+    requestRoleEditSaga: values => dispatch(requestRoleEdit(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -35,18 +36,18 @@ export class RoleCreateContainer extends React.Component {
             if (isNaN(roleId)) {
                 this.props.history.push('/systemManager/roleManager');
             }
-            this.props.roleComponentTitle({componentTitle:'edit'})
+            this.props.roleComponentTitle({ componentTitle: 'edit' })
             if (!this.props.detail) {
-                this.props.roleDetailSaga({roleId});
+                this.props.roleDetailSaga({ roleId });
             }
         }
     }
 
     onSubmit = values => {
-        if(this.props.componentTitle === 'edit'){
-            console.log({roleId:this.roleId,...values});
-            this.props.requestRoleEditSaga({roleId:this.roleId,...values});
-        }else {
+        if (this.props.componentTitle === 'edit') {
+            console.log({ roleId: this.roleId, ...values });
+            this.props.requestRoleEditSaga({ roleId: this.roleId, ...values });
+        } else {
             this.props.roleCreateSaga(values);
         }
     }
@@ -54,7 +55,7 @@ export class RoleCreateContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <RoleCreateContent onSubmit={this.onSubmit} {...this.props}/>
+                <RoleCreateContent onSubmit={this.onSubmit} {...this.props} />
             </React.Fragment>
         );
     }
@@ -63,21 +64,21 @@ export class RoleCreateContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 4, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 4, offset: 4 },
         // sm: {span:11}
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10},
+        xs: { span: 24 },
+        sm: { span: 10 },
         // sm:{ span: 13}
     },
 };
 
 const formSubBtnLayout = {
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10, offset: 5},
+        xs: { span: 24 },
+        sm: { span: 10, offset: 10 },
     }
 };
 
@@ -90,7 +91,7 @@ const treeSelectProps = {
 const RoleCreateContent = props => {
     let data = [];
     let initialTreeSelect = [];
-    let componentTitle = props.componentTitle==='edit'?'修改':'创建';
+    let componentTitle = props.componentTitle === 'edit' ? '修改' : '创建';
     if (props.match.params.roleId) {
         try {
             data = props.detail.data.role;
@@ -137,10 +138,24 @@ const RoleCreateContent = props => {
     return (
         <React.Fragment>
             <div className="containerContent">
-                <FormComponent formList={formList} formSubmit={props.onSubmit} btn={{back: '返回', sub: componentTitle}}
-                               layout={'horizontal'} loading={props.loading} formItemLayout={formItemLayout}
-                               formSubBtnLayout={formSubBtnLayout} selectData={treeSelectData}
-                               treeSelectProps={treeSelectProps}/>
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>{componentTitle}角色</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
+                <FormComponent
+                    formList={formList}
+                    formSubmit={props.onSubmit}
+                    btn={{ back: '返回', sub: componentTitle }}
+                    layout={'horizontal'}
+                    loading={props.loading}
+                    formItemLayout={formItemLayout}
+                    formSubBtnLayout={formSubBtnLayout}
+                    selectData={treeSelectData}
+                    treeSelectProps={treeSelectProps}
+                />
             </div>
         </React.Fragment>
     )

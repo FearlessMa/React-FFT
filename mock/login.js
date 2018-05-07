@@ -25,14 +25,15 @@ const templateRoot =Mock.mock({
     }]
 });
 const systemManagerTemplate = Mock.mock({
-    'array|6':[{
+    'array|7':[{
         'action|+1':[
             'systemManager/powerManager',
             'systemManager/menuManager',
             'systemManager/roleManager',
             'systemManager/userManager',
             'systemManager.organManager',
-            'systemManager/pathManager'
+            'systemManager/pathManager',
+            'systemManager/dictManager',
         ],
         menuId: '@increment()',
         createTime:'@now()',
@@ -42,7 +43,8 @@ const systemManagerTemplate = Mock.mock({
             '角色管理',
             '用户管理',
             '机构管理',
-            'Path管理'
+            'Path管理',
+            '字典管理'
         ],
         parentMenuId:200,
         sort:'@increment()',
@@ -54,14 +56,16 @@ const otherMenuListTemplate = Mock.mock({
     'array|2':[{
         'action|+1':[
             'businessSystem/fundsModule',
-            'businessSystem/forfaiter'
+            'businessSystem/forfaiter',
+            //'businessSystem/dict',
         ],
         // menuId: '@increment()',
-        'menuId|+1': [600,700],
+        'menuId|+1': [600,700,800],
         createTime:'@now()',
         'menuName|+1':[
             '资金',
-            '包买商'
+            '包买商',
+            //'字典',
         ],
         parentMenuId:300,
         sort:'@increment()',

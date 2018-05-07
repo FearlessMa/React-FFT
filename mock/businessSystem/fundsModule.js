@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-24 15:09:54 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 14:28:20
+ * @Last Modified time: 2018-05-07 16:36:14
  */
 
 import Mock from 'mockjs';
@@ -250,7 +250,7 @@ export const fundsDetail = Mock.mock('/capital/detail', option => {
                 "priceValidStart": 1515052850000,
                 "priceValidEnd": 1515052850000,
                 "capitalStatus": "1",
-                "forfaiter": "",
+                "forfaiter": '[{"BK_NM_C":"民生银行","BK_SC":"MSBCCNBJ","FORFEITER":[{"NM":"民生银行北京分行","SC":"MSBCCNBJ101"},{"NM":"民生银行北京分行1","SC":"MSBCCNBJ1011"},{"NM":"民生银行北京分行2","SC":"MSBCCNBJ1012"},{"NM":"民生银行北京分行3","SC":"MSBCCNBJ1013"},{"NM":"民生银行北京分行4","SC":"MSBCCNBJ1014"},{"NM":"民生银行北京分行5","SC":"MSBCCNBJ1015"},{"NM":"民生银行天津分行","SC":"MSBCCNBJ102"}]},{"BK_NM_C":"中信银行","BK_SC":"MSBCCNBJ200","FORFEITER":[]}]',
                 "txId": "943d7109-070b-4f87-9da7-1824e0e6683a",
                 "tranType": "1",
                 "tranDate": 1515052850000,

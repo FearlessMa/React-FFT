@@ -3,10 +3,11 @@
  */
 import React from 'react';
 // import { Row, Col, Form, Button, Input, Icon, message } from 'antd';
-import {message} from 'antd';
-import {FormComponent, tranTreeData} from '../../common';
-import {connect} from 'react-redux';
-import {requestAllOrgList, requestOrgCreate, requestOrgDetail, requestOrgEdit} from '../redux/actions';
+import { message } from 'antd';
+import { FormComponent, tranTreeData } from '../../common';
+import { connect } from 'react-redux';
+import { requestAllOrgList, requestOrgCreate, requestOrgDetail, requestOrgEdit } from '../redux/actions';
+import { Row, Col, Divider } from 'antd';
 
 message.config({
     top: '35%',
@@ -19,7 +20,7 @@ const mapStateToProps = (state) => ({
     // loading: state.systemManager.organManager.loading
 });
 const mapDispatchToProps = (dispatch) => ({
-    requestAllOrgList: () => dispatch(requestAllOrgList()),
+    requestAllOrgList: values => dispatch(requestAllOrgList(values)),
     requestOrgCreate: (value) => dispatch(requestOrgCreate(value)),
     orgDetailSaga: (orgId) => dispatch(requestOrgDetail(orgId)),
     orgEditSaga: values => dispatch(requestOrgEdit(values))
@@ -29,40 +30,55 @@ const mapDispatchToProps = (dispatch) => ({
 export default class OrganCreateContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.state = {
-            componentTitle: 'create',
+        this.props.requestAllOrgList();
+        const orgId = this.props.match.params.orgId;
+        this.orgId = orgId;
+        if (isNaN(orgId) && orgId !== undefined) {
+            message.error('数据错误', 1);
+            this.props.history.push('/systemManager/organManager');
         }
+        if (orgId) {
+            this.props.orgDetailSaga({ orgId });
+            this.state = {
+                componentTitle: 'edit',
+            };
+        } else {
+            this.state = {
+                componentTitle: 'create',
+            }
+        }
+
     }
 
     formSubmit = (values) => {
-        const orgId = this.props.match.params.orgId;
+        const orgId = this.orgId;
         if (orgId) {
-            this.props.orgEditSaga({orgId, ...values});
+            this.props.orgEditSaga({ orgId, ...values });
         } else {
             this.props.requestOrgCreate(values);
         }
     }
 
-    toBack = () => {
+    // toBack = () => {
 
-    }
+    // }
 
-    componentDidMount() {
+    // componentDidMount() {
 
-        this.props.requestAllOrgList();
-        const orgId = this.props.match.params.orgId;
-        if (isNaN(orgId) && orgId !== undefined) {
-            message.error('数据错误', 1);
-            this.props.history.push('/systemManager/organManager');
-            // TODO
-        }
-        if (orgId) {
-            this.props.orgDetailSaga({orgId});
-            this.setState({
-                componentTitle: 'edit',
-            });
-        }
-    }
+    //     this.props.requestAllOrgList();
+    //     const orgId = this.props.match.params.orgId;
+    //     if (isNaN(orgId) && orgId !== undefined) {
+    //         message.error('数据错误', 1);
+    //         this.props.history.push('/systemManager/organManager');
+    //         // TODO
+    //     }
+    //     if (orgId) {
+    //         this.props.orgDetailSaga({ orgId });
+    //         this.setState({
+    //             componentTitle: 'edit',
+    //         });
+    //     }
+    // }
 
     render() {
         let selectData = [];
@@ -71,15 +87,15 @@ export default class OrganCreateContainer extends React.Component {
         } catch (e) {
         }
         return <OrganLayout formSubmit={this.formSubmit}
-                            selectData={selectData}
+            selectData={selectData}
             // loading={this.props.orgCreate}
-                            layout={'horizontal'}
-                            formItemLayout={formItemLayout}
-                            formSubBtnLayout={formSubBtnLayout}
+            layout={'horizontal'}
+            formItemLayout={formItemLayout}
+            formSubBtnLayout={formSubBtnLayout}
             // moreItemInRow={true}
-                            componentTitle={this.state.componentTitle}
+            componentTitle={this.state.componentTitle}
             // editHide = {this.state.editHide}
-                            {...this.props}
+            {...this.props}
         />
     }
 
@@ -87,25 +103,26 @@ export default class OrganCreateContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 4, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 4, offset: 4 },
         // sm: {span:11}
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10},
+        xs: { span: 24 },
+        sm: { span: 10 },
         // sm:{ span: 13}
     },
 };
 const formSubBtnLayout = {
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10, offset: 5},
+        xs: { span: 24 },
+        sm: { span: 10, offset: 10 },
     }
 }
 
 const OrganLayout = (props) => {
     let data = [];
+    const title = props.componentTitle === 'edit' ? '编辑机构' : '创建机构';
     try {
         if (props.componentTitle === 'edit') {
             data = props.detail.detailData.data.org;
@@ -178,9 +195,16 @@ const OrganLayout = (props) => {
     return (
         <React.Fragment>
             <div className='containerContent'>
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>{title}</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
                 <FormComponent formList={formList}
-                               {...props}
-                               btn={{back: '返回', sub: '提交'}}
+                    {...props}
+                    btn={{ back: '返回', sub: '提交' }}
                 />
             </div>
         </React.Fragment>

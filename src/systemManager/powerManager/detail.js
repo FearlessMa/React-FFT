@@ -2,10 +2,10 @@
  * Created by MHC on 2018/3/22.
  */
 import React from 'react';
-import {connect} from "react-redux";
-import {Row, Col, Button, Table, Tabs} from 'antd';
-import {FormComponent} from '../../common';
-import {requestPowerDetail} from "../redux/actions";
+import { connect } from "react-redux";
+import { Row, Col, Button, Table, Tabs, Divider } from 'antd';
+import { FormComponent } from '../../common';
+import { requestPowerDetail } from "../redux/actions";
 
 const TabPane = Tabs.TabPane;
 
@@ -27,7 +27,7 @@ export class PowerDetailContainer extends React.Component {
         if (isNaN(permId)) {
             this.props.history.push('/systemManager/powerManager');
         }
-        this.props.powerDetailSaga({permId});
+        this.props.powerDetailSaga({ permId });
     }
 
     toBack = () => {
@@ -90,8 +90,13 @@ export class PowerDetailContainer extends React.Component {
 
         return (
             <React.Fragment>
-                <PowerDetailContent toBack={this.toBack} pathListColumns={pathListColumns}
-                                    toEdit={this.toEdit} menuListColumns={menuListColumns} {...this.props}/>
+                <PowerDetailContent
+                    toBack={this.toBack}
+                    pathListColumns={pathListColumns}
+                    toEdit={this.toEdit}
+                    menuListColumns={menuListColumns}
+                    {...this.props}
+                />
             </React.Fragment>
         );
     }
@@ -100,12 +105,12 @@ export class PowerDetailContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 8, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 8, offset: 1 },
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 15},
+        xs: { span: 24 },
+        sm: { span: 15 },
     },
 }
 
@@ -178,19 +183,39 @@ const PowerDetailContent = props => {
     return (
         <React.Fragment>
             <div className='containerContent'>
-                <FormComponent formList={formList} layout={'horizontal'} formItemLayout={formItemLayout}
-                               moreItemInRow={true} laoding={props.loading}
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>权限详情</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
+                <FormComponent
+                    formList={formList}
+                    layout={'horizontal'}
+                    formItemLayout={formItemLayout}
+                    moreItemInRow={true}
+                    laoding={props.loading}
                 />
                 <Row>
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Path关系" key="1">
-                            <Table loading={props.loading} columns={props.pathListColumns} dataSource={pathListData}
-                                   rowKey={'httpPath'} bordered={true}/>
+                            <Table
+                                loading={props.loading}
+                                columns={props.pathListColumns}
+                                dataSource={pathListData}
+                                rowKey={'httpPath'}
+                                bordered={true}
+                            />
                         </TabPane>
                         <TabPane tab="菜单关系" key="2">
-                            <Table loading={props.loading} columns={props.menuListColumns}
-                                   dataSource={menuListData} rowKey={'menuId'}
-                                   bordered={true}/>
+                            <Table
+                                loading={props.loading}
+                                columns={props.menuListColumns}
+                                dataSource={menuListData}
+                                rowKey={'menuId'}
+                                bordered={true}
+                            />
                         </TabPane>
                     </Tabs>
 

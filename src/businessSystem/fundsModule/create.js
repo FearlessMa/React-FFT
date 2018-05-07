@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-25 15:15:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 15:36:32
+ * @Last Modified time: 2018-05-07 16:32:20
  */
 
 
@@ -42,6 +42,7 @@ export class PublishCreateContainer extends React.Component {
         values.priceValidStart = new Date(values.priceValidStart).getTime();
         const list = this.formatForfaiterList(selectedForfaiter);
         values.forfaiter = JSON.stringify(list);
+        console.log(values);
         if (!selectedForfaiter[0]) {
             notification['error']({
                 message: '错误！',
@@ -137,7 +138,7 @@ export class PublishCreateContainer extends React.Component {
                 title: '操作',
                 dataIndex: '',
                 render: (text, record) => {
-                    return <a href="javascript:;" onClick={this.deleteSelectedForfaiter.bind(this, record)}>删除</a>
+                    return <span className={'detail-columns-delete'} onClick={this.deleteSelectedForfaiter.bind(this, record)}>删除</span>
                 }
             },
         ];
@@ -158,8 +159,6 @@ export class PublishCreateContainer extends React.Component {
 
 
 const PublishCreateContent = props => {
-    console.log('props')
-    console.log(props)
     let forfaiterData = [];
     const selectedColumns = tableColumns.concat(props.tableDeleteColumns);
     try {
@@ -339,7 +338,7 @@ const formItemLayout = {
 const formSubBtnLayout = {
     wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 10, offset: 8 },
+        sm: { span: 10, offset: 10 },
     }
 };
 //table columns数据
@@ -380,6 +379,4 @@ const ModalsearchComponentData = [
 //         sm: { span: 4, offset: 20 },
 //     }
 // };
-
-
 

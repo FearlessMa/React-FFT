@@ -10,7 +10,7 @@ import {
     requestOrgChangeStatus,
     dispatchOrgDetailModalVisible
 } from '../redux/actions';
-import { Row, Col, Button, Modal } from 'antd';
+import { Row, Col, Button, Modal, Divider } from 'antd';
 import { message } from "antd/lib/index";
 
 const mapStateToProps = (state) => ({
@@ -177,6 +177,13 @@ const OraganDetailContent = props => {
     return (
         <React.Fragment>
             <div className="containerContent">
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>机构详情</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
                 <FormComponent
                     formList={formList}
                     moreItemInRow={true}

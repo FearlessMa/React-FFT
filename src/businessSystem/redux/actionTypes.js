@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:42:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 09:51:16
+ * @Last Modified time: 2018-05-07 15:26:00
  */
 
 
@@ -40,6 +40,18 @@ export const SYNC_ALL_FORFAITER = 'syncAllForfaiter';
 // saga
 export const REQUEST_FORFAITER_LIST = 'requestForfaiterList';
 export const REQUEST_SYNC_ALL_FORFAITER = 'requestSyncAllForfaiter';
+
+// /**---------dict------------**/
+
+// // reducer
+// export const DICT_LIST = 'dictList';
+// export const DICT_DETAIL = 'dictDetail';
+// export const DICT_DELETE = 'dictDelete';
+
+// // saga
+// export const REQUEST_DICT_LIST = 'requestDictList';
+// export const REQUEST_DICT_DETAIL = 'requestDictDetail';
+// export const REQUEST_DICT_DELETE = 'requestDictDelete';
 
 
 

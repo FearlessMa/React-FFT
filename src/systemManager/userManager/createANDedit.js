@@ -2,9 +2,10 @@
  * Created by MHC on 2018/3/27.
  */
 import React from 'react';
-import {FormComponent, tranTreeData, tranCheckboxData} from '../../common';
-import {requestAllOrgList, requestRoleList, requestUserCreate, requestUserDetail} from "../redux/actions";
-import {connect} from "react-redux";
+import { FormComponent, tranTreeData, tranCheckboxData } from '../../common';
+import { requestAllOrgList, requestRoleList, requestUserCreate, requestUserDetail } from "../redux/actions";
+import { connect } from "react-redux";
+import { Row, Col, Divider } from 'antd';
 
 const mapStateToProps = (state) => ({
     //机构列表数据
@@ -34,7 +35,7 @@ export class UserCreateContainer extends React.Component {
             this.props.history.push('/systemManager/userManager');
         }
         if (userId) {
-            this.props.userDetailSaga({userId});
+            this.props.userDetailSaga({ userId });
             componentTitle = 'edit';
         }
         this.state = {
@@ -60,7 +61,7 @@ export class UserCreateContainer extends React.Component {
 
     checkPassword = (rules, v, callback) => {
         const password = this.state.password;
-        this.setState({resPassword: v})
+        this.setState({ resPassword: v })
         if (!v) callback('密码不能为空');
         if (password && password !== v) {
             callback('输入的密码不一致');
@@ -84,8 +85,8 @@ export class UserCreateContainer extends React.Component {
         return (
             <React.Fragment>
                 <UserCreateContent formSubmit={this.onSubmit} onChange={this.onChange}
-                                   checkResPassword={this.checkResPassword} checkPassword={this.checkPassword}
-                                   componentTitle={this.state.componentTitle} {...this.props}/>
+                    checkResPassword={this.checkResPassword} checkPassword={this.checkPassword}
+                    componentTitle={this.state.componentTitle} {...this.props} />
             </React.Fragment>
         );
     }
@@ -94,18 +95,18 @@ export class UserCreateContainer extends React.Component {
 
 const formItemLayout = {
     labelCol: {
-        xs: {span: 24},
-        sm: {span: 8, offset: 1},
+        xs: { span: 24 },
+        sm: { span: 8, offset: 1 },
     },
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 15},
+        xs: { span: 24 },
+        sm: { span: 15 },
     },
 }
 const formSubBtnLayout = {
     wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 10, offset: 5},
+        xs: { span: 24 },
+        sm: { span: 10, offset: 10 },
     }
 };
 
@@ -245,16 +246,23 @@ const UserCreateContent = props => {
     return (
         <React.Fragment>
             <div className="containerContent">
+                <Row>
+                    <Col span={24}>
+                        <div style={{ textAlign: 'center' }}>
+                            <Divider><h2>{componentTitle}角色</h2></Divider>
+                        </div>
+                    </Col>
+                </Row>
                 <FormComponent formList={formList}
-                               formItemLayout={formItemLayout}
-                               formSubBtnLayout={formSubBtnLayout}
-                               btn={{sub: componentTitle, back: '返回'}}
-                               formSubmit={props.formSubmit}
-                               layout={'horizontal'}
-                               moreItemInRow={true}
-                               onChange={props.onChange}
-                               selectData={selectData}
-                               checkboxData={checkboxData}/>
+                    formItemLayout={formItemLayout}
+                    formSubBtnLayout={formSubBtnLayout}
+                    btn={{ sub: componentTitle, back: '返回' }}
+                    formSubmit={props.formSubmit}
+                    layout={'horizontal'}
+                    moreItemInRow={true}
+                    onChange={props.onChange}
+                    selectData={selectData}
+                    checkboxData={checkboxData} />
             </div>
         </React.Fragment>
     );

@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-23 14:15:38 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 15:23:11
+ * @Last Modified time: 2018-05-07 17:20:58
  */
 
 import React from 'react';
@@ -17,8 +17,6 @@ import { PublishCreateContainer } from './create'
 import { FundsDetailContainer } from './detail';
 
 
-
-
 //路由
 export const FundsModuleLayout = props => {
     return <React.Fragment>
@@ -27,10 +25,12 @@ export const FundsModuleLayout = props => {
             <Route exact path={`${publishFundsPath.basePath}`} component={PublishFunds} />
             <Route exact path={`${receivedFundsPath.basePath}`} component={ReceivedFunds} />
             <Route path={publishFundsPath.createPath} component={PublishCreateContainer} />
-            <Route path={`${publishFundsPath.detailPath}${publishFundsPath.detailParam}`} component={FundsDetailContainer} />
-            <Route path={`${receivedFundsPath.detailPath}${receivedFundsPath.detailParam}`} component={FundsDetailContainer} />
+            <Route path={`${publishFundsPath.detailPath}${publishFundsPath.detailParam}`}
+                component={FundsDetailContainer} />
+            <Route path={`${receivedFundsPath.detailPath}${receivedFundsPath.detailParam}`}
+                component={FundsDetailContainer} />
             <Redirect to={publishFundsPath.basePath} />>
-    </Switch>
+        </Switch>
     </React.Fragment>
 }
 
@@ -56,6 +56,7 @@ const mapDispatchToProps = dispatch => ({
     requestOffshefSaga: values => dispatch(requestFundsOffshef(values)),
     requestFundsReceivedSaga: values => dispatch(requestFundsReceivedList(values))
 });
+
 @connect(mapStateToProps, mapDispatchToProps)
 class FundsModuleContainer extends React.Component {
     constructor(...arg) {
@@ -82,7 +83,6 @@ class FundsModuleContainer extends React.Component {
         } else {
             values.priceValidEnd = new Date(values.priceValidEnd).getTime();
         }
-        console.log(values);
         if (this.props.description === 'publishFunds') {
             this.props.requestFundsPublishSaga(values);
         } else if (this.props.description === 'receivedFunds') {
@@ -205,11 +205,13 @@ class FundsModuleContainer extends React.Component {
             title: '操作',
             dataIndex: '',
             render: (text, record) => {
-                if (typeof record.capitalStatus !== 'string') { String(record.capitalStatus) }
+                if (typeof record.capitalStatus !== 'string') {
+                    String(record.capitalStatus)
+                }
                 if (record.capitalStatus === '1') {
-                    return <Button onClick={this.offshelf.bind(this, record.capitalId)} type={'danger'} >下架</Button>
+                    return <Button onClick={this.offshelf.bind(this, record.capitalId)} type={'danger'}>下架</Button>
                 } else {
-                    return <Button disabled='disabled' >下架</Button>
+                    return <Button disabled='disabled'>下架</Button>
                 }
             }
         },]
@@ -251,6 +253,9 @@ const searchOtherData = [
             type: 'object'
         },
         tag: 'date',
+        config: {
+            placeholder: ''
+        }
     },
     {
         label: '结束时间',
@@ -259,6 +264,9 @@ const searchOtherData = [
             type: 'object'
         },
         tag: 'date',
+        config: {
+            placeholder: ''
+        }
     },
     {
         label: '资金状态',
@@ -323,12 +331,14 @@ const FundsModuleContent = props => {
         // 发布的资金数据
         publishData = props.publishList.data.capitalList;
         publishPagination = props.publishList.data.pagination;
-    } catch (e) { }
+    } catch (e) {
+    }
     try {
         // 接收的资金数据
         receivedData = props.receivedList.data.capitalList;
         receivedPaginaton = props.receivedList.data.pagination;
-    } catch (e) { }
+    } catch (e) {
+    }
     if (description === 'publishFunds') {
         //发布资金
         publicColumns.push(...publishColumns)
