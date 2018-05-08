@@ -2,13 +2,14 @@
  * @Author: mhc 
  * @Date: 2018-04-23 15:15:50 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 15:16:20
+ * @Last Modified time: 2018-05-08 10:13:45
  */
 
 //引入所有公共配置
 import { fundsModulePath, publishFundsPath, receivedFundsPath, dictModulePath } from './router';
 import { axiosConfig } from './axios';
 import { fundsModuleMap, forfaiterMap, dictMap } from './breadcrumbNameMap';
+
 
 //index为所有公共配置出口
 export {
