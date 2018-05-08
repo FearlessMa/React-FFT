@@ -190,6 +190,8 @@ const dispatchCallback = (data,action)=>{
 * moreItemInRow : 是否是一行显示多条item （布局不合适，可配置formItemLayout调整布局） Object
 * onChange : 可以调用e.target获得当前表单的值     Fun
 * checkbox : checkboxData 需要使用tranCheckboxData(数组数据,label属性key，value属性key)
+* 组件可以使用组件嵌套(this.props.children)，children组件会显示在输入框组件和按钮组件之间
+* 目前支持输入表单（input,textarea,treeSelect,tree,checkbox,date,select）
 
 ##### 2.2.2 使用方法
 
