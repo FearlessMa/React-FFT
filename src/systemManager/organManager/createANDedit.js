@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default class OrganCreateContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.props.requestAllOrgList();
+        this.props.requestAllOrgList({pageSize:1000});
         const orgId = this.props.match.params.orgId;
         this.orgId = orgId;
         if (isNaN(orgId) && orgId !== undefined) {

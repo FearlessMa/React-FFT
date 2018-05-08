@@ -16,7 +16,7 @@ const mapStateToProps = (state) => ({
     loading: state.systemManager.userManager.loading
 });
 const mapDispatchToProps = (dispatch) => ({
-    requestAllOrgList: () => dispatch(requestAllOrgList()),
+    requestAllOrgList: values => dispatch(requestAllOrgList(values)),
     roleListSaga: values => dispatch(requestRoleList(values)),
     userCreateSaga: values => dispatch(requestUserCreate(values)),
     userDetailSaga: value => dispatch(requestUserDetail(value)),
@@ -26,8 +26,8 @@ const mapDispatchToProps = (dispatch) => ({
 export class UserCreateContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.props.requestAllOrgList();
-        this.props.roleListSaga();
+        this.props.requestAllOrgList({ pageSize: 1000 });
+        this.props.roleListSaga({ pageSize: 1000 });
         let componentTitle = 'create';
         const userId = this.props.match.params.userId;
         if ((isNaN(userId) && userId !== undefined) || userId === '') {

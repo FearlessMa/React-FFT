@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
     componentTitle: state.systemManager.roleManager.componentTitle
 });
 const mapDispatchToProps = dispatch => ({
-    powerListSaga: () => dispatch(requestPowerList()),
+    powerListSaga: values => dispatch(requestPowerList(values)),
     roleCreateSaga: values => dispatch(requestRoleCreate(values)),
     roleDetailSaga: values => dispatch(requestRoleDetail(values)),
     roleComponentTitle: values => dispatch(roleComponentTitle(values)),
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => ({
 export class RoleCreateContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.props.powerListSaga();
+        this.props.powerListSaga({ pageSize: 1000 });
         const roleId = this.props.match.params.roleId;
         this.roleId = roleId;
         if (roleId) {

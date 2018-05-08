@@ -39,7 +39,7 @@ export class PowerCreateContainer extends React.Component {
             this.props.powerCreateComponentTitle({ componentTitle: 'edit' });
             this.props.powerDetailSaga({ permId });
         }
-        this.props.powerListSaga();
+        this.props.powerListSaga({pageSize:1000});
     }
 
     onSubmit = values => {
