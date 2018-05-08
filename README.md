@@ -1,15 +1,34 @@
-# 说明
+# 文档
 
-## 知识点需求
+## 目录
 
-antd的前端UI框架，react-router4,redux,redux-saga,Axios,generator,mockJS.
+* [README](#README)
+
+* [更新日志](#更新日志)
+
+* [使用离线字体](#1.使用离线字体)
+
+* [封装的公共组件与方法](#2.封装的公共组件与方法)
+  * [saga与axios封装](#2.1saga与axios封装)
+  * [表单组件](#2.2FormComponent组件)
+  * [面包屑导航](#2.3面包屑导航BreadcrumbComponent)
+
+## README
+
+### 知识点需求
+
+antd，react-router4,redux,redux-saga,Axios,generator,mockJS.
 
 * dist目录下为打包后文件，目前预览使用
 * 支持React Developer Tools和Redux DevTools调试工具，需要自己在浏览器中安装相应的插件即可使用。
 
-## 生产版本打包
+### 生产版本打包
 
-生产版本打(需注释掉src/index.js中引入的mockJs)
+* 生产版本打(需注释掉src/index.js中引入的mockJs)
+
+### 模块按需加载
+
+* 按需加载在src/routers/lazyRouters里配置
 
 ## 1.使用离线字体
 
@@ -106,7 +125,8 @@ webpack配置
 
 #### 2.1.1接口返回数据类型
 
-* src/common/axios里可以配置config对象来设置所需的各种功能
+* src/common/axios下是封装的axios
+* publicConfig/axiso里可以配置config对象来设置所需的各种功能
 * 参照[axios使用文档](https://www.kancloud.cn/yunye/axios/234845)
 
 ```ruby
@@ -310,4 +330,12 @@ const breadcrumbNameMap = {
 
 ```
 
-## 持续更新中
+## 更新日志
+
+### 2.0.0版本
+
+更新时间：2018/5/10
+
+更新内容：
+
+> 1.增加代码分割，实现按需加载

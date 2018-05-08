@@ -3,17 +3,22 @@
  */
 import React from 'react';
 import { Switch, withRouter, Route, Redirect } from 'react-router-dom';
-import { OrganLayout } from '../systemManager/organManager';
-import { PathManagerLayout } from '../systemManager/pathManager';
-import { MenuManagerLayout } from "../systemManager/menuManager";
-import { PowerManagerLayout } from "../systemManager/powerManager";
-import { RoleManagerLayout } from "../systemManager/roleManager";
-import { UserManagerLayout } from "../systemManager/userManager";
+// import { OrganLayout } from '../systemManager/organManager';
+// import { PathManagerLayout } from '../systemManager/pathManager';
+// import { MenuManagerLayout } from "../systemManager/menuManager";
+// import { PowerManagerLayout } from "../systemManager/powerManager";
+// import { RoleManagerLayout } from "../systemManager/roleManager";
+// import { UserManagerLayout } from "../systemManager/userManager";
 
-import { DictModuleLayout } from '../systemManager/dictManager';
-import { FundsModuleLayout } from '../businessSystem/fundsModule';
-import { ForfaitorContainer } from '../businessSystem/forfaiter';
+// import { DictModuleLayout } from '../systemManager/dictManager';
+// import { FundsModuleLayout } from '../businessSystem/fundsModule';
+// import { ForfaitorContainer } from '../businessSystem/forfaiter';
 import { dictModulePath } from 'publicConfig';
+//按需加载
+import {
+    MenuManagerLayout, OrganLayout, PathManagerLayout, PowerManagerLayout, RoleManagerLayout, UserManagerLayout, DictModuleLayout,
+    FundsModuleLayout, ForfaitorContainer
+} from '../routers/lazyRouters';
 
 const AllRoutes = props => {
     return (

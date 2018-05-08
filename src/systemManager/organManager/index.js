@@ -23,7 +23,7 @@ const breadcrumbNameMap = {
 };
 
 
-export const OrganLayout = props => {
+const OrganLayout = props => {
     return (
         <React.Fragment>
             <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
@@ -37,7 +37,10 @@ export const OrganLayout = props => {
             </Switch>
         </React.Fragment>
     )
-};
+}
+
+export default OrganLayout;
+;
 
 const mapStateToProps = (state) => ({
     index: state.systemManager.organManager.index,

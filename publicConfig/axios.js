@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-23 15:25:19 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-04-25 14:18:00
+ * @Last Modified time: 2018-05-08 17:33:07
  */
 
 import { message, Modal } from "antd";
@@ -15,6 +15,11 @@ export const axiosConfig = {
     // baseURL:'',
     // withCredentials: true,
     //拦截器
+    // `xsrfCookieName` 是用作 xsrf token 的值的cookie的名称
+    //   xsrfCookieName: 'XSRF-TOKEN', // default
+
+    // `xsrfHeaderName` 是承载 xsrf token 的值的 HTTP 头的名称
+    //   xsrfHeaderName: 'X-XSRF-TOKEN', // 默认的
     transformResponse: [(data) => {
         data = JSON.parse(data);
         if (typeof data.code !== 'number') {

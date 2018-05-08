@@ -16,7 +16,7 @@ import { DictDetailContainer } from './detail';
 import { DictCreateContainer } from './create';
 import { dictMap } from 'publicConfig';
 
-export const DictModuleLayout = props => {
+const DictModuleLayout = props => {
     return <React.Fragment>
         <BreadcrumbComponent {...props} breadcrumbNameMap={dictMap} />
         <Switch>
@@ -27,6 +27,7 @@ export const DictModuleLayout = props => {
         </Switch>
     </React.Fragment>
 };
+export default DictModuleLayout;
 
 const mapStateToProps = state => ({
     distLoading: state.systemManager.dictModule.loading,

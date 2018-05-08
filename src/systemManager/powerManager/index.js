@@ -2,15 +2,15 @@
  * Created by MHC on 2018/3/22.
  */
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {Row, Col, Button} from 'antd';
-import {FormComponent, TableComponent, tranTreeData, BreadcrumbComponent} from '../../common';
-import {connect} from 'react-redux';
-import {requestPowerDelete, requestPowerList} from "../redux/actions";
-import {Modal} from "antd/lib/index";
-import {PowerCreateContainer} from "./createANDedit";
-import {PowerDetailContainer} from "./detail";
-import {PowerConfigContainer} from "./config";
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { Row, Col, Button } from 'antd';
+import { FormComponent, TableComponent, tranTreeData, BreadcrumbComponent } from '../../common';
+import { connect } from 'react-redux';
+import { requestPowerDelete, requestPowerList } from "../redux/actions";
+import { Modal } from "antd/lib/index";
+import { PowerCreateContainer } from "./createANDedit";
+import { PowerDetailContainer } from "./detail";
+import { PowerConfigContainer } from "./config";
 
 
 const breadcrumbNameMap = {
@@ -22,23 +22,24 @@ const breadcrumbNameMap = {
     '/systemManager/powerManager/config': '权限配置',
 };
 
-export const PowerManagerLayout = props => {
+const PowerManagerLayout = props => {
     return (
         <React.Fragment>
-            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
             <Switch>
-                <Route exact path={'/systemManager/powerManager'} component={PowerManagerContainer}/>
-                <Route path={'/systemManager/powerManager/create'} component={PowerCreateContainer}/>
-                <Route path={'/systemManager/powerManager/detail/:permId'} component={PowerDetailContainer}/>
-                <Route path={'/systemManager/powerManager/edit/:permId'} component={PowerCreateContainer}/>
-                <Route path={'/systemManager/powerManager/config/:permId'} component={PowerConfigContainer}/>
-                <Redirect to={'/systemManager/powerManager'}/>
+                <Route exact path={'/systemManager/powerManager'} component={PowerManagerContainer} />
+                <Route path={'/systemManager/powerManager/create'} component={PowerCreateContainer} />
+                <Route path={'/systemManager/powerManager/detail/:permId'} component={PowerDetailContainer} />
+                <Route path={'/systemManager/powerManager/edit/:permId'} component={PowerCreateContainer} />
+                <Route path={'/systemManager/powerManager/config/:permId'} component={PowerConfigContainer} />
+                <Redirect to={'/systemManager/powerManager'} />
             </Switch>
         </React.Fragment>
 
     )
 };
 
+export default PowerManagerLayout;
 
 const mapStateToProps = state => ({
     index: state.systemManager.powerManager.index,
@@ -70,7 +71,7 @@ class PowerManagerContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                powerDeleteSaga({permId: record.permId});
+                powerDeleteSaga({ permId: record.permId });
             },
             onCancel() {
                 // console.log(record.permId)
@@ -79,7 +80,7 @@ class PowerManagerContainer extends React.Component {
         });
     }
 
-    toCreate = () => this.props.history.push({pathname: '/systemManager/powerManager/create', state: true})
+    toCreate = () => this.props.history.push({ pathname: '/systemManager/powerManager/create', state: true })
 
     toConfig = permId => {
         this.props.history.push(`/systemManager/powerManager/config/${permId}`)
@@ -87,7 +88,7 @@ class PowerManagerContainer extends React.Component {
 
     //分页
     paginationOnChange = (pagination) => {
-        this.props.powerListSaga({current: pagination.current, pageSize: pagination.pageSize});
+        this.props.powerListSaga({ current: pagination.current, pageSize: pagination.pageSize });
     }
 
     render() {
@@ -127,10 +128,10 @@ class PowerManagerContainer extends React.Component {
                     // let permId = record.permId;
                     return (
                         <div>
-                            <Button style={{marginRight: 5}}
-                                    onClick={() => this.props.history.push(`/systemManager/powerManager/edit/${record.permId}`)}>编辑</Button>
-                            <Button onClick={this.deletePower.bind(this, record)} style={{marginRight: 5}}
-                                    type={'danger'}>删除</Button>
+                            <Button style={{ marginRight: 5 }}
+                                onClick={() => this.props.history.push(`/systemManager/powerManager/edit/${record.permId}`)}>编辑</Button>
+                            <Button onClick={this.deletePower.bind(this, record)} style={{ marginRight: 5 }}
+                                type={'danger'}>删除</Button>
                             <Button onClick={this.toConfig.bind(this, record.permId)}>配置</Button>
                         </div>
                     );
@@ -140,8 +141,8 @@ class PowerManagerContainer extends React.Component {
         return (
             <React.Fragment>
                 <PowerManagerContent btnClick={this.toCreate} columns={columns}
-                                     formSubmit={this.onSubmit} {...this.props}
-                                     onChange={this.paginationOnChange}
+                    formSubmit={this.onSubmit} {...this.props}
+                    onChange={this.paginationOnChange}
                 />
             </React.Fragment>
         );
@@ -179,18 +180,18 @@ const PowerManagerContent = (props) => {
                 <Row>
                     <Col offset={3}>
                         <FormComponent formList={searchComponentData}
-                                       btn={{sub: '搜索'}}
-                                       layout={'inline'}
-                                       messageContent={'搜索中...'}
-                                       loading={props.loading}
-                                       formSubmit={props.formSubmit}
+                            btn={{ sub: '搜索' }}
+                            layout={'inline'}
+                            messageContent={'搜索中...'}
+                            loading={props.loading}
+                            formSubmit={props.formSubmit}
                         />
                     </Col>
                 </Row>
             </div>
             <div className='containerContent'>
                 <TableComponent {...props} btnName={'创建权限'} componentTitle={'权限列表'}
-                                rowKey={'permId'} dataSource={dataSource} pagination={pagination}/>
+                    rowKey={'permId'} dataSource={dataSource} pagination={pagination} />
             </div>
         </React.Fragment>
     )

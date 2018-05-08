@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-23 14:15:38 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-07 17:20:58
+ * @Last Modified time: 2018-05-08 23:26:33
  */
 
 import React from 'react';
@@ -33,6 +33,9 @@ export const FundsModuleLayout = props => {
         </Switch>
     </React.Fragment>
 }
+
+export default FundsModuleLayout;
+
 
 //我接收到的
 

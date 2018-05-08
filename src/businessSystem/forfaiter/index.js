@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 @connect(mapStateToProps, mapDispatchToProps)
-export class ForfaitorContainer extends React.Component {
+export default class ForfaitorContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
         this.state = {

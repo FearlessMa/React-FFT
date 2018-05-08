@@ -2,13 +2,13 @@
  * Created by MHC on 2018/3/27.
  */
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {Row, Col} from 'antd';
-import {FormComponent, TableComponent, BreadcrumbComponent} from '../../common';
-import {connect} from 'react-redux';
-import {requestUserList} from "../redux/actions";
-import {UserCreateContainer} from "./createANDedit";
-import {UserDetailContainer} from "./detail";
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { Row, Col } from 'antd';
+import { FormComponent, TableComponent, BreadcrumbComponent } from '../../common';
+import { connect } from 'react-redux';
+import { requestUserList } from "../redux/actions";
+import { UserCreateContainer } from "./createANDedit";
+import { UserDetailContainer } from "./detail";
 
 const breadcrumbName = 'user';
 const breadcrumbNameMap = {
@@ -19,20 +19,22 @@ const breadcrumbNameMap = {
     [`/systemManager/${breadcrumbName}Manager/edit`]: '编辑用户',
 };
 
-export const UserManagerLayout = props => {
+const UserManagerLayout = props => {
     return (
         <React.Fragment>
-            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
             <Switch>
-                <Route path={'/systemManager/userManager/create'} component={UserCreateContainer}/>
-                <Route path={'/systemManager/userManager/detail/:userId'} component={UserDetailContainer}/>
-                <Route path={'/systemManager/userManager/edit/:userId'} component={UserCreateContainer}/>
-                <Route exact path={'/systemManager/userManager'} component={UserManagerContainer}/>
-                <Redirect to={'/systemManager/userManager'}/>
+                <Route path={'/systemManager/userManager/create'} component={UserCreateContainer} />
+                <Route path={'/systemManager/userManager/detail/:userId'} component={UserDetailContainer} />
+                <Route path={'/systemManager/userManager/edit/:userId'} component={UserCreateContainer} />
+                <Route exact path={'/systemManager/userManager'} component={UserManagerContainer} />
+                <Redirect to={'/systemManager/userManager'} />
             </Switch>
         </React.Fragment>
     )
 };
+
+export default UserManagerLayout;
 
 const mapStateToProps = state => ({
     loading: state.systemManager.userManager.loading,
@@ -59,7 +61,7 @@ class UserManagerContainer extends React.Component {
 
     //分页
     paginationOnChange = (pagination) => {
-        this.props.userListSaga({current: pagination.current, pageSize: pagination.pageSize});
+        this.props.userListSaga({ current: pagination.current, pageSize: pagination.pageSize });
     }
 
     render() {
@@ -118,7 +120,7 @@ class UserManagerContainer extends React.Component {
         return (
             <React.Fragment>
                 <UserManagerContent columns={columns} formSubmit={this.onSubmit} btnClick={this.btnClick}
-                                    {...this.props} onChange={this.paginationOnChange}/>
+                    {...this.props} onChange={this.paginationOnChange} />
             </React.Fragment>
         );
     }
@@ -155,17 +157,17 @@ const UserManagerContent = props => {
                 <Row>
                     <Col offset={3}>
                         <FormComponent formList={searchComponentData}
-                                       btn={{sub: '搜索'}}
-                                       layout={'inline'}
-                                       formSubmit={props.formSubmit}
+                            btn={{ sub: '搜索' }}
+                            layout={'inline'}
+                            formSubmit={props.formSubmit}
                         />
                     </Col>
                 </Row>
             </div>
             <div className="containerContent">
                 <TableComponent {...props} btnName={'创建用户'} componentTitle={'用户列表'}
-                                rowKey={'userId'} dataSource={tableData} bordered={true}
-                                pagination={pagination} onChange={props.onChange}/>
+                    rowKey={'userId'} dataSource={tableData} bordered={true}
+                    pagination={pagination} onChange={props.onChange} />
             </div>
         </React.Fragment>
     )

@@ -9,9 +9,7 @@ import { connect } from 'react-redux';
 import { requestAllOrgList, requestOrgCreate, requestOrgDetail, requestOrgEdit } from '../redux/actions';
 import { Row, Col, Divider } from 'antd';
 
-message.config({
-    top: '35%',
-});
+
 
 
 const mapStateToProps = (state) => ({

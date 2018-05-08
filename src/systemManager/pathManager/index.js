@@ -2,13 +2,13 @@
  * Created by MHC on 2018/3/20.
  */
 import React from 'react';
-import {Route, Redirect, Switch} from 'react-router-dom';
-import {TableComponent, FormComponent, BreadcrumbComponent} from 'common';
-import {Row, Col, Button, Modal} from 'antd';
-import {connect} from 'react-redux';
-import {requestPathDelete, requestPathManager} from '../redux/actions';
-import {CreatePathContainer} from './createANDedit';
-import {PathDetailContainer} from './detail';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import { TableComponent, FormComponent, BreadcrumbComponent } from 'common';
+import { Row, Col, Button, Modal } from 'antd';
+import { connect } from 'react-redux';
+import { requestPathDelete, requestPathManager } from '../redux/actions';
+import { CreatePathContainer } from './createANDedit';
+import { PathDetailContainer } from './detail';
 
 
 const breadcrumbNameMap = {
@@ -19,20 +19,22 @@ const breadcrumbNameMap = {
     '/systemManager/pathManager/edit': '编辑Path',
 };
 
-export const PathManagerLayout = props => {
+const PathManagerLayout = props => {
     return (
         <React.Fragment>
-            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
             <Switch>
-                <Route exact path={'/systemManager/pathManager'} component={PathContainer}/>
-                <Route path={'/systemManager/pathManager/create'} component={CreatePathContainer}/>
-                <Route path={'/systemManager/pathManager/detail/:pathId'} component={PathDetailContainer}/>
-                <Route path={'/systemManager/pathManager/edit/:pathId'} component={CreatePathContainer}/>
-                <Redirect to={'/systemManager/pathManager'}/>
+                <Route exact path={'/systemManager/pathManager'} component={PathContainer} />
+                <Route path={'/systemManager/pathManager/create'} component={CreatePathContainer} />
+                <Route path={'/systemManager/pathManager/detail/:pathId'} component={PathDetailContainer} />
+                <Route path={'/systemManager/pathManager/edit/:pathId'} component={CreatePathContainer} />
+                <Redirect to={'/systemManager/pathManager'} />
             </Switch>
         </React.Fragment>
     )
 }
+
+export default PathManagerLayout;
 
 const mapStateToProps = state => ({
     index: state.systemManager.pathManager.index,
@@ -73,7 +75,7 @@ class PathContainer extends React.Component {
             onOk() {
                 // removePermSaga({permId:record.permId,pathId});
                 // console.log(record.pathId);
-                pathDeleteSaga({pathId: record.pathId});
+                pathDeleteSaga({ pathId: record.pathId });
             },
             onCancel() {
                 console.log(record.description)
@@ -83,7 +85,7 @@ class PathContainer extends React.Component {
 
     //分页
     paginationOnChange = (pagination) => {
-        this.props.pathListSaga({current: pagination.current, pageSize: pagination.pageSize});
+        this.props.pathListSaga({ current: pagination.current, pageSize: pagination.pageSize });
     }
 
     render() {
@@ -112,8 +114,8 @@ class PathContainer extends React.Component {
                     return (
                         <div>
                             <Button onClick={this.toEdit.bind(this, record.pathId)}>编辑</Button>
-                            <Button className="deleteBtn" style={{marginLeft: 10}} type={'danger'}
-                                    onClick={this.deletePath.bind(this, record)}
+                            <Button className="deleteBtn" style={{ marginLeft: 10 }} type={'danger'}
+                                onClick={this.deletePath.bind(this, record)}
                             >删除</Button>
                         </div>
                     );
@@ -123,8 +125,8 @@ class PathContainer extends React.Component {
         return (
             <React.Fragment>
                 <PathContent columns={columns} btnClick={this.toCreate}
-                             formSubmit={this.formSubmit} {...this.props}
-                             onChange={this.paginationOnChange}
+                    formSubmit={this.formSubmit} {...this.props}
+                    onChange={this.paginationOnChange}
                 />
             </React.Fragment>
         );
@@ -161,16 +163,16 @@ const PathContent = (props) => {
                 <Row className=''>
                     <Col span={20} offset={3}>
                         <FormComponent formList={searchComponentData}
-                                       btn={{sub: '搜索'}}
-                                       layout={'inline'}
-                                       formSubmit={props.formSubmit}
+                            btn={{ sub: '搜索' }}
+                            layout={'inline'}
+                            formSubmit={props.formSubmit}
                         />
                     </Col>
                 </Row>
             </div>
             <div className='containerContent'>
                 <TableComponent {...props} columns={props.columns} componentTitle={'path管理'} dataSource={dataList}
-                                rowKey={'pathId'} bordered={true} btnName={'创建Path'} pagination={pagination}/>
+                    rowKey={'pathId'} bordered={true} btnName={'创建Path'} pagination={pagination} />
             </div>
         </React.Fragment>
     )

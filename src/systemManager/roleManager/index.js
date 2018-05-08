@@ -2,13 +2,13 @@
  * Created by MHC on 2018/3/23.
  */
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {Row, Col} from 'antd';
-import {FormComponent, TableComponent, BreadcrumbComponent} from '../../common';
-import {connect} from 'react-redux';
-import {requestRoleList} from "../redux/actions";
-import {RoleCreateContainer} from "./createANDedit";
-import {RoleDetailContainer} from "./detail";
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { Row, Col } from 'antd';
+import { FormComponent, TableComponent, BreadcrumbComponent } from '../../common';
+import { connect } from 'react-redux';
+import { requestRoleList } from "../redux/actions";
+import { RoleCreateContainer } from "./createANDedit";
+import { RoleDetailContainer } from "./detail";
 
 const breadcrumbName = 'role';
 const breadcrumbNameMap = {
@@ -19,20 +19,22 @@ const breadcrumbNameMap = {
     [`/systemManager/${breadcrumbName}Manager/edit`]: '编辑角色',
 };
 
-export const RoleManagerLayout = props => {
+const RoleManagerLayout = props => {
     return (
         <React.Fragment>
-            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap}/>
+            <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
             <Switch>
-                <Route path={'/systemManager/roleManager/create'} component={RoleCreateContainer}/>
-                <Route path={'/systemManager/roleManager/edit/:roleId'} component={RoleCreateContainer}/>
-                <Route path={'/systemManager/roleManager/detail/:roleId'} component={RoleDetailContainer}/>
-                <Route exact path={'/systemManager/roleManager'} component={RoleManagerContainer}/>
-                <Redirect to={'/systemManager/roleManager'}/>
+                <Route path={'/systemManager/roleManager/create'} component={RoleCreateContainer} />
+                <Route path={'/systemManager/roleManager/edit/:roleId'} component={RoleCreateContainer} />
+                <Route path={'/systemManager/roleManager/detail/:roleId'} component={RoleDetailContainer} />
+                <Route exact path={'/systemManager/roleManager'} component={RoleManagerContainer} />
+                <Redirect to={'/systemManager/roleManager'} />
             </Switch>
         </React.Fragment>
     )
 };
+
+export default RoleManagerLayout;
 
 
 const mapStateToProps = state => ({
@@ -60,7 +62,7 @@ class RoleManagerContainer extends React.Component {
 
     //分页
     paginationOnChange = (pagination) => {
-        this.props.roleListSaga({current: pagination.current, pageSize: pagination.pageSize});
+        this.props.roleListSaga({ current: pagination.current, pageSize: pagination.pageSize });
     }
 
     render() {
@@ -86,8 +88,8 @@ class RoleManagerContainer extends React.Component {
             }
         ];
         return <RoleManagerContent btnClick={this.tableBtnClick} columns={columns}
-                                   onSubmit={this.onSubmit} {...this.props}
-                                   onChange={this.paginationOnChange}
+            onSubmit={this.onSubmit} {...this.props}
+            onChange={this.paginationOnChange}
         />
     }
 
@@ -116,15 +118,15 @@ const RoleManagerContent = (props) => {
                 <Row>
                     <Col offset={4}>
                         <FormComponent formList={searchComponentData} formSubmit={props.onSubmit}
-                                       btn={{sub: '搜索'}} layout={'inline'}
+                            btn={{ sub: '搜索' }} layout={'inline'}
                         />
                     </Col>
                 </Row>
             </div>
             <div className="containerContent">
                 <TableComponent columns={props.columns} componentTitle={'角色列表'} btnName={'创建角色'}
-                                btnClick={props.btnClick} dataSource={data} rowKey={'createTime'}
-                                loading={props.loading} onChange={props.onChange} pagination={pagination}/>
+                    btnClick={props.btnClick} dataSource={data} rowKey={'createTime'}
+                    loading={props.loading} onChange={props.onChange} pagination={pagination} />
             </div>
         </React.Fragment>
     )

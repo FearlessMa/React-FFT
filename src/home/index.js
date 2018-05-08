@@ -7,6 +7,7 @@ import Container from './container';
 import './index.less';
 import {logoutAction} from "./redux/actions";
 import {LOGOUT} from "./redux/actionTypes";
+import 'publicConfig/antdConfig'
 
 export {logoutAction, LOGOUT}
 

@@ -19,7 +19,7 @@ const breadcrumbNameMap = {
     '/systemManager/menuManager/edit': '编辑菜单',
 };
 
-export const MenuManagerLayout = props => {
+const MenuManagerLayout = props => {
     return (
         <React.Fragment>
             <BreadcrumbComponent {...props} breadcrumbNameMap={breadcrumbNameMap} />
@@ -34,7 +34,7 @@ export const MenuManagerLayout = props => {
 
     )
 };
-
+export default MenuManagerLayout;
 
 const mapStateToProps = state => ({
     index: state.systemManager.menuManager.index,
