@@ -3,15 +3,15 @@
  *
  */
 import React from 'react';
-import {Menu, Icon} from 'antd';
-import {connect} from 'react-redux';
-import {tranTreeData} from '../common'
+import { Menu, Icon } from 'antd';
+import { connect } from 'react-redux';
+import { tranTreeData } from '../common'
 
 const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
 // const MenuItem = Menu.Item;
 
-const mapStateToProps = state => ({login: state.login});
+const mapStateToProps = state => ({ login: state.login });
 
 @connect(mapStateToProps)
 export default class MenuContainer extends React.Component {
@@ -23,6 +23,7 @@ export default class MenuContainer extends React.Component {
         let menuList = [];
         //第一层菜单
         let rootSubmenuKeys = [];
+        //登录后
         if (this.props.login.userData !== undefined && !sessionUserData) {
             // 菜单数据
             menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
@@ -42,6 +43,7 @@ export default class MenuContainer extends React.Component {
                 openKeys: [initPath],
                 rootSubmenuKeys,
             };
+            //刷新页面
         } else {
             menuList = tranTreeData(this.props.login.userData.data.menulist, 'menuId', 'parentMenuId', 'menuName');
             menuList.map(item => rootSubmenuKeys.push(`${item.menuId}-${item.action}`));
@@ -82,7 +84,7 @@ export default class MenuContainer extends React.Component {
         }
         const currentPath = this.state.currentPath;
         if (path !== currentPath) {
-            this.setState({currentPath: path});
+            this.setState({ currentPath: path });
             this.props.history.push(`/${path}`);
         }
     }
@@ -90,7 +92,7 @@ export default class MenuContainer extends React.Component {
     onOpenChange = openKeys => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-            this.setState({openKeys});
+            this.setState({ openKeys });
         } else {
             this.setState({
                 openKeys: latestOpenKey ? [latestOpenKey] : [],
@@ -108,19 +110,37 @@ export default class MenuContainer extends React.Component {
     }
 
     render() {
-        const {menuList, defaultKey} = this.state;
+        const { menuList, defaultKey } = this.state;
         return (
-            <MenuComponent menuList={menuList} defaultKey={defaultKey} {...this.props}
-                           toLink={this.toLink} onOpenChange={this.onOpenChange}
-                           openKeys={this.state.openKeys} selectedKeys={this.state.selectedKeys}
-                           collapse={this.state.collapse}/>
+            <MenuComponent
+                menuList={menuList}
+                defaultKey={defaultKey}
+                {...this.props}
+                toLink={this.toLink}
+                onOpenChange={this.onOpenChange}
+                openKeys={this.state.openKeys}
+                selectedKeys={this.state.selectedKeys}
+                collapse={this.state.collapse}
+            />
         );
     }
 }
 
 
 const MenuComponent = (props) => {
-    const {toLink} = props;
+    const { toLink } = props;
+    let newMenuList = [];
+    // 菜单排序
+    try {
+        newMenuList = props.menuList;
+        newMenuList.sort((a, b) => a.sort - b.sort);
+        newMenuList.map(item => {
+            if (item.children[0]) {
+                item.children.sort((a, b) => a.sort - b.sort);
+            }
+            return null
+        })
+    } catch (e) { }
     const menuList = (menuList) => {
         return menuList.map((item) => {
             if (item.children) {
@@ -131,7 +151,7 @@ const MenuComponent = (props) => {
                 return (
                     <Menu.Item key={`${item.menuId}-${item.action}`}>
                         {/*<div>*/}
-                        <Icon type={item.tab}/>
+                        <Icon type={item.tab} />
                         <span>{item.menuName}</span>
                         {/*</div>*/}
                     </Menu.Item>
@@ -141,8 +161,8 @@ const MenuComponent = (props) => {
     }
     const menuChild = (item) => {
         return (
-            <SubMenu title={<span><Icon type={item.tab}/><span>{item.menuName}</span></span>}
-                     key={`${item.menuId}-${item.action}`}>
+            <SubMenu title={<span><Icon type={item.tab} /><span>{item.menuName}</span></span>}
+                key={`${item.menuId}-${item.action}`}>
                 {
                     item.children.map((cItem) => {
                         if (cItem.children) {
@@ -167,10 +187,10 @@ const MenuComponent = (props) => {
     };
     return (
         <Menu mode={props.collapse ? 'vertical' : 'inline'} theme={'dark'} onClick={toLink}
-              defaultSelectedKeys={[props.defaultKey]}
-              selectedKeys={props.selectedKeys}
-              {...open}
-              onOpenChange={props.onOpenChange}
+            defaultSelectedKeys={[props.defaultKey]}
+            selectedKeys={props.selectedKeys}
+            {...open}
+            onOpenChange={props.onOpenChange}
         >
             {
                 menuList(props.menuList)

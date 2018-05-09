@@ -4,19 +4,20 @@
 
 import Mock from 'mockjs';
 
-const templateRoot =Mock.mock({
-    'array|3':[{
-        action:'',
-        'menuId|+1':[100,200,300],
-        createTime:'@now()',
-        'menuName|+1':[
+const templateRoot = Mock.mock({
+    'array|3': [{
+        action: '',
+        'menuId|+1': [100, 200, 300],
+        createTime: '@now()',
+        'menuName|+1': [
             '首页',
             '系统管理',
             '福费廷',
         ],
-        parentMenuId:'Root',
+        parentMenuId: 'Root',
         sort:'@increment()',
-        'tab|+1':[
+        // 'sort|+1': [3, 1, 2],
+        'tab|+1': [
             'home',
             'mail',
             'api',
@@ -25,8 +26,8 @@ const templateRoot =Mock.mock({
     }]
 });
 const systemManagerTemplate = Mock.mock({
-    'array|7':[{
-        'action|+1':[
+    'array|7': [{
+        'action|+1': [
             'systemManager/powerManager',
             'systemManager/menuManager',
             'systemManager/roleManager',
@@ -36,8 +37,8 @@ const systemManagerTemplate = Mock.mock({
             'systemManager/dictManager',
         ],
         menuId: '@increment()',
-        createTime:'@now()',
-        'menuName|+1':[
+        createTime: '@now()',
+        'menuName|+1': [
             '权限管理',
             '菜单管理',
             '角色管理',
@@ -46,66 +47,66 @@ const systemManagerTemplate = Mock.mock({
             'Path管理',
             '字典管理'
         ],
-        parentMenuId:200,
-        sort:'@increment()',
+        parentMenuId: 200,
+        sort: '@increment()',
         tab: "",
         updateTime: '@now()'
     }]
 });
 const otherMenuListTemplate = Mock.mock({
-    'array|2':[{
-        'action|+1':[
+    'array|2': [{
+        'action|+1': [
             'businessSystem/fundsModule',
             'businessSystem/forfaiter',
             //'businessSystem/dict',
         ],
         // menuId: '@increment()',
-        'menuId|+1': [600,700,800],
-        createTime:'@now()',
-        'menuName|+1':[
+        'menuId|+1': [600, 700, 800],
+        createTime: '@now()',
+        'menuName|+1': [
             '资金',
             '包买商',
             //'字典',
         ],
-        parentMenuId:300,
-        sort:'@increment()',
+        parentMenuId: 300,
+        sort: '@increment()',
         tab: "",
         updateTime: '@now()'
     }]
 });
 const fundsModuleTemplate = Mock.mock({
-    'array|2':[{
-        'action|+1':[
+    'array|2': [{
+        'action|+1': [
             'businessSystem/fundsModule/publishFunds',
             'businessSystem/fundsModule/receivedFunds'
         ],
         menuId: '@increment()',
-        createTime:'@now()',
-        'menuName|+1':[
+        createTime: '@now()',
+        'menuName|+1': [
             '发布的资金',
             '接收的资金'
         ],
-        parentMenuId:600,
-        sort:'@increment()',
+        parentMenuId: 600,
+        sort: '@increment()',
         tab: "",
         updateTime: '@now()'
     }]
 });
 
-export const menuList =  [
+export const menuList = [
     ...templateRoot.array,
     ...systemManagerTemplate.array,
     ...otherMenuListTemplate.array,
     ...fundsModuleTemplate.array
 ];
-export const loginMock =Mock.mock('/login',function (option) {
-    const {username,password} = JSON.parse(option.body);
-    if(username==='admin'&& password==='5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5'){
+export const loginMock = Mock.mock('/login', function (option) {
+    const { username, password } = JSON.parse(option.body);
+    if (username === 'admin' && password === '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5') {
         return {
-            message:'登陆成功',
-            code:200,
-            data:{
-                "menulist":menuList,
+            message: '登陆成功',
+            code: 200,
+            data: {
+                "menulist": menuList,
                 "user": {
                     "avatar": null,
                     "createTime": 1514969826000,
@@ -127,10 +128,10 @@ export const loginMock =Mock.mock('/login',function (option) {
 
             },
         };
-    }else{
+    } else {
         return {
-            message:'登录失败,账号或密码错误！',
-            code:'402'
+            message: '登录失败,账号或密码错误！',
+            code: '402'
         }
     }
 });

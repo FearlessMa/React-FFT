@@ -136,7 +136,9 @@ class Login extends React.Component {
                         }
                     </FormItem>
                     <FormItem>
-                        <Button loading={this.props.loading} type={'primary'}
+                        <Button
+                            loading={this.props.loading}
+                            type={'primary'}
                             htmlType={'submit'}
                             style={{ width: '100%' }}>Login In</Button>
                     </FormItem>
