@@ -21,8 +21,8 @@ if (process.env.NODE_ENV === "development") {
 module.exports = {
     entry: entryIndex,
     output: {
-        filename: 'js/[name].[hash].js',
-        chunkFilename: 'js/[name]-[id].[hash].bundle.js',
+        filename: 'js/[name].[hash:8].js',
+        chunkFilename: 'js/[name]-[id].[hash:8].bundle.js',
         path: path.resolve(__dirname, '../dist')
     },
     module: {
