@@ -24,7 +24,7 @@ export const queryorganListMock = Mock.mock('/org/list', (option) => {
                 "realOrgId": "1",
                 "shortName": "中国民生银行",
                 "status": "NORMAL",
-                "syncStatus|1": ["0", "1", "2"],
+                "syncStatus|1": ["NOT_SYNC", "SYNCHRONIZED", "MODIFIED"],
                 "sysSyncDate": 1515052850000,
                 "updateTime": 1515052850000
             }

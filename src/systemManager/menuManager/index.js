@@ -49,10 +49,11 @@ const mapDispatchToProps = dispatch => ({
 class MenuManagerContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.props.menuListSaga();
+        this.props.menuListSaga({ pageSize: 1000 });
     }
 
     onSubmit = (values) => {
+        values.pageSize = 1000;
         this.props.menuListSaga(values);
     }
 

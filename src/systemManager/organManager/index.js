@@ -139,11 +139,11 @@ class OrganContainer extends React.Component {
                         String(text)
                     }
                     switch (text) {
-                        case "0":
+                        case "NOT_SYNC":
                             return <span>未同步</span>
-                        case "1":
+                        case "SYNCHRONIZED":
                             return <span>已同步</span>
-                        case "2":
+                        case "MODIFIED":
                             return <span>已修改</span>
                         default:
                             return null

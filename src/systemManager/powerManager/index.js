@@ -55,10 +55,11 @@ const mapDispatchToProps = dispatch => ({
 class PowerManagerContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
-        this.props.powerListSaga();
+        this.props.powerListSaga({ pageSize: 1000 });
     }
 
     onSubmit = values => {
+        values.pageSize = 1000;
         this.props.powerListSaga(values);
     }
 
