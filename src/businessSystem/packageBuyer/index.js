@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-28 09:31:17 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 15:33:58
+ * @Last Modified time: 2018-05-14 10:34:26
  */
 
 import React from 'react';
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class ForfaitorContainer extends React.Component {
+export default class PackagebuyerContainer extends React.Component {
     constructor(...arg) {
         super(...arg);
         this.state = {
@@ -61,7 +61,7 @@ export default class ForfaitorContainer extends React.Component {
         }
 
         return <React.Fragment>
-            <ForfaitorContent
+            <PackagebuyerContent
                 collapsed={this.state.collapsed}
                 searchComponentData={data}
                 toggleCollapsed={this.toggleCollapsed}
@@ -157,7 +157,7 @@ const columns = [
     },
 ];
 
-const ForfaitorContent = props => {
+const PackagebuyerContent = props => {
     const { collapsed, searchComponentData, toggleCollapsed, forfaiterList, loading, toAllForfaiter } = props;
     const formConfig = {
         moreItemInRow: !collapsed,

@@ -17,7 +17,7 @@ import { dictModulePath } from 'publicConfig';
 //按需加载
 import {
     MenuManagerLayout, OrganLayout, PathManagerLayout, PowerManagerLayout, RoleManagerLayout, UserManagerLayout, DictModuleLayout,
-    FundsModuleLayout, ForfaitorContainer
+    FundsModuleLayout, PackageBuyerContainer
 } from '../routers/lazyRouters';
 
 const AllRoutes = props => {
@@ -32,7 +32,7 @@ const AllRoutes = props => {
                 <Route path={`/systemManager/roleManager`} component={RoleManagerLayout} />
                 <Route path={`/systemManager/userManager`} component={UserManagerLayout} />
                 <Route path={`/businessSystem/fundsModule`} component={FundsModuleLayout} />
-                <Route path={`/businessSystem/forfaiter`} component={ForfaitorContainer} />
+                <Route path={`/businessSystem/packageBuyer`} component={PackageBuyerContainer} />
                 <Route path={`${dictModulePath.basePath}`} component={DictModuleLayout} />
                 <Redirect to={`${props.match.path}`} />
             </Switch>

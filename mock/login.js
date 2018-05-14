@@ -57,7 +57,7 @@ const otherMenuListTemplate = Mock.mock({
     'array|2': [{
         'action|+1': [
             'businessSystem/fundsModule',
-            'businessSystem/forfaiter',
+            'businessSystem/packageBuyer',
             //'businessSystem/dict',
         ],
         // menuId: '@increment()',

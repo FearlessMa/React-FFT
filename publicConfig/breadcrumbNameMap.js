@@ -21,7 +21,7 @@ export const fundsModuleMap = {
 
 export const forfaiterMap = {
     '/businessSystem': '福费廷',
-    '/businessSystem/forfaiter': '包买商',
+    '/businessSystem/packageBuyer': '包买商',
 }
 /**----------dict-----------**/
 

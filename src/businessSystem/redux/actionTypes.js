@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:42:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-07 15:26:00
+ * @Last Modified time: 2018-05-14 11:07:10
  */
 
 
@@ -31,7 +31,7 @@ export const REQUEST_FUNDS_DETAIL_LIST = 'requestFundsDetailList';
 export const REQUEST_PARENT_SC_FORFAITER_LIST = 'requestParentScForfaiterList';
 
 
-/**---------forfaiter------------**/
+/**---------包买商 packageBuyer------------**/
 
 // reducer
 export const FORFAITER_LIST = 'forfaiterList';

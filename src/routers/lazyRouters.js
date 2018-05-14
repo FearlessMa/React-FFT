@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-05-08 23:04:09 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-08 23:27:13
+ * @Last Modified time: 2018-05-14 10:32:53
  */
 
 //按需加载
@@ -17,4 +17,4 @@ export const RoleManagerLayout = lazyLoad(()=>import(/* webpackChunkName: "RoleM
 export const UserManagerLayout = lazyLoad(()=>import(/* webpackChunkName: "UserManagerLayout" */'../systemManager/userManager'));
 export const DictModuleLayout = lazyLoad(()=>import(/* webpackChunkName: "DictModuleLayout" */'../systemManager/dictManager'));
 export const FundsModuleLayout = lazyLoad(()=>import(/* webpackChunkName: "FundsModuleLayout" */'../businessSystem/fundsModule'));
-export const ForfaitorContainer = lazyLoad(()=>import(/* webpackChunkName: "ForfaitorContainer" */'../businessSystem/forfaiter'));
+export const PackageBuyerContainer = lazyLoad(()=>import(/* webpackChunkName: "PackagebuyerContainer" */'../businessSystem/packageBuyer'));
