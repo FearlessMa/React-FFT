@@ -9,12 +9,12 @@ import { connect } from 'react-redux';
 import { authenticatedAction } from '../login/redux/actions';
 import { storeMenuListAction } from './redux/actions';
 import { STOREMENULIST } from './redux/actionTypes';
-
+import { LoginComponent } from './lazyRouters'
 
 //按需加载
-import { lazyLoad } from './lazyLoad';
+// import { lazyLoad } from './lazyLoad';
 
-const LoginComponent = lazyLoad(() => import(/* webpackChunkName: "Login" */'../login'));
+// const LoginComponent = lazyLoad(() => import(/* webpackChunkName: "Login" */'../login'));
 // const HomeComponent = lazyLoad(() => import('../home'));
 
 // import LoginComponent from 'bundle-loader?lazy&name=login!../login';

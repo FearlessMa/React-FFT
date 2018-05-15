@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-25 15:15:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-07 16:32:20
+ * @Last Modified time: 2018-05-14 11:25:21
  */
 
 
@@ -41,7 +41,8 @@ export class PublishCreateContainer extends React.Component {
         values.priceValidEnd = new Date(values.priceValidEnd).getTime();
         values.priceValidStart = new Date(values.priceValidStart).getTime();
         const list = this.formatForfaiterList(selectedForfaiter);
-        values.forfaiter = JSON.stringify(list);
+        // values.forfaiter = JSON.stringify(list);
+        values.forfaiter = list;
         console.log(values);
         if (!selectedForfaiter[0]) {
             notification['error']({

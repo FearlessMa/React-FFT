@@ -8,6 +8,8 @@
 //按需加载
 import { lazyLoad } from './lazyLoad';
 
+
+export const LoginComponent = lazyLoad(() => import(/* webpackChunkName: "Login" */'../login'));
 //home container router
 export const MenuManagerLayout = lazyLoad(()=>import(/* webpackChunkName: "MenuManagerLayout" */'../systemManager/menuManager'));
 export const OrganLayout = lazyLoad(()=>import(/* webpackChunkName: "OrganLayout" */'../systemManager/organManager'));

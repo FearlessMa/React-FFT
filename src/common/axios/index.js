@@ -6,19 +6,19 @@
 import axios from 'axios';
 // import {store} from '../../index';
 // import {logoutAction} from "../../home";
-import {call, put} from "redux-saga/effects";
-import {LOADING} from "../../systemManager/redux/actionTypes";
-import {message, Modal, notification} from "antd";
-import {REQUEST_ERR} from "../../login/redux/actionTypes";
-import {axiosConfig} from 'publicConfig';
+import { call, put } from "redux-saga/effects";
+import { LOADING } from "../../systemManager/redux/actionTypes";
+import { message, Modal, notification } from "antd";
+import { REQUEST_ERR } from "../../login/redux/actionTypes";
+import { axiosConfig, loginTimout } from 'publicConfig';
 
 
 //封装成功返回数据后的校验
 export const axiosPost = (url, option) => axios.post(url, option, axiosConfig);
 export const axiosGet = url => axios.post(url, axiosConfig);
 const axiosMethod = {
-    post:axiosPost,
-    get :axiosGet
+    post: axiosPost,
+    get: axiosGet
 };
 // const config = {
 //     // `baseURL` 将自动加在 `url` 前面，除非 `url` 是一个绝对 URL。
@@ -140,10 +140,10 @@ window.hasLoading = false;
 //config = {action, url, type, loadingMsg, dispatchLoading}
 //执行异步
 export function* requestData(config, succCallback = null, dispatchCallback = null) {
-    let {action, url, type, loadingMsg, dispatchLoading, callbackData,method} = config;
+    let { action, url, type, loadingMsg, dispatchLoading, callbackData, method } = config;
     loadingMsg = loadingMsg || '正在获取数据...';
     method = method || 'post';
-    
+
     //支持回调自己传参
     callbackData = callbackData || null;
     let hideLoading = () => {
@@ -157,12 +157,12 @@ export function* requestData(config, succCallback = null, dispatchCallback = nul
     try {
         // dispatchLoading ? yield put({type: LOADING}) : null;
         if (dispatchLoading) {
-            yield put({type: LOADING});
+            yield put({ type: LOADING });
         }
         const res = yield call(axiosMethod[method], url, action);
         const data = res.data;
         if (data.code === 200) {
-            yield put({type: type, ...data});
+            yield put({ type: type, ...data });
             if (succCallback) {
                 succCallback(data.message, action);
             }
@@ -177,9 +177,13 @@ export function* requestData(config, succCallback = null, dispatchCallback = nul
         window.hasLoading = false;
     } catch (err) {
         hideLoading();
-        yield put({type: REQUEST_ERR});
+        yield put({ type: REQUEST_ERR });
         window.hasLoading = false;
-        alertModal('未知的错误', `${err}`, 'error', '确认', null);
+        if (err.message === 'Network Error') {
+            loginTimout()
+        }else{
+            alertModal('未知的错误', `${err}`, 'error', '确认', null);
+        }
     }
 }
 

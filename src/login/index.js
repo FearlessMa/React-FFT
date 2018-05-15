@@ -4,8 +4,9 @@
 import React from 'react';
 import { Input, Button, Icon, Form, message } from 'antd';
 import { connect } from 'react-redux';
-import Log from 'img/AntdLog.svg';
-import Antd from 'img/Antd.svg';
+// import Log from 'img/AntdLog.svg';
+import msLog from 'img/msLog.svg';
+// import Antd from 'img/Antd.svg';
 import './index.less';
 import { loginAction, clearErrMsgAction } from "./redux/actions";
 import { loginReducer } from "./redux/reducer";
@@ -104,8 +105,9 @@ class Login extends React.Component {
             <React.Fragment>
                 <Form onSubmit={this.onSubmit} className="login-form">
                     <div className='loginIcon'>
-                        <img src={Log} alt="" />
-                        <img src={Antd} alt="" />
+                        <img src={msLog} alt="" />
+                        {/* <img src={Antd} alt="" /> */}
+                        <div style={{fontSize:'1.2rem',marginLeft:'8px'}}>资产交易集市</div>
                     </div>
                     <FormItem>
                         {

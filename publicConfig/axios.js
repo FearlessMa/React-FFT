@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-23 15:25:19 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-08 17:33:07
+ * @Last Modified time: 2018-05-15 17:46:22
  */
 
 import { message, Modal } from "antd";
@@ -92,3 +92,18 @@ export const axiosConfig = {
         return data;
     }]
 };
+
+export function loginTimout() {
+    Modal.error(
+        {
+            title: '当前未登录',
+            content: '登录超时，请重新登录',
+            okText: '确认',
+            onOk: () => {
+                store.dispatch(logoutAction());
+                sessionStorage.clear();
+                window.location.hash = '#/login';
+            }
+        }
+    );
+}
