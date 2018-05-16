@@ -116,7 +116,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'react all',
+            title: '资产交易集市',
             template: path.resolve(__dirname, '../index.html')
         })
         // ,

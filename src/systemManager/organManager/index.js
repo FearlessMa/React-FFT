@@ -5,7 +5,7 @@ import React from 'react';
 import { Col, Row, Button } from 'antd';
 import { connect } from 'react-redux';
 import { requestOrgList, requestOrgAllToBlockChain, requestOrgToBlockChain } from '../redux/actions';
-import './index.less';
+// import './index.less';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import OrganCreateContainer from './createANDedit';
 import { OrganDetailContainer } from './detail';
