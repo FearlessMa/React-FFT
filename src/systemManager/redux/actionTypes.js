@@ -139,7 +139,7 @@ export const REQUEST_USER_CHANGE_STATUS = 'requestUserChangeStatus';
 export const REQUEST_USER_CHANGE_PWD = 'requestUserChangePwd';
 
 
-/**---------dict------------**/
+/**---------dict字典------------**/
 
 // reducer
 export const DICT_LIST = 'dictList';
