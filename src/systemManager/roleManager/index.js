@@ -125,7 +125,7 @@ const RoleManagerContent = (props) => {
             </div>
             <div className="containerContent">
                 <TableComponent columns={props.columns} componentTitle={'角色列表'} btnName={'创建角色'}
-                    btnClick={props.btnClick} dataSource={data} rowKey={'createTime'}
+                    btnClick={props.btnClick} dataSource={data} rowKey={'roleId'}
                     loading={props.loading} onChange={props.onChange} pagination={pagination} />
             </div>
         </React.Fragment>
