@@ -142,14 +142,14 @@ const OrganLayout = (props) => {
         },
         {
             label: '机构名称',
-            id: 'name',
+            id: 'orgName',
             rules: {
                 required: true,
                 message: '请输入正确真机构名称！'
             },
             type: 'text',
             tag: 'input',
-            initialValue: data.name
+            initialValue: data.orgName
         },
         {
             label: '机构简称',
@@ -163,10 +163,21 @@ const OrganLayout = (props) => {
             initialValue: data.shortName
         },
         {
+            label: 'swiftCode',
+            id: 'swiftCode',
+            rules: {
+                required: true,
+                message: '请输入swiftCode！'
+            },
+            type: 'text',
+            tag: 'input',
+            initialValue: data.swiftCode
+        },
+        {
             label: '机构地址',
             id: 'address',
             rules: {
-                required: true,
+                // required: true,
                 message: '请输入机构地址！'
             },
             type: 'text',

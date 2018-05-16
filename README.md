@@ -227,7 +227,7 @@ const formList = [
             required: true,
         },
         type: 'text', #表单输入类型 text | password
-        tag: 'input', # 表单标签   antd的表单 目前支持input,textarea,select,tree,checkbox,
+        tag: 'input', # 表单标签   antd的表单 目前支持input,textarea,select,tree,checkbox,date,treeSelect
         initialValue: menuInitValues.menuName #默认值
     }
 ]
@@ -363,3 +363,12 @@ const breadcrumbNameMap = {
 更新内容：
 
 > 1.优化树形结构显示的table分页默认请求数量较少
+
+### 2.0.4版本
+
+更新时间：2018/5/16
+
+更新内容：
+
+> 1.修复显示字段问题
+> 2.暂时解决连接超时报错问题，可正常使用（问题还未解决）

@@ -26,7 +26,8 @@ export const queryorganListMock = Mock.mock('/org/list', (option) => {
                 "status": "NORMAL",
                 "syncStatus|1": ["NOT_SYNC", "SYNCHRONIZED", "MODIFIED"],
                 "sysSyncDate": 1515052850000,
-                "updateTime": 1515052850000
+                "updateTime": 1515052850000,
+                "swiftCode":'12132232'
             }
         ]
     });
@@ -86,7 +87,7 @@ export const queryAllOrgList = Mock.mock('/org/listAll', () => {
                 "address": "中国民生银行",
                 "createTime": 1515052850000,
                 "creatorId": "",
-                "name": "中国民生银行",
+                "orgName": "中国民生银行",
                 "orgId": "948826538287435776",
                 "parentOrgId": "Root",
                 "realLevel": "",
@@ -94,7 +95,8 @@ export const queryAllOrgList = Mock.mock('/org/listAll', () => {
                 "shortName": "中国民生银行",
                 "status": "NORMAL",
                 "sysSyncDate": 1515052850000,
-                "updateTime": 1515052850000
+                "updateTime": 1515052850000,
+                swiftCode:'1232433'
             }]
         ]
     });
@@ -159,7 +161,7 @@ export const orgDetail = Mock.mock('/org/detail', (option) => {
                         "address": "中国民生银行",
                         "createTime": 1515052850000,
                         "creatorId": "",
-                        "name": "中国民生银行",
+                        "orgName": "中国民生银行",
                         "orgId": "948826538287435776",
                         "parentOrgId": "Root",
                         "parentOrgName": "",
@@ -168,7 +170,8 @@ export const orgDetail = Mock.mock('/org/detail', (option) => {
                         "shortName": "中国民生银行",
                         "status": "NORMAL",
                         "sysSyncDate": 1515052850000,
-                        "updateTime": 1515052850000
+                        "updateTime": 1515052850000,
+                        "swiftCode":'12323121'
                     }
             }
         }
