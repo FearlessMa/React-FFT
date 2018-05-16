@@ -10,7 +10,7 @@ import { call, put } from "redux-saga/effects";
 import { LOADING } from "../../systemManager/redux/actionTypes";
 import { message, Modal, notification } from "antd";
 import { REQUEST_ERR } from "../../login/redux/actionTypes";
-import { axiosConfig, loginTimout } from 'publicConfig';
+import { axiosConfig, loginTimeout } from 'publicConfig';
 
 
 //封装成功返回数据后的校验
@@ -180,7 +180,7 @@ export function* requestData(config, succCallback = null, dispatchCallback = nul
         yield put({ type: REQUEST_ERR });
         window.hasLoading = false;
         if (err.message === 'Network Error') {
-            loginTimout()
+            loginTimeout()
         }else{
             alertModal('未知的错误', `${err}`, 'error', '确认', null);
         }

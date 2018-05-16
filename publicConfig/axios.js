@@ -93,7 +93,7 @@ export const axiosConfig = {
     }]
 };
 
-export function loginTimout() {
+export function loginTimeout() {
     Modal.error(
         {
             title: '当前未登录',
