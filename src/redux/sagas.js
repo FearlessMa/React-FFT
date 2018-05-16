@@ -119,7 +119,7 @@ export const sagasRun = () => {
     sagas.run(watchRequestFundsReceived);
     sagas.run(watchRequestFundsDetailList);
 
-    /* *-----------forfaiterModule ---------* */
+    /* *-----------forfaiterModule 包买商 ---------* */
     sagas.run(watchReuqestForfaiterList);
     sagas.run(watchReuqestSyncAllForfaiterList);
 
