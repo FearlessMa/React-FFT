@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox, DatePicker, Select } from 'antd';
+import { Row, Col, Form, Button, TreeSelect, Input, Tree, Checkbox, DatePicker, Select, InputNumber } from 'antd';
 
 const { TextArea } = Input;
 const TreeNode = TreeSelect.TreeNode;
@@ -109,9 +109,9 @@ export class FormComponent extends React.Component {
                     })
                 }
                 {/* <FormItem {...formSubBtnLayout}> */}
-                    {
-                        this.props.children
-                    }
+                {
+                    this.props.children
+                }
                 {/* </FormItem> */}
                 {btn ? <FormItem {...formSubBtnLayout}>
                     {btn.sub ? <Button type={'primary'} htmlType={'submit'}>{btn.sub}</Button> : null}
@@ -139,7 +139,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
                     rules: item.rules,
                     initialValue: item.initialValue
                 }
-                )(<Input type={type} disabled={disabled} />)
+                )(<Input type={type} disabled={disabled} {...item.config} />)
             );
 
         case 'textarea':
@@ -148,7 +148,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
                     rules: item.rules,
                     initialValue: item.initialValue
                 }
-                )(<TextArea autosize={{ minRows: 3, maxRows: 6 }} type={type} disabled={disabled} />)
+                )(<TextArea autosize={{ minRows: 3, maxRows: 6 }} type={type} disabled={disabled} {...item.config} />)
             );
 
         case 'treeSelect':
@@ -158,7 +158,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
                     rules: item.rules,
                     initialValue: item.initialValue
                 }
-                )(<TreeSelect disabled={disabled} {...treeSelectProps} >
+                )(<TreeSelect disabled={disabled} {...treeSelectProps} {...item.config}  >
                     {
                         treeNodeFun(selectData)
                     }
@@ -170,7 +170,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
                     rules: item.rules,
                     initialValue: item.initialValue
                 }
-                )(<Tree disabled={disabled} showLine>
+                )(<Tree disabled={disabled} showLine {...item.config} >
                     {
                         treeNodeFun1(treeData)
                     }
@@ -182,7 +182,7 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
                     rules: item.rules,
                     initialValue: item.initialValue,
                 }
-                )(<Checkbox.Group options={checkboxData} disabled={disabled} />)
+                )(<Checkbox.Group options={checkboxData} disabled={disabled} {...item.config} />)
             );
         case "date":
             return (
@@ -205,11 +205,22 @@ const createFormItem = (getFieldDecorator, item, index, selectData, treeSelectPr
                     })}
                 </Select>)
             )
+        case "number":
+            return (
+                getFieldDecorator(item.id, {
+                    rules: item.rules,
+                    initialValue: item.initialValue,
+                }
+                )(<InputNumber
+                    {...item.config}
+                />)
+            )
         default:
             return null
     }
 };
 
+// TreeSelect 使用
 const treeNodeFun = (data) => (
     data.map((item) => {
         if (item.children) {
@@ -220,6 +231,7 @@ const treeNodeFun = (data) => (
         return <TreeNode title={item.name} value={item.id} key={item.id} />
     })
 );
+// tree使用
 const treeNodeFun1 = (data) => (
     data.map((item) => {
         if (item.children) {

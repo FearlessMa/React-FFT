@@ -1,8 +1,8 @@
-/*
+    /*
  * @Author: mhc 
  * @Date: 2018-04-28 09:31:17 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-14 10:34:26
+ * @Last Modified time: 2018-05-17 15:44:52
  */
 
 import React from 'react';
@@ -208,6 +208,7 @@ const PackagebuyerContent = props => {
                 rowKey={'swiftCode'}
                 componentTitle={'包买商列表'}
                 btnName={'同步所有'}
+                tooltipText={'从区块链上获取包买商列表到本地'}
                 btnClick={toAllForfaiter}
             >
 

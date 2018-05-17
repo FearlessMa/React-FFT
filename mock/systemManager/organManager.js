@@ -87,7 +87,7 @@ export const queryAllOrgList = Mock.mock('/org/listAll', () => {
                 "address": "中国民生银行",
                 "createTime": 1515052850000,
                 "creatorId": "",
-                "orgName": "中国民生银行",
+                "name": "中国民生银行",
                 "orgId": "948826538287435776",
                 "parentOrgId": "Root",
                 "realLevel": "",

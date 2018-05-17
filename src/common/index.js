@@ -9,5 +9,16 @@ import { tranTreeData } from './tranTreeData';
 import { axiosPost, requestData, alertNotification, alertModal } from './axios';
 import { BreadcrumbComponent } from './breadcrumbComponent'
 import './index.less';
-export { FormComponent, TableComponent, tranTreeData, tranCheckboxData, axiosPost, requestData, alertNotification, 
-    alertModal, BreadcrumbComponent }
+import { formatYYYYMMDD } from './date';
+export {
+    FormComponent,
+    TableComponent,
+    tranTreeData,
+    tranCheckboxData,
+    axiosPost,
+    requestData,
+    alertNotification,
+    alertModal,
+    BreadcrumbComponent,
+    formatYYYYMMDD
+}

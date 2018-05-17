@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/13.
  */
 import React from 'react';
-import { Col, Row, Button } from 'antd';
+import { Col, Row, Button,Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import { requestOrgList, requestOrgAllToBlockChain, requestOrgToBlockChain } from '../redux/actions';
 // import './index.less';
@@ -135,7 +135,7 @@ class OrganContainer extends React.Component {
                 title: '机构同步状态',
                 dataIndex: 'syncStatus',
                 render: text => {
-                    if(typeof text !== 'string'){
+                    if (typeof text !== 'string') {
                         String(text)
                     }
                     switch (text) {
@@ -156,7 +156,7 @@ class OrganContainer extends React.Component {
                 dataIndex: '',
                 render: (text, record) => {
                     if (record.syncStatus !== "1") {
-                        return <Button onClick={this.toBlockChain.bind(this, record.orgId)}>同步</Button>
+                        return <Button onClick={this.toBlockChain.bind(this, record.orgId)}>注册</Button>
                     }
                     return <Button disabled={true}>同步</Button>
                 }
@@ -214,7 +214,10 @@ const OtherComponent = props => {
 
     return (<React.Fragment>
         <Col span={3} offset={7}>
-            <div onClick={props.allOrgToBlockChain} className='btn'>同步所有</div>
+            <Tooltip placement="topLeft" title={'注册为包买商'}>
+
+                <div onClick={props.allOrgToBlockChain} className='btn'>注册所有</div>
+            </Tooltip>
         </Col>
         <Col span={3}>
             <div onClick={props.btnClick} className='btn'>创建机构</div>

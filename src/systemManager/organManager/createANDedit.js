@@ -119,6 +119,8 @@ const formSubBtnLayout = {
 }
 
 const OrganLayout = (props) => {
+    console.log('props.selectData')
+    console.log(props.selectData)
     let data = [];
     const title = props.componentTitle === 'edit' ? '编辑机构' : '创建机构';
     try {

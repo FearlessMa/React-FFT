@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-25 15:15:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-14 11:25:21
+ * @Last Modified time: 2018-05-17 14:11:18
  */
 
 
@@ -35,7 +35,7 @@ export class PublishCreateContainer extends React.Component {
             modalSelectedForfaiter: []
         }
     }
-
+    // 提交
     onSubmit = values => {
         const { selectedForfaiter } = this.state;
         values.priceValidEnd = new Date(values.priceValidEnd).getTime();
@@ -56,37 +56,43 @@ export class PublishCreateContainer extends React.Component {
 
     // 创建包买商列表数据forfaiter
     formatForfaiterList = list => {
-        const forfaiterList = [];
-        const listMap = {};
+        const rootMap = {};
+        const childrenList = [];
         list.map(item => {
-            if (item['rootSwiftCode']) {
-                listMap[item['rootSwiftCode']] = {
-                    BK_NM_C: item['rootName'],
-                    BK_SC: item['rootSwiftCode'],
-                    FORFEITER: []
-                }
-            } else {
-                listMap[item['swiftCode']] = {
+            //筛选出根机构
+            if (String(item['isRoot']) === '1') {
+                rootMap[item['swiftCode']] = {
                     BK_NM_C: item['forfaiterName'],
                     BK_SC: item['swiftCode'],
                     FORFEITER: []
                 }
+            } else {
+                childrenList.push(item)
             }
             return null
         })
-        list.map(item => {
-            if (item['rootSwiftCode'] in listMap) {
-                listMap[item['rootSwiftCode']].FORFEITER.push({
+        childrenList.map(item => {
+            if (item['rootSwiftCode'] in rootMap) {
+                rootMap[item['rootSwiftCode']].FORFEITER.push({
                     NM: item.forfaiterName,
                     SC: item.swiftCode
                 })
+            } else {
+                // 如果只传子机构，创建对应的根机构并添加当前子机构在根机构中
+                rootMap[item['rootSwiftCode']] = {
+                    BK_NM_C: item['rootName'],
+                    BK_SC: item['rootSwiftCode'],
+                    FORFEITER: [
+                        {
+                            NM: item.forfaiterName,
+                            SC: item.swiftCode
+                        }
+                    ]
+                }
             }
             return null
         });
-        for (let key in listMap) {
-            forfaiterList.push(listMap[key]);
-        }
-        return forfaiterList
+        return Object.values(rootMap)
     }
     //切换显示
     toggleModal = (type) => {
@@ -241,7 +247,7 @@ const PublishCreateContent = props => {
     </React.Fragment>)
 }
 
-
+// 表单
 const formList = [
     {
         label: '包买商名称',
@@ -268,27 +274,49 @@ const formList = [
         id: 'forfaiterAtten',
         tag: 'input',
         type: 'text',
+        rules: {
+            required: true,
+            message: '包买商联系人必填'
+        }
     },
     {
         label: '包买商联系方式',
         id: 'forfaiterContacts',
         tag: 'input',
         type: 'text',
+        rules: {
+            required: true,
+            message: '包买商联系方式必填'
+        }
     },
     {
         label: '融资期限',
         id: 'financingMaturity',
-        tag: 'input',
-        type: 'text',
+        tag: 'number',
+        rules: {
+            type: 'number',
+            required: true,
+            message: '融资期限必填'
+        },
+        config:{
+            formatter:value => `${value}天`,
+            style:{width:'100%'},
+        }
     },
     {
         label: '价格',
         id: 'price',
-        tag: 'input',
-        type: 'text',
+        tag: 'number',
         rules: {
+            type: 'number',
             required: true,
-            message: '价格必填'
+            message: '价格必填且取值范围为0-99.99',
+            max:99.99,
+            min:0
+        },
+        config:{
+            formatter:value => `${value}%`,
+            style:{width:'100%'},
         }
     },
     {

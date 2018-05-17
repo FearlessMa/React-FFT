@@ -211,7 +211,7 @@ const dispatchCallback = (data,action)=>{
 * onChange : 可以调用e.target获得当前表单的值     Fun
 * checkbox : checkboxData 需要使用tranCheckboxData(数组数据,label属性key，value属性key)
 * 组件可以使用组件嵌套(this.props.children)，children组件会显示在输入框组件和按钮组件之间
-* 目前支持输入表单（input,textarea,treeSelect,tree,checkbox,date,select）
+* 目前支持输入表单（input,textarea,treeSelect,tree,checkbox,date,select,number）
 
 ##### 2.2.2 使用方法
 
@@ -223,12 +223,16 @@ const formList = [
     {
         label: 'label', #label
         id: 'menuName',  #表单id
+        type: 'text', #选填 表单输入类型 text | password
+        tag: 'input', # 表单标签   antd的表单 目前支持input,textarea,select,tree,checkbox,date,treeSelect
+        initialValue: menuInitValues.menuName， #默认值
         rules: {    #antd表单rules
             required: true,
         },
-        type: 'text', #表单输入类型 text | password
-        tag: 'input', # 表单标签   antd的表单 目前支持input,textarea,select,tree,checkbox,date,treeSelect
-        initialValue: menuInitValues.menuName #默认值
+        config:{
+            # config可以配置表单的各种标签属性 disabled等 详情产看antd
+            placeholder:'123' 
+        }
     }
 ]
 
@@ -375,3 +379,19 @@ const breadcrumbNameMap = {
 > 2.暂时解决连接超时报错问题，可正常使用（问题还未解决）
 >
 > 3.修复因按需加载引起的样式问题
+
+### 2.1.0版本
+
+更新时间：2018/5/17
+
+更新内容：
+
+> 1.修复资金模块搜索组件问题
+>
+> 2.修复系统管理模块的一些bug
+>
+> 3.优化部分按钮（对按钮添加文字说明）
+>
+> 4.优化部分表单，表单format数据，及错误提示
+>
+> 5.TableComponet 组件增加按钮文字说明功能（tooltipText）

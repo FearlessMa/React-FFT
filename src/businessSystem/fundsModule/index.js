@@ -2,14 +2,14 @@
  * @Author: mhc 
  * @Date: 2018-04-23 14:15:38 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-08 23:26:33
+ * @Last Modified time: 2018-05-17 16:48:55
  */
 
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 //引入发布资金路径
 import { publishFundsPath, receivedFundsPath, fundsModuleMap } from 'publicConfig';
-import { FormComponent, TableComponent, BreadcrumbComponent } from 'common';
+import { FormComponent, TableComponent, BreadcrumbComponent, formatYYYYMMDD } from 'common';
 import { Col, Row, Button, Icon, Modal, Form } from 'antd';
 import { connect } from 'react-redux';
 import { requestFundsPublishList, requestFundsOffshef, requestFundsReceivedList } from '../redux/actions';
@@ -74,17 +74,21 @@ class FundsModuleContainer extends React.Component {
         }
     }
 
-
+    // 搜索
     formSubmit = (values) => {
         if (values.priceValidStart === undefined || values.priceValidStart === 0) {
             values.priceValidStart = '';
         } else {
-            values.priceValidStart = new Date(values.priceValidStart).getTime();
+            let milliseconds = new Date(values.priceValidStart).getTime();
+            let ymdhms = formatYYYYMMDD(milliseconds);
+            values.priceValidStart = new Date(ymdhms).getTime();
         }
         if (values.priceValidEnd === undefined || values.priceValidEnd === 0) {
             values.priceValidEnd = '';
         } else {
-            values.priceValidEnd = new Date(values.priceValidEnd).getTime();
+            let milliseconds = new Date(values.priceValidStart).getTime();
+            let ymdhms = formatYYYYMMDD(milliseconds)+' 23:59:59';
+            values.priceValidEnd = new Date(ymdhms).getTime();
         }
         if (this.props.description === 'publishFunds') {
             this.props.requestFundsPublishSaga(values);
@@ -319,6 +323,7 @@ const formSubBtnLayout = {
 
 const FundsModuleContent = props => {
     const { collapsed, searchComponentData, toggleCollapsed, publicColumns, publishColumns, toCreateFunds, description } = props;
+    // 搜索
     const formConfig = {
         moreItemInRow: !collapsed,
         formItemLayout: collapsed ? null : formItemLayout,
@@ -371,12 +376,12 @@ const FundsModuleContent = props => {
                 <Row>
                     <Col offset={collapsed ? 5 : 0}>
                         <FormComponent
+                            // 搜索
                             formList={searchComponentData}
                             formSubmit={props.formSubmit}
                             {...formConfig}
                         >
                             <Form.Item {...formConfig.formSubBtnLayout}>
-
                                 <Button type={'primary'} htmlType={'submit'}>搜索</Button>
                                 <span onClick={toggleCollapsed}
                                     style={{ marginLeft: '10px', color: '#1890ff', cursor: 'pointer' }}>

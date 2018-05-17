@@ -249,7 +249,7 @@ const UserCreateContent = props => {
                 <Row>
                     <Col span={24}>
                         <div style={{ textAlign: 'center' }}>
-                            <Divider><h2>{componentTitle}角色</h2></Divider>
+                            <Divider><h2>{componentTitle}用户</h2></Divider>
                         </div>
                     </Col>
                 </Row>
