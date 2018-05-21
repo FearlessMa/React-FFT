@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-23 14:15:38 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-17 16:48:55
+ * @Last Modified time: 2018-05-18 11:27:15
  */
 
 import React from 'react';
@@ -76,18 +76,20 @@ class FundsModuleContainer extends React.Component {
 
     // 搜索
     formSubmit = (values) => {
-        if (values.priceValidStart === undefined || values.priceValidStart === 0) {
+        console.log('priceValidEnd')
+        console.log(values.priceValidEnd)
+        if (!values.priceValidStart) {
             values.priceValidStart = '';
         } else {
             let milliseconds = new Date(values.priceValidStart).getTime();
             let ymdhms = formatYYYYMMDD(milliseconds);
             values.priceValidStart = new Date(ymdhms).getTime();
         }
-        if (values.priceValidEnd === undefined || values.priceValidEnd === 0) {
+        if (!values.priceValidEnd) {
             values.priceValidEnd = '';
         } else {
-            let milliseconds = new Date(values.priceValidStart).getTime();
-            let ymdhms = formatYYYYMMDD(milliseconds)+' 23:59:59';
+            let milliseconds = new Date(values.priceValidEnd).getTime();
+            let ymdhms = formatYYYYMMDD(milliseconds) + ' 23:59:59';
             values.priceValidEnd = new Date(ymdhms).getTime();
         }
         if (this.props.description === 'publishFunds') {
@@ -112,7 +114,6 @@ class FundsModuleContainer extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                console.log(that)
                 that.props.requestOffshefSaga({ capitalId })
             },
             onCancel() {
@@ -213,7 +214,7 @@ class FundsModuleContainer extends React.Component {
             dataIndex: '',
             render: (text, record) => {
                 if (typeof record.capitalStatus !== 'string') {
-                    String(record.capitalStatus)
+                    record.capitalStatus = String(record.capitalStatus);
                 }
                 if (record.capitalStatus === '1') {
                     return <Button onClick={this.offshelf.bind(this, record.capitalId)} type={'danger'}>下架</Button>
@@ -237,7 +238,7 @@ class FundsModuleContainer extends React.Component {
     }
 
 }
-
+/**搜索框数据和布局 **/
 const searchComponentData = [
     {
         label: '包买商名称',
@@ -319,7 +320,7 @@ const formSubBtnLayout = {
         sm: { span: 4, offset: 17 },
     }
 };
-
+/**-----------------**/
 
 const FundsModuleContent = props => {
     const { collapsed, searchComponentData, toggleCollapsed, publicColumns, publishColumns, toCreateFunds, description } = props;

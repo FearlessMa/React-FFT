@@ -2,7 +2,7 @@
  * Created by MHC on 2018/3/13.
  */
 import React from 'react';
-import { Col, Row, Button,Tooltip } from 'antd';
+import { Col, Row, Button, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import { requestOrgList, requestOrgAllToBlockChain, requestOrgToBlockChain } from '../redux/actions';
 // import './index.less';
@@ -140,9 +140,9 @@ class OrganContainer extends React.Component {
                     }
                     switch (text) {
                         case "NOT_SYNC":
-                            return <span>未同步</span>
+                            return <span>未注册</span>
                         case "SYNCHRONIZED":
-                            return <span>已同步</span>
+                            return <span>已注册</span>
                         case "MODIFIED":
                             return <span>已修改</span>
                         default:
@@ -155,10 +155,13 @@ class OrganContainer extends React.Component {
                 title: '操作',
                 dataIndex: '',
                 render: (text, record) => {
-                    if (record.syncStatus !== "1") {
+                    if (typeof record.syncStatus !== 'string') {
+                        record.syncStatus = String(record.syncStatus);
+                    }
+                    if (record.syncStatus !== "SYNCHRONIZED") {
                         return <Button onClick={this.toBlockChain.bind(this, record.orgId)}>注册</Button>
                     }
-                    return <Button disabled={true}>同步</Button>
+                    return <Button disabled={true}>注册</Button>
                 }
             },
         ];
@@ -242,10 +245,15 @@ const OraganContent = props => {
                 </Row>
             </div>
             <div className="containerContent">
-                <TableComponent componentTitle={'机构列表'}
-                    columns={props.columns} bordered={true} rowKey={'orgId'}
-                    btnClick={props.btnClick} pagination={props.pagination}
-                    {...props} OtherComponent={OtherComponent} />
+                <TableComponent
+                    componentTitle={'机构列表'}
+                    columns={props.columns}
+                    bordered={true} rowKey={'orgId'}
+                    btnClick={props.btnClick}
+                    pagination={props.pagination}
+                    {...props}
+                    OtherComponent={OtherComponent}
+                />
             </div>
         </React.Fragment>
     )

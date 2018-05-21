@@ -135,7 +135,7 @@ const MenuCreateContent = (props) => {
             initialValue: menuInitValues.action
         },
         {
-            label: 'tab',
+            label: 'Icon图标',
             id: 'tab',
             type: 'text',
             tag: 'input',

@@ -143,7 +143,8 @@ const UserCreateContent = props => {
             type: 'text',
             tag: 'input',
             rules: {
-                required: true
+                required: true,
+                message:'登录名必填'
             },
             initialValue: initialValueData.loginName
         },
@@ -153,7 +154,8 @@ const UserCreateContent = props => {
             type: 'text',
             tag: 'input',
             rules: {
-                required: true
+                required: true,
+                message:'用户名必填'
             },
             initialValue: initialValueData.userName
         },
@@ -185,7 +187,8 @@ const UserCreateContent = props => {
             type: 'text',
             tag: 'input',
             rules: {
-                required: true
+                required: true,
+                message:'固定电话必填'
             },
             initialValue: initialValueData.telephone
         },
@@ -195,7 +198,8 @@ const UserCreateContent = props => {
             type: 'text',
             tag: 'input',
             rules: {
-                required: true
+                required: true,
+                message:'移动电话必填'
             },
             initialValue: initialValueData.mobile
         },
@@ -205,7 +209,8 @@ const UserCreateContent = props => {
             type: 'text',
             tag: 'input',
             rules: {
-                required: true
+                required: true,
+                message:'地址必填'
             },
             initialValue: initialValueData.userAddress
         },
@@ -215,9 +220,22 @@ const UserCreateContent = props => {
             type: 'text',
             tag: 'input',
             rules: {
-                required: true
+                required: true,
+                message:'邮箱必填'
             },
             initialValue: initialValueData.email
+        },
+        {
+            label: '身份证号',
+            id: 'idNo',
+            type: 'number',
+            tag: 'input',
+            rules: {
+                max:18,
+                min:18,
+                message:'身份证必须为18位'
+            },
+            initialValue: initialValueData.mobile
         },
         {
             label: '所属机构',
@@ -237,7 +255,8 @@ const UserCreateContent = props => {
             tag: 'checkbox',
             initialValue: checkboxInitValue,
             rules: {
-                required: true
+                required: true,
+                message:'用户角色必填'
             },
         },
     ];
