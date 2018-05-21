@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-28 09:31:17 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-17 15:44:52
+ * @Last Modified time: 2018-05-21 14:20:48
  */
 
 import React from 'react';
@@ -103,7 +103,7 @@ const searchOtherData = [
         options: [
             {
                 name: '已发布',
-                value: 'Publish'
+                value: 'publish'
             },
             {
                 name: '撤销',
