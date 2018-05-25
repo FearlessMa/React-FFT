@@ -11,10 +11,10 @@ const theme = require('../theme');
 
 let entryIndex = '';
 if (process.env.NODE_ENV === "production") {
-    entryIndex = path.join(__dirname, '../src/index.js');
+    entryIndex = ["babel-polyfill",path.join(__dirname, '../src/index.js')];
 }
 if (process.env.NODE_ENV === "development") {
-    entryIndex = ['react-hot-loader/patch', path.join(__dirname, '../src/index.js')];
+    entryIndex = ["babel-polyfill",'react-hot-loader/patch', path.join(__dirname, '../src/index.js')];
 }
 
 

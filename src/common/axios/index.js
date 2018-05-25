@@ -15,7 +15,7 @@ import { axiosConfig, loginTimeout } from 'publicConfig';
 
 //封装成功返回数据后的校验
 export const axiosPost = (url, option) => axios.post(url, option, axiosConfig);
-export const axiosGet = url => axios.post(url, axiosConfig);
+export const axiosGet = url => axios.get(url, axiosConfig);
 const axiosMethod = {
     post: axiosPost,
     get: axiosGet
