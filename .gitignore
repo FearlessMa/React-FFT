@@ -12,3 +12,5 @@ yarn-error.log
 /coverage
 .idea
 package-lock.json
+.svn
+_config.yml
