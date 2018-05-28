@@ -107,7 +107,7 @@ class Login extends React.Component {
                     <div className='loginIcon'>
                         <img src={msLog} alt="" />
                         {/* <img src={Antd} alt="" /> */}
-                        <div style={{fontSize:'1.2rem',marginLeft:'8px'}}>资产交易集市</div>
+                        <div style={{ fontSize: '1.2rem', marginLeft: '8px' }}>资产交易集市</div>
                     </div>
                     <FormItem>
                         {

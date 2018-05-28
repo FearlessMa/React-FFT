@@ -1,38 +1,67 @@
-
-
 //@import "~antd/dist/antd.css";
 //@icon-url:"/assest/fonts/iconfont/iconfont";
 //@import "/assets/fonts/iconfont/iconfont.css";
-
-body{
-  display: flex;
-
-  #root{
-    display: flex;
-    flex: 1;
-    justify-content: center;
-  }
+// html,
+// body {
+// display: -webkit-box;
+// /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+// display: -moz-box;
+// /* 老版本语法: Firefox (buggy) */
+// display: -ms-flexbox;
+// /* 混合版本语法: IE 10 */
+// display: -webkit-flex;
+// /* 新版本语法: Chrome 21+ */
+// display: flex; // 控制字体渲染方式 auto，optimizeSpeed速度或optimizeLegibility清晰度
+// text-rendering: optimizeLegibility; // -webkit-font-smoothing: antialiased;
+// -moz-osx-font-smoothing: grayscale;
+// #root {
+//     display: -webkit-box;
+//     /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+//     display: -moz-box;
+//     /* 老版本语法: Firefox (buggy) */
+//     display: -ms-flexbox;
+//     /* 混合版本语法: IE 10 */
+//     display: -webkit-flex;
+//     /* 新版本语法: Chrome 21+ */
+//     display: flex;
+//     -ms-flex:1 1 0px;
+//     flex: 1;
+//     justify-content: center;
+//     width: 100%;
+//     min-height: 100%;
+//     >div {
+//         min-height: 100vh;
+//     }
+// }
+// }
+#root {
+    width: 100%;
+    min-height: 100%;
+    >div {
+        min-height: 100vh;
+    }
 }
 
 //container布局header，content样式
+.containerHeader,
+.containerContent {
+    background: #fff;
+    margin: 10px 20px;
+    padding: 15px 10px;
+}
 
-.containerHeader,.containerContent{
-  background: #fff;
-  margin: 10px 20px;
-  padding: 15px 10px;
+.containerHeader {
+    margin: 0;
 }
-.containerHeader{
-  margin: 0;
-}
-.containerContent{
-  flex: 1;
-  margin-bottom: 20px;
-  //min-height: 75vh;
-  padding: 30px 10px;
+
+.containerContent {
+    flex: 1;
+    margin-bottom: 20px; //min-height: 75vh;
+    padding: 30px 10px;
 }
 
 .detailBtn {
-  >button {
-      margin-right: 20px;
-  }
+    >button {
+        margin-right: 20px;
+    }
 }
