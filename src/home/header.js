@@ -10,11 +10,11 @@ import {logoutAction} from "./redux/actions";
 
 const {Header} = Layout;
 const userList = [
-    {
-        text: '用户信息',
-        icon: 'user',
-        path: '/systemManager/userManager'
-    },
+    // {
+    //     text: '用户信息',
+    //     icon: 'user',
+    //     path: '/systemManager/userManager'
+    // },
     // {
     //     text: '设置',
     //     icon: 'setting',
