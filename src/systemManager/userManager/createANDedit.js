@@ -6,6 +6,8 @@ import { FormComponent, tranTreeData, tranCheckboxData } from '../../common';
 import { requestAllOrgList, requestRoleList, requestUserCreate, requestUserDetail } from "../redux/actions";
 import { connect } from "react-redux";
 import { Row, Col, Divider } from 'antd';
+import sha256 from 'js-sha256';
+
 
 const mapStateToProps = (state) => ({
     //机构列表数据
@@ -46,7 +48,8 @@ export class UserCreateContainer extends React.Component {
     }
 
     onSubmit = values => {
-        console.log(values);
+        values.password = sha256(values.password);
+        values.rePassword = sha256(values.rePassword);
         this.props.userCreateSaga(values);
     }
 

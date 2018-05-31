@@ -13,6 +13,7 @@ import {
 } from "../redux/actions";
 import { Row, Col, Button, Modal, Input, message, Divider } from "antd";
 import { FormComponent } from '../../common';
+import sha256 from 'js-sha256';
 
 
 const mapStateToProps = state => ({
@@ -97,8 +98,8 @@ export class UserDetailContainer extends React.Component {
         if (newPassword && password) {
             this.props.userChangePwdSaga({
                 userId,
-                password,
-                newPassword
+                password:sha256(password),
+                newPassword:sha256(newPassword)
             });
         } else {
             message.error('不能为空', 1);
