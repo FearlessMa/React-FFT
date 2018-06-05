@@ -168,6 +168,8 @@ export function* requestData(config, succCallback = null, dispatchCallback = nul
             }
             // succCallback ? succCallback(data.message, action) : null;
 
+        }else{
+            yield put({ type: type, ...data });
         }
         // dispatchCallback ? dispatchCallback(data, action) : null;
         if (dispatchCallback) {

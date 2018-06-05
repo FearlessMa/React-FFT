@@ -2,12 +2,13 @@
  * @Author: mhc 
  * @Date: 2018-04-23 15:25:19 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-15 17:46:22
+ * @Last Modified time: 2018-06-05 17:00:06
  */
 
 import { message, Modal } from "antd";
 import { store } from '../src/index';
 import { logoutAction } from "../src/home";
+// import { LOADING } from "../src/login/redux/actionTypes";
 
 export const axiosConfig = {
     // `baseURL` 将自动加在 `url` 前面，除非 `url` 是一个绝对 URL。
@@ -32,6 +33,7 @@ export const axiosConfig = {
                     content: data.message,
                     okText: '确认',
                     onOk: () => {
+                        // store.dispatch({ type: LOADING, loading: false });
                     }
                 }
             );

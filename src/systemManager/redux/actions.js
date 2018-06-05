@@ -58,7 +58,8 @@ import {
     REQUEST_ORG_TO_BLOCK_CHAIN,
     REQUEST_DICT_LIST,
     REQUEST_DICT_DETAIL,
-    REQUEST_DICT_CREATE
+    REQUEST_DICT_CREATE,
+    REQUEST_USER_EDIT
 } from "./actionTypes";
 import { REQUEST_DICT_DELETE } from "../../businessSystem/redux/actionTypes";
 
@@ -314,6 +315,12 @@ export const requestUserList = values => ({
 //create
 export const requestUserCreate = values => ({
     type: REQUEST_USER_CREATE,
+    ...values
+});
+
+//edit
+export const requestUserEdit = values => ({
+    type: REQUEST_USER_EDIT,
     ...values
 });
 

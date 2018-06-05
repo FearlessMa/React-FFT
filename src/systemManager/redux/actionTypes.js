@@ -127,6 +127,7 @@ export const USER_CHANGE_STATUS = 'userChangeStatus';
 export const USER_DETAIL_MODAL_VISIBLE = 'userDetailModalVisible';
 export const USER_CHANGE_PWD_MODAL_VISIBLE = 'userChangePwdModalVisible';
 export const USER_CHANGE_PWD = 'userChangePwd';
+export const USER_EDIT = 'userEdit';
 
 
 
@@ -137,6 +138,7 @@ export const REQUEST_USER_DETAIL = 'requestUserDetail';
 export const REQUEST_USER_DELETE = 'requestUserDelete';
 export const REQUEST_USER_CHANGE_STATUS = 'requestUserChangeStatus';
 export const REQUEST_USER_CHANGE_PWD = 'requestUserChangePwd';
+export const REQUEST_USER_EDIT = 'requestUserEdit';
 
 
 /**---------dict字典------------**/

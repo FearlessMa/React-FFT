@@ -115,6 +115,24 @@ export const userCreate = Mock.mock('/user/create', option => {
 });
 
 /**
+ * Path：/user/edit
+ * Method：POST
+ **/
+export const userEdit = Mock.mock('/user/edit', option => {
+    const data = JSON.parse(option.body);
+    console.log('----userCreateData----');
+    console.log(data);
+    return {
+        code: 200,
+        message: '成功',
+        data: {
+            "userId": "948478309976903680"
+        }
+    }
+
+});
+
+/**
  * Path：/user/detail
  * Method：POST
  **/

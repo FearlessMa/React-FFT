@@ -60,7 +60,8 @@ import {
     DICT_LIST,
     DICT_DELETE,
     DICT_DETAIL,
-    DICT_CREATE
+    DICT_CREATE,
+    USER_EDIT
 } from "./actionTypes";
 
 /**------------------orgManagerReducer-------------------------**/
@@ -81,125 +82,139 @@ export const organManager = (state = initValue, action) => {
     switch (action.type) {
         //index
         case ORG_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    ...action
-                }
-            });
-            //loading
+                    loading: false,
+                    index: {
+                        ...action
+                    }
+                });
+        //loading
         case LOADING:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: true,
-            });
-            //create页面
+                    loading: true,
+                });
+        //create页面
         case ALL_ORG_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                create: {
-                    orgAllList: action
-                }
-            });
-            //请求错误
+                    loading: false,
+                    create: {
+                        orgAllList: action
+                    }
+                });
+        //请求错误
         case REQUEST_ERR:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                requestErr: {
-                    ...action
-                }
-            });
-            //创建机构
+                    loading: false,
+                    requestErr: {
+                        ...action
+                    }
+                });
+        //创建机构
         case ORG_CREATE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                create: {
-                    createResult: action,
-                    ...state.create
-                }
-            });
-            //编辑机构
+                    loading: false,
+                    create: {
+                        createResult: action,
+                        ...state.create
+                    }
+                });
+        //编辑机构
         case ORG_EDIT:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                edit: action,
-            });
-            //查看详情
+                    loading: false,
+                    edit: action,
+                });
+        //查看详情
         case ORG_DETAIL:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    detailData: action,
-                }
-            });
-            //删除机构
+                    loading: false,
+                    detail: {
+                        detailData: action,
+                    }
+                });
+        //删除机构
         case ORG_DELETE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    ...state.detail,
-                    orgDelete: action
-                }
-            });
-            //查询机构下人员
+                    loading: false,
+                    detail: {
+                        ...state.detail,
+                        orgDelete: action
+                    }
+                });
+        //查询机构下人员
         case ORG_MEMBERS:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    ...state.detail,
-                    orgMembers: action
-                }
-            });
-            //移除机构下人员
+                    loading: false,
+                    detail: {
+                        ...state.detail,
+                        orgMembers: action
+                    }
+                });
+        //移除机构下人员
         case ORG_REMOVE_MEMBERS:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    ...state.detail,
-                    orgRemoveMembers: action,
+                    loading: false,
+                    detail: {
+                        ...state.detail,
+                        orgRemoveMembers: action,
 
-                }
-            });
-            //移除机构下人员
+                    }
+                });
+        //移除机构下人员
         case ORG_CHANGE_STATUS:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    ...state.detail,
-                    orgChangeStatus: action
-                }
-            });
-            // 切换modal显示
+                    loading: false,
+                    detail: {
+                        ...state.detail,
+                        orgChangeStatus: action
+                    }
+                });
+        // 切换modal显示
         case ORG_DETAIL_MODAL_VISIBLE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                orgModalVisible: action.visible
-            });
-            //同步全部信息到区块链
+                    loading: false,
+                    orgModalVisible: action.visible
+                });
+        //同步全部信息到区块链
         case ORG_ALL_TO_BLOCK_CHAIN:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                orgAllToBlockChain: action
-            });
-            //同步单个信息到区块链
+                    loading: false,
+                    orgAllToBlockChain: action
+                });
+        //同步单个信息到区块链
         case ORG_TO_BLOCK_CHAIN:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                orgToBlockChain: action
-            });
+                    loading: false,
+                    orgToBlockChain: action
+                });
 
         default:
             return state
@@ -215,84 +230,93 @@ export const pathManager = (state = pathManagerInitValue, action) => {
     switch (action.type) {
         // loading
         case LOADING:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: true,
-            });
-            // 请求列表数据
+                    loading: true,
+                });
+        // 请求列表数据
         case PATH_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    ...action
-                }
-            });
-            //请求错误
+                    loading: false,
+                    index: {
+                        ...action
+                    }
+                });
+        //请求错误
         case REQUEST_ERR:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                requestErr: {
-                    ...action
-                }
-            });
-            // 创建path
+                    loading: false,
+                    requestErr: {
+                        ...action
+                    }
+                });
+        // 创建path
         case PATH_CREATE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                create: {
-                    ...action
-                }
-            });
-            // edit
+                    loading: false,
+                    create: {
+                        ...action
+                    }
+                });
+        // edit
         case PATH_EDIT:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                edit: {
-                    ...action
-                }
-            });
-            //detail
+                    loading: false,
+                    edit: {
+                        ...action
+                    }
+                });
+        //detail
         case PATH_DETAIL:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    ...action
-                }
-            });
-            //removePerm
+                    loading: false,
+                    detail: {
+                        ...action
+                    }
+                });
+        //removePerm
         case PATH_REMOVE_PERM:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    ...state.detail,
-                    removePerm: action
-                }
-            });
-            //pathDelete
+                    loading: false,
+                    detail: {
+                        ...state.detail,
+                        removePerm: action
+                    }
+                });
+        //pathDelete
         case PATH_DELETE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    ...state.index,
-                    pathDelete: action
-                }
-            });
+                    loading: false,
+                    index: {
+                        ...state.index,
+                        pathDelete: action
+                    }
+                });
         case PATH_CLEAR_DELETE_DATA:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    ...state.index,
-                    pathDelete: ""
-                }
-            });
+                    loading: false,
+                    index: {
+                        ...state.index,
+                        pathDelete: ""
+                    }
+                });
         default:
             return state
     }
@@ -307,66 +331,76 @@ export const menuManager = (state = menuManagerInitValue, action) => {
     switch (action.type) {
         // loading
         case LOADING:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: true,
-            });
-            //请求错误
+                    loading: true,
+                });
+        //请求错误
         case REQUEST_ERR:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                requestErr: {
-                    ...action
-                }
-            });
-            //index页面menuList数据
+                    loading: false,
+                    requestErr: {
+                        ...action
+                    }
+                });
+        //index页面menuList数据
         case MENU_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: { ...action
-                }
-            });
-            //delete
+                    loading: false,
+                    index: {
+                        ...action
+                    }
+                });
+        //delete
         case MENU_DELETE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    ...state.index,
-                    menuDelete: action
-                }
-            });
-            //detail
+                    loading: false,
+                    index: {
+                        ...state.index,
+                        menuDelete: action
+                    }
+                });
+        //detail
         case MENU_DETAIL:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: { ...action
-                }
-            });
+                    loading: false,
+                    detail: {
+                        ...action
+                    }
+                });
         case MENU_REMOVE_PERM:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: {
-                    ...state.detail,
-                    menuRemovePerm: action
-                }
-            });
+                    loading: false,
+                    detail: {
+                        ...state.detail,
+                        menuRemovePerm: action
+                    }
+                });
         case MENU_CREATE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                create: action
-            });
+                    loading: false,
+                    create: action
+                });
         case MENU_EDIT:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                edit: action
-            });
+                    loading: false,
+                    edit: action
+                });
         default:
             return state
     }
@@ -384,124 +418,140 @@ export const powerManager = (state = powerManagerInitValue, action) => {
     switch (action.type) {
         // loading
         case LOADING:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: true,
-            });
-            //请求错误
+                    loading: true,
+                });
+        //请求错误
         case REQUEST_ERR:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                requestErr: {
-                    ...action
-                }
-            });
-            //powerList
+                    loading: false,
+                    requestErr: {
+                        ...action
+                    }
+                });
+        //powerList
         case POWER_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    powerList: action
-                }
-            });
-            //delete
+                    loading: false,
+                    index: {
+                        powerList: action
+                    }
+                });
+        //delete
         case POWER_DELETE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    ...state.index,
-                    powerDelete: action
-                }
-            });
-            //claerDeleteData
+                    loading: false,
+                    index: {
+                        ...state.index,
+                        powerDelete: action
+                    }
+                });
+        //claerDeleteData
         case POWER_CLEAR_DELETE_DATA:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: {
-                    ...state.index,
-                    powerDelete: {}
-                }
-            });
-            //create
+                    loading: false,
+                    index: {
+                        ...state.index,
+                        powerDelete: {}
+                    }
+                });
+        //create
         case POWER_CREATE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                create: action
-            });
-            //detail
+                    loading: false,
+                    create: action
+                });
+        //detail
         case POWER_DETAIL:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: action
-            });
-            //edit
+                    loading: false,
+                    detail: action
+                });
+        //edit
         case POWER_EDIT:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                edit: action
-            });
-            //componentTitle
+                    edit: action
+                });
+        //componentTitle
         case POWER_CREATE_COMPONENT_TITLE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                ...action
-            });
-            //config
+                    ...action
+                });
+        //config
         case POWER_CONFIG:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                config: action
-            });
-            //configAddPath
+                    loading: false,
+                    config: action
+                });
+        //configAddPath
         case POWER_CONFIG_ADD_PATH:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                configAddPath: action
-            });
-            //configUnbind
+                    loading: false,
+                    configAddPath: action
+                });
+        //configUnbind
         case POWER_CONFIG_UNBIND:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                configUnbind: action
-            });
-            //configUnboundPathList
+                    loading: false,
+                    configUnbind: action
+                });
+        //configUnboundPathList
         case POWER_CONFIG_UNBOUND_PATH_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                configUnboundPathList: action
-            });
-            //configMenuList
+                    loading: false,
+                    configUnboundPathList: action
+                });
+        //configMenuList
         case POWER_CONFIG_MENU_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                configMenuList: action
-            });
-            //pathModalVisible
+                    loading: false,
+                    configMenuList: action
+                });
+        //pathModalVisible
         case POWER_PATH_MODAL_VISIBLE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                // pathModalVisible: false,
-                // ...action
-                pathModalVisible: action.pathModalVisible
-            });
-            //pathModalVisible
+                    // pathModalVisible: false,
+                    // ...action
+                    pathModalVisible: action.pathModalVisible
+                });
+        //pathModalVisible
         case POWER_MENU_MODAL_VISIBLE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                menuModalVisible: action.menuModalVisible,
-                // ...action
-            });
+                    menuModalVisible: action.menuModalVisible,
+                    // ...action
+                });
 
 
         default:
@@ -526,53 +576,60 @@ export const roleManager = (state = roleManagerInitValue, action) => {
         //     });
         //请求错误
         case REQUEST_ERR:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                requestErr: {
-                    ...action
-                }
-            });
-            // loading
+                    loading: false,
+                    requestErr: {
+                        ...action
+                    }
+                });
+        // loading
         case LOADING:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: true,
-            });
-            //index
+                    loading: true,
+                });
+        //index
         case ROLE_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: action
-            });
-            //create
+                    loading: false,
+                    index: action
+                });
+        //create
         case ROLE_CREATE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                create: action
-            });
-            //detail
+                    create: action
+                });
+        //detail
         case ROLE_DETAIL:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: action
-            });
-            //detail
+                    loading: false,
+                    detail: action
+                });
+        //detail
         case ROLE_COMPONENT_TITLE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                // componentTitle:
-                ...action
-            });
-            //delete
+                    // componentTitle:
+                    ...action
+                });
+        //delete
         case ROLE_DELETE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                delete: action
-            });
+                    loading: false,
+                    delete: action
+                });
         default:
             return state
     }
@@ -588,75 +645,91 @@ export const userManager = (state = userManagerInitValue, action) => {
 
         //请求错误
         case REQUEST_ERR:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                requestErr: {
-                    ...action
-                }
-            });
-            // loading
+                    loading: false,
+                    requestErr: {
+                        ...action
+                    }
+                });
+        // loading
         case LOADING:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: true,
-            });
-            // index
+                    loading: true,
+                });
+        // index
         case USER_LIST:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                index: action
-            });
-            // create
+                    loading: false,
+                    index: action
+                });
+        // create
         case USER_CREATE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
+                    loading: false,
+                    create: action
+                });
+        // edit
+        case USER_EDIT:
+            return Object.assign({}, state, {
                 loading: false,
-                create: action
+                edit: action
             });
-            // detail
+        // detail
         case USER_DETAIL:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                detail: action
-            });
-            // delete
+                    loading: false,
+                    detail: action
+                });
+        // delete
         case USER_DELETE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                delete: action
-            });
-            // changeStatus
+                    loading: false,
+                    delete: action
+                });
+        // changeStatus
         case USER_CHANGE_STATUS:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                changeStatus: action
-            });
+                    loading: false,
+                    changeStatus: action
+                });
 
-            // changeStatus modalVisible
+        // changeStatus modalVisible
         case USER_DETAIL_MODAL_VISIBLE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                userModalVisible: action.userModalVisible
-            });
-            //changePasswordModal
+                    loading: false,
+                    userModalVisible: action.userModalVisible
+                });
+        //changePasswordModal
         case USER_CHANGE_PWD_MODAL_VISIBLE:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                changePwdModalVisible: action.changePwdModalVisible,
-            });
-            //changePassword
+                    changePwdModalVisible: action.changePwdModalVisible,
+                });
+        //changePassword
         case USER_CHANGE_PWD:
-            return Object.assign({}, { ...state
+            return Object.assign({}, {
+                ...state
             }, {
-                loading: false,
-                changePassword: action,
-            });
+                    loading: false,
+                    changePassword: action,
+                });
 
         default:
             return state

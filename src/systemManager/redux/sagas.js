@@ -102,7 +102,9 @@ import {
     DICT_DETAIL,
     DICT_DELETE,
     REQUEST_DICT_CREATE,
-    DICT_CREATE
+    DICT_CREATE,
+    REQUEST_USER_EDIT,
+    USER_EDIT
 } from "./actionTypes";
 
 import { store } from '../../index';
@@ -1038,6 +1040,23 @@ export function* watchRequestUserCreate() {
             loadingMsg: '用户创建中...',
             type: USER_CREATE
         }, createSucc);
+    }
+}
+
+
+/**
+ * Path：/user/edit
+ * Method：POST
+ **/
+export function* watchRequestUserEdit() {
+    while (true) {
+        const action = yield take(REQUEST_USER_EDIT);
+        yield fork(requestData, {
+            action,
+            url: '/user/edit',
+            loadingMsg: '用户修改中...',
+            type: USER_EDIT
+        }, editSucc);
     }
 }
 

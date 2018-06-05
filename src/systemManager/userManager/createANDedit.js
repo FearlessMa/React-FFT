@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { FormComponent, tranTreeData, tranCheckboxData } from '../../common';
-import { requestAllOrgList, requestRoleList, requestUserCreate, requestUserDetail } from "../redux/actions";
+import { requestAllOrgList, requestRoleList, requestUserCreate, requestUserDetail, requestUserEdit } from "../redux/actions";
 import { connect } from "react-redux";
 import { Row, Col, Divider } from 'antd';
 import sha256 from 'js-sha256';
@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
     roleListSaga: values => dispatch(requestRoleList(values)),
     userCreateSaga: values => dispatch(requestUserCreate(values)),
     userDetailSaga: value => dispatch(requestUserDetail(value)),
+    userEditSaga: values => dispatch(requestUserEdit(values))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -32,6 +33,7 @@ export class UserCreateContainer extends React.Component {
         this.props.roleListSaga({ pageSize: 1000 });
         let componentTitle = 'create';
         const userId = this.props.match.params.userId;
+        this.userId = userId;
         if ((isNaN(userId) && userId !== undefined) || userId === '') {
             //TODO
             this.props.history.push('/systemManager/userManager');
@@ -48,9 +50,14 @@ export class UserCreateContainer extends React.Component {
     }
 
     onSubmit = values => {
-        values.password = sha256(values.password);
-        values.rePassword = sha256(values.rePassword);
-        this.props.userCreateSaga(values);
+        if (this.state.componentTitle === 'edit') {
+            values.userId = this.userId;
+            this.props.userEditSaga(values);
+        } else {
+            values.password = sha256(values.password);
+            values.rePassword = sha256(values.rePassword);
+            this.props.userCreateSaga(values);
+        }
     }
 
     //form 表单onChange
@@ -147,7 +154,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: true,
-                message:'登录名必填'
+                message: '登录名必填'
             },
             initialValue: initialValueData.loginName
         },
@@ -158,7 +165,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: true,
-                message:'用户名必填'
+                message: '用户名必填'
             },
             initialValue: initialValueData.userName
         },
@@ -169,7 +176,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: passwordRules.required,
-                validator: props.checkResPassword
+                validator: passwordRules.disabled ? null : props.checkResPassword
             },
             disabled: passwordRules.disabled
         },
@@ -180,7 +187,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: passwordRules.required,
-                validator: props.checkPassword
+                validator: passwordRules.disabled ? null : props.checkPassword
             },
             disabled: passwordRules.disabled
         },
@@ -191,7 +198,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: true,
-                message:'固定电话必填'
+                message: '固定电话必填'
             },
             initialValue: initialValueData.telephone
         },
@@ -202,7 +209,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: true,
-                message:'移动电话必填'
+                message: '移动电话必填'
             },
             initialValue: initialValueData.mobile
         },
@@ -213,7 +220,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: true,
-                message:'地址必填'
+                message: '地址必填'
             },
             initialValue: initialValueData.userAddress
         },
@@ -224,7 +231,7 @@ const UserCreateContent = props => {
             tag: 'input',
             rules: {
                 required: true,
-                message:'邮箱必填'
+                message: '邮箱必填'
             },
             initialValue: initialValueData.email
         },
@@ -234,9 +241,9 @@ const UserCreateContent = props => {
             type: 'number',
             tag: 'input',
             rules: {
-                max:18,
-                min:18,
-                message:'身份证必须为18位'
+                max: 18,
+                min: 18,
+                message: '身份证必须为18位'
             },
             initialValue: initialValueData.mobile
         },
@@ -259,7 +266,7 @@ const UserCreateContent = props => {
             initialValue: checkboxInitValue,
             rules: {
                 required: true,
-                message:'用户角色必填'
+                message: '用户角色必填'
             },
         },
     ];

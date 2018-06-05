@@ -15,7 +15,7 @@ import {
     watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete, watchRequestUserChangeStatus,
     watchRequestOrgRemoveMembers, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
-    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,
+    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,watchRequestUserEdit,
     //字典
     watchReuqestdictList, watchReuqestdictDetail,watchRequestDictDelete,watchRequestDictCreate
 } from '../systemManager/redux/sagas';
@@ -37,7 +37,7 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestUserList, watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete,
     watchRequestUserChangeStatus, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
-    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,
+    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,watchRequestUserEdit,
     //字典
     watchReuqestdictList, watchReuqestdictDetail,watchRequestDictDelete,watchRequestDictCreate,
     //资金
@@ -108,6 +108,7 @@ export const sagasRun = () => {
     sagas.run(watchRequestUserDelete);
     sagas.run(watchRequestUserChangeStatus);
     sagas.run(watchRequestUserChangePwd);
+    sagas.run(watchRequestUserEdit);
 
     /* *-----------资金查询 fundsModule ---------* */
     // fundsPublish
