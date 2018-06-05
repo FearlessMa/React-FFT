@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-25 15:15:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-17 14:11:18
+ * @Last Modified time: 2018-06-05 16:21:30
  */
 
 
@@ -43,7 +43,7 @@ export class PublishCreateContainer extends React.Component {
         const list = this.formatForfaiterList(selectedForfaiter);
         // values.forfaiter = JSON.stringify(list);
         values.forfaiter = list;
-        console.log(values);
+        // console.log(values);
         if (!selectedForfaiter[0]) {
             notification['error']({
                 message: '错误！',
@@ -52,6 +52,12 @@ export class PublishCreateContainer extends React.Component {
         } else {
             this.props.fundsPublishCreateSaga(values);
         }
+    }
+    
+    onSearch = values =>{
+        console.log('values')
+        console.log(values)
+        this.props.modalForfaiterListSaga(values);
     }
 
     // 创建包买商列表数据forfaiter
@@ -157,6 +163,7 @@ export class PublishCreateContainer extends React.Component {
                 rowSelection={this.rowSelection}
                 tableDeleteColumns={tableDeleteColumns}
                 paginationOnChange={this.paginationOnChange}
+                onSearch = {this.onSearch}
                 {...this.state}
                 {...this.props}
             />
@@ -220,7 +227,7 @@ const PublishCreateContent = props => {
                 <FormComponent
                     //modal搜索
                     formList={ModalsearchComponentData}
-                    formSubmit={props.formSubmit}
+                    formSubmit={props.onSearch}
                     btn={{ sub: '搜索' }}
                     layout={'inline'}
                 //formItemLayout={formItemLayout}
