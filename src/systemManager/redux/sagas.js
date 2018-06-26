@@ -844,20 +844,20 @@ export function* watchRequestPowerConfigMenuList() {
     }
 }
 
-// function* powerConfigMenuList(action) {
-//     try {
-//         yield put({type: LOADING});
-//         const res = yield call(axios.post, '/perm/showMenusToAddPerm', {...action});
-//         const data = res.data;
-//         if (data.code === 200) {
-//             yield put({type: POWER_CONFIG_MENU_LIST, ...data})
-//         } else {
-//             yield put({type: REQUESTERR, ...data})
-//         }
-//     } catch (err) {
-//         yield put({type: ERROR, ...err})
-//     }
-// }
+/* function* powerConfigMenuList(action) {
+    try {
+        yield put({type: LOADING});
+        const res = yield call(axios.post, '/perm/showMenusToAddPerm', {...action});
+        const data = res.data;
+        if (data.code === 200) {
+            yield put({type: POWER_CONFIG_MENU_LIST, ...data})
+        } else {
+            yield put({type: REQUESTERR, ...data})
+        }
+    } catch (err) {
+        yield put({type: ERROR, ...err})
+    }
+} */
 
 
 /*********---------------roleManager-----------------**********/

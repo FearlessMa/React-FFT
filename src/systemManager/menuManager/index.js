@@ -164,7 +164,7 @@ const searchComponentData = [
         tag: 'input',
     },
 ];
-const MenuManagerContent = (props) => {
+const MenuManagerContent = props => {
     let menuList = [];
     let pagination = [];
     try {
