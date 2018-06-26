@@ -67,8 +67,8 @@ export const tranTreeData = (selectData,id,parentId,name)=>{
     for(let i in selectData){
         selectData[i]['key'] = i;
         let _item = selectData[i];
-        let isIncludeChildern = selectData.find((value) => _item[id] === value[parentId]);
-        if(isIncludeChildern)_item.children = [];
+        let isIncludeChildren = selectData.find((value) => _item[id] === value[parentId]);
+        if(isIncludeChildren)_item.children = [];
         _item.id = _item[id];
         _item.name = _item[name];
         selectListMap[_item[id]] = _item;
