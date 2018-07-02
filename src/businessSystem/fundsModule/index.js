@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-23 14:15:38 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-18 11:27:15
+ * @Last Modified time: 2018-06-28 16:30:24
  */
 
 import React from 'react';
@@ -29,7 +29,7 @@ export const FundsModuleLayout = props => {
                 component={FundsDetailContainer} />
             <Route path={`${receivedFundsPath.detailPath}${receivedFundsPath.detailParam}`}
                 component={FundsDetailContainer} />
-            <Redirect to={publishFundsPath.basePath} />>
+            <Redirect to={publishFundsPath.basePath} />
         </Switch>
     </React.Fragment>
 }
@@ -363,13 +363,13 @@ const FundsModuleContent = props => {
         tableConfig = publishFundsConfig;
     } else {
         //接收的资金
-        const receivedFundsCongig = {
+        const receivedFundsConfig = {
             columns: publicColumns,
             dataSource: receivedData,
             componentTitle: '接收的资金列表',
             pagination: receivedPaginaton
         }
-        tableConfig = receivedFundsCongig
+        tableConfig = receivedFundsConfig
     }
     return (
         <React.Fragment>

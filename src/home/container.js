@@ -19,6 +19,7 @@ import {
     MenuManagerLayout, OrganLayout, PathManagerLayout, PowerManagerLayout, RoleManagerLayout, UserManagerLayout, DictModuleLayout,
     FundsModuleLayout, PackageBuyerContainer
 } from '../routers/lazyRouters';
+import { OurBankRouter } from '../businessSystem/preInquiryPrice/ourBank';
 
 const AllRoutes = props => {
     return (
@@ -34,7 +35,8 @@ const AllRoutes = props => {
                 <Route path={`/businessSystem/fundsModule`} component={FundsModuleLayout} />
                 <Route path={`/businessSystem/packageBuyer`} component={PackageBuyerContainer} />
                 <Route path={`${dictModulePath.basePath}`} component={DictModuleLayout} />
-                <Redirect to={`${props.match.path}`} />
+                <Route path={`/businessSystem/preInquiryPrice/ourBank`} component={OurBankRouter} />
+                {/* <Redirect to={`${props.match.path}`} /> */}
             </Switch>
         </div>
     )
@@ -44,5 +46,5 @@ export default withRouter(AllRoutes);
 
 //测试代码
 const HomeIndex = () => (
-    <div>homeindex</div>
+    <div>homeIndex</div>
 )

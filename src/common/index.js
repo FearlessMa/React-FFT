@@ -10,6 +10,8 @@ import { axiosPost, requestData, alertNotification, alertModal } from './axios';
 import { BreadcrumbComponent } from './breadcrumbComponent'
 import './index.less';
 import { formatYYYYMMDD } from './date';
+import { CommonModuleIndexLayout } from './common-IndexLayout';
+import { SearchFormExtend } from './common-searchFormExtend';
 export {
     FormComponent,
     TableComponent,
@@ -20,5 +22,7 @@ export {
     alertNotification,
     alertModal,
     BreadcrumbComponent,
-    formatYYYYMMDD
+    formatYYYYMMDD,
+    CommonModuleIndexLayout,
+    SearchFormExtend
 }

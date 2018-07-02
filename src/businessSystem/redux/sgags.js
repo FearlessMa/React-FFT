@@ -2,12 +2,12 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:41:51 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-07 14:25:41
+ * @Last Modified time: 2018-06-29 11:19:32
  */
 
 import { requestData, alertNotification } from 'common';
 import { take, fork } from 'redux-saga/effects';
-import { REQUEST_FUNDS_PUBLISH_LIST, FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, FUNDS_DETAIL_LIST } from './actionTypes';
+import { REQUEST_FUNDS_PUBLISH_LIST, FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, FUNDS_DETAIL_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_LIST, PRE_INQUIRY_OUR_BANK_LIST } from './actionTypes';
 import { requestFundsPublishList, requestForfaiterList } from './actions';
 import { store } from '../../index';
 
@@ -190,66 +190,20 @@ const syncCallback = (data) => {
     }
 }
 
+/* 
+Path:/enquiry/list/owner
+Method:POST
+*/
 
-// /*********--------------------dict-----------------**********/
-
-// /**
-//  * Path：/dict/list
-//  * Method：POST
-// **/
-// export function* watchReuqestdictList() {
-//     while (true) {
-//         const action = yield take(REQUEST_DICT_LIST);
-//         yield fork(requestData, {
-//             action,
-//             url: '/dict/list',
-//             type: DICT_LIST,
-//             loadingMsg: '字典数据...',
-//             dispatchLoading: true
-//         })
-//     }
-// }
-
-
-
-// /**
-//  * Path：/dict/detail
-//  * Method：POST
-// **/
-
-// export function* watchReuqestdictDetail() {
-//     while (true) {
-//         const action = yield take(REQUEST_DICT_DETAIL);
-//         yield fork(requestData, {
-//             action,
-//             url: '/dict/detail',
-//             type: DICT_DETAIL,
-//             loadingMsg: '字典详情加载中...',
-//             dispatchLoading: true
-//         })
-//     }
-// }
-
-// /**
-//  * Path：/dict/delete
-//  * Method：POST
-// **/
-
-// export function* watchRequestDictDelete() {
-//     while (true) {
-//         const action = yield take(REQUEST_DICT_DELETE);
-//         yield fork(requestData, {
-//             action,
-//             url: '/dict/delete',
-//             type: DICT_DELETE,
-//             loadingMsg: '正在删除中...'
-//         }, null, dictDeleteCallback)
-//     }
-// }
-
-// const dictDeleteCallback = data => {
-//     if (String(data.code) === '200') {
-//         alertNotification(data.message, data.message);
-//         store.dispatch(requestDictList())
-//     }
-// }
+export function * watchRequestPreInquiryOurBankList(){
+    while(true){
+        const action = yield take(REQUEST_PRE_INQUIRY_OUR_BANK_LIST);
+        yield fork(requestData,{
+            action,
+            url:'/enquiry/list/owner',
+            type:PRE_INQUIRY_OUR_BANK_LIST,
+            loading:'正在获取数据...',
+            dispatchLoading: true
+        })
+    }
+}

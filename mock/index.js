@@ -12,7 +12,7 @@ import "./systemManager/userManager";
 import './businessSystem/fundsModule';
 import './businessSystem/packageBuyer';
 import './businessSystem/dictModule';
-
+import './businessSystem/preInquiryPrice';
 
 
 Mock.setup({

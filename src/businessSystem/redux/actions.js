@@ -5,7 +5,7 @@
  * @Last Modified time: 2018-05-03 09:53:29
  */
 
-import { REQUEST_FUNDS_PUBLISH_LIST, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST } from "./actionTypes";
+import { REQUEST_FUNDS_PUBLISH_LIST, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_LIST } from "./actionTypes";
 
 /**---------fundsModule-资金-----------**/
 
@@ -55,6 +55,18 @@ export const requestSyncAllForfaiter = values => ({
     type: REQUEST_SYNC_ALL_FORFAITER,
     ...values
 })
+
+
+/**---------询价------------**/
+export const requestPreInquiryOurBankList = values => (
+    {
+        type: REQUEST_PRE_INQUIRY_OUR_BANK_LIST,
+        ...values
+    }
+)
+
+
+
 
 // /**---------dict------------**/
 

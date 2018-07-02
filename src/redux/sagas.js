@@ -15,15 +15,15 @@ import {
     watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete, watchRequestUserChangeStatus,
     watchRequestOrgRemoveMembers, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
-    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,watchRequestUserEdit,
+    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain, watchRequestUserEdit,
     //字典
-    watchReuqestdictList, watchReuqestdictDetail,watchRequestDictDelete,watchRequestDictCreate
+    watchReuqestdictList, watchReuqestdictDetail, watchRequestDictDelete, watchRequestDictCreate
 } from '../systemManager/redux/sagas';
 
 import {
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
-    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived, watchRequestFundsDetailList
-    
+    watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived, watchRequestFundsDetailList,
+    watchRequestPreInquiryOurBankList
 } from '../businessSystem/redux/sgags';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgList, watchQueryAllOrgList,
@@ -37,13 +37,14 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestUserList, watchRequestUserCreate, watchRequestUserDetail, watchRequestUserDelete,
     watchRequestUserChangeStatus, watchRequestOrgEdit, watchRequestPathEdit, watchRequestMenuEdit,
     watchRequestPowerEdit, watchRequestRoleEdit, watchRequestOrgChangeStatus, watchRequestUserChangePwd,
-    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain,watchRequestUserEdit,
+    watchRequestOrgAllToBlockChain, watchRequestOrgToBlockChain, watchRequestUserEdit,
     //字典
-    watchReuqestdictList, watchReuqestdictDetail,watchRequestDictDelete,watchRequestDictCreate,
+    watchReuqestdictList, watchReuqestdictDetail, watchRequestDictDelete, watchRequestDictCreate,
     //资金
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
     watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived, watchRequestFundsDetailList,
-   
+    //询价
+    watchRequestPreInquiryOurBankList
 ]);
 //
 // export {
@@ -129,6 +130,8 @@ export const sagasRun = () => {
     sagas.run(watchReuqestdictDetail);
     sagas.run(watchRequestDictDelete);
     sagas.run(watchRequestDictCreate);
+    /* *-----------询价 ---------* */
+    sagas.run(watchRequestPreInquiryOurBankList);
 };
 
 

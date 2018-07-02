@@ -2,7 +2,7 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:42:22 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-14 11:07:10
+ * @Last Modified time: 2018-06-29 11:06:43
  */
 
 
@@ -53,5 +53,7 @@ export const REQUEST_SYNC_ALL_FORFAITER = 'requestSyncAllForfaiter';
 // export const REQUEST_DICT_DETAIL = 'requestDictDetail';
 // export const REQUEST_DICT_DELETE = 'requestDictDelete';
 
-
+/**---------我行询价 ------------**/
+export const PRE_INQUIRY_OUR_BANK_LIST = 'preInquiryOurBankList';
+export const REQUEST_PRE_INQUIRY_OUR_BANK_LIST = 'requestPreInquiryOurBankList';
 

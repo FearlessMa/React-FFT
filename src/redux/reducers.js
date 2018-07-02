@@ -5,7 +5,7 @@
 import { combineReducers } from 'redux';
 import { loginReducer } from "../login/redux/reducer";
 import { pathManager, organManager, menuManager, powerManager, roleManager, userManager, dictModule } from '../systemManager/redux/reducer';
-import { fundsModule, forfaiterModule } from '../businessSystem/redux/reducer';
+import { fundsModule, forfaiterModule, preInquiryPriceModule } from '../businessSystem/redux/reducer';
 
 //系统
 const systemManager = combineReducers({
@@ -22,6 +22,7 @@ const systemManager = combineReducers({
 const businessSystem = combineReducers({
     fundsModule,
     forfaiterModule,
+    preInquiryPriceModule
 });
 
 const reducers = combineReducers({

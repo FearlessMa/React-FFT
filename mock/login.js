@@ -15,7 +15,7 @@ const templateRoot = Mock.mock({
             '福费廷',
         ],
         parentMenuId: 'Root',
-        sort:'@increment()',
+        sort: '@increment()',
         // 'sort|+1': [3, 1, 2],
         'tab|+1': [
             'home',
@@ -54,26 +54,55 @@ const systemManagerTemplate = Mock.mock({
     }]
 });
 const otherMenuListTemplate = Mock.mock({
-    'array|2': [{
+    'array|3': [{
         'action|+1': [
+            '',
             'businessSystem/fundsModule',
             'businessSystem/packageBuyer',
             //'businessSystem/dict',
         ],
         // menuId: '@increment()',
-        'menuId|+1': [600, 700, 800],
+        'menuId|+1': [599, 600, 700, 800],
         createTime: '@now()',
         'menuName|+1': [
+            '预询价',
             '资金',
             '包买商',
             //'字典',
         ],
         parentMenuId: 300,
         sort: '@increment()',
-        tab: "",
+        'tab|+1': [
+            'notification',
+            'pay-circle-o',
+            ''
+        ],
         updateTime: '@now()'
     }]
 });
+
+// 询价
+const PreInquiryPrice = Mock.mock({
+    'array|2': [
+        {
+            'action|+1': [
+                'businessSystem/preInquiryPrice/ourBank',
+                'businessSystem/preInquiryPrice/otherBank'
+            ],
+            menuId: '@increment()',
+            createTime: '@now()',
+            'menuName|+1': [
+                '我行询价',
+                '他行询价'
+            ],
+            parentMenuId: 599,
+            sort: '@increment()',
+            tab: "",
+            updateTime: '@now()'
+        }
+    ]
+})
+
 const fundsModuleTemplate = Mock.mock({
     'array|2': [{
         'action|+1': [
@@ -97,7 +126,8 @@ export const menuList = [
     ...templateRoot.array,
     ...systemManagerTemplate.array,
     ...otherMenuListTemplate.array,
-    ...fundsModuleTemplate.array
+    ...fundsModuleTemplate.array,
+    ...PreInquiryPrice.array
 ];
 export const loginMock = Mock.mock('/login', function (option) {
     const { username, password } = JSON.parse(option.body);

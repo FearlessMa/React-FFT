@@ -11,7 +11,7 @@ const FormItem = Form.Item;
 const FromCreate = Form.create;
 
 /**
- * From组件接收的props
+ * Form 组件接收的 props
  *  formList ： 表单数据（必填）Array
  *  formSubmit ： 接受处理表单提交的值 （btn.sub填写formSubmit必填）Function
  *  selectData : selectTree组件数据 (必须树形结构，可以使tranTreeData(可转换树形结构的数据，子属性key,父属性key,显示的key)转换树形结构）Array

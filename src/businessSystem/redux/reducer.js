@@ -5,7 +5,7 @@
  * @Last Modified time: 2018-05-03 09:58:22
  */
 
-import { FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, FUNDS_PUBLISH_CREATE, PARENT_SC_FORFAITER_LIST, FORFAITER_LIST, SYNC_ALL_FORFAITER, FUNDS_RECEIVED_LIST, FUNDS_DETAIL_LIST } from "./actionTypes";
+import { FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, FUNDS_PUBLISH_CREATE, PARENT_SC_FORFAITER_LIST, FORFAITER_LIST, SYNC_ALL_FORFAITER, FUNDS_RECEIVED_LIST, FUNDS_DETAIL_LIST, PRE_INQUIRY_OUR_BANK_LIST } from "./actionTypes";
 import { REQUEST_ERR } from "../../login/redux/actionTypes";
 import { LOADING } from "../../systemManager/redux/actionTypes";
 
@@ -122,6 +122,39 @@ export const forfaiterModule = (state = forfaiterInitvalue, action) => {
             return state;
     }
 }
+
+/**------------------询价-------------------------**/
+
+export const preInquiryPriceModule = (state={}, action) => {
+    switch (action.type) {
+        //loading
+        case LOADING:
+            return Object.assign({}, state, {
+                loading: true,
+            });
+        //请求错误
+        case REQUEST_ERR:
+            return Object.assign({}, state, {
+                loading: false,
+                requestErr: {
+                    ...action
+                }
+            });
+        case PRE_INQUIRY_OUR_BANK_LIST:
+            return Object.assign({}, state, {
+                ourBankList: {
+                    ...action
+                }
+            })
+        default:
+            return state
+    }
+}
+
+
+
+
+
 
 // /**------------------字典 dict-------------------------**/
 // const dictModuleInitvalue = {}
