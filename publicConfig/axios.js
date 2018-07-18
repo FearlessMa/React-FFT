@@ -91,6 +91,9 @@ export const axiosConfig = {
                 }
             );
         }
+        if (data.code !== 200) {
+            data.data = {};
+        }
         return data;
     }]
 };

@@ -2,12 +2,12 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:41:51 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-06-29 11:19:32
+ * @Last Modified time: 2018-07-06 14:53:20
  */
 
 import { requestData, alertNotification } from 'common';
 import { take, fork } from 'redux-saga/effects';
-import { REQUEST_FUNDS_PUBLISH_LIST, FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, FUNDS_DETAIL_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_LIST, PRE_INQUIRY_OUR_BANK_LIST } from './actionTypes';
+import { REQUEST_FUNDS_PUBLISH_LIST, FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, FUNDS_DETAIL_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_LIST, PRE_INQUIRY_OUR_BANK_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL, PRE_INQUIRY_OUR_BANK_DETAIL, REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY, PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY } from './actionTypes';
 import { requestFundsPublishList, requestForfaiterList } from './actions';
 import { store } from '../../index';
 
@@ -191,19 +191,57 @@ const syncCallback = (data) => {
 }
 
 /* 
-Path:/enquiry/list/owner
+Path:/enquiry/sended/list
 Method:POST
 */
 
-export function * watchRequestPreInquiryOurBankList(){
-    while(true){
+export function* watchRequestPreInquiryOurBankList() {
+    while (true) {
         const action = yield take(REQUEST_PRE_INQUIRY_OUR_BANK_LIST);
-        yield fork(requestData,{
+        yield fork(requestData, {
             action,
-            url:'/enquiry/list/owner',
-            type:PRE_INQUIRY_OUR_BANK_LIST,
-            loading:'正在获取数据...',
-            dispatchLoading: true
+            url: '/enquiry/sended/list',
+            type: PRE_INQUIRY_OUR_BANK_LIST,
+            loading: '正在获取数据...',
+            dispatchLoading: true,
+            method:'get'
+        })
+    }
+}
+
+/* 
+Path:/asset/detail
+Method:POST
+ */
+export function* watchRequestPreInquiryOurBankDetail() {
+    while (true) {
+        const action = yield take(REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL);
+        yield fork(requestData, {
+            action,
+            url: '/asset/detail',
+            type: PRE_INQUIRY_OUR_BANK_DETAIL,
+            loading: '正在获取数据...',
+            // dispatchLoading: true
+            method:'get'
+        })
+    }
+}
+
+/* 
+Path:/trancation/list
+Method:POST
+ */
+
+export function* watchRequestPreInquiryOurBankDetailHistory() {
+    while (true) {
+        const action = yield take(REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY);
+        yield fork(requestData, {
+            action,
+            url: '/trancation/list',
+            type: PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY,
+            loading: '正在获取数据...',
+            // dispatchLoading: true
+            method:'get'
         })
     }
 }

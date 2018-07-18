@@ -15,86 +15,19 @@ import { axiosConfig, loginTimeout } from 'publicConfig';
 
 //封装成功返回数据后的校验
 export const axiosPost = (url, option) => axios.post(url, option, axiosConfig);
-export const axiosGet = url => axios.get(url, axiosConfig);
+export const axiosGet = (url, option) => {
+    const copyOption = Object.assign({}, option);
+    delete copyOption['type'];
+    const getConfig = Object.assign({}, axiosConfig);
+    getConfig.url = url;
+    // getConfig.method = 'get';
+    getConfig.params = copyOption;
+    return axios(getConfig);
+}
 const axiosMethod = {
     post: axiosPost,
     get: axiosGet
 };
-// const config = {
-//     // `baseURL` 将自动加在 `url` 前面，除非 `url` 是一个绝对 URL。
-//     // 它可以通过设置一个 `baseURL` 便于为 axios 实例的方法传递相对 URL
-//     // baseURL:'',
-//     // withCredentials: true,
-//     //拦截器
-//     transformResponse: [(data) => {
-//         data = JSON.parse(data);
-//         if (Number(data.code) === 400) {
-//             Modal.error(
-//                 {
-//                     title: '请求失败',
-//                     content: data.message,
-//                     okText: '确认',
-//                     onOk: () => {
-//                     }
-//                 }
-//             );
-//         }
-//         if (Number(data.code) === 401) {
-//             Modal.error(
-//                 {
-//                     title: '当前未登录',
-//                     content: data.message,
-//                     okText: '确认',
-//                     onOk: () => {
-//                         store.dispatch(logoutAction());
-//                         sessionStorage.clear();
-//                         window.location.hash = '#/login';
-//                     }
-//                 }
-//             );
-//         }
-//         if (Number(data.code) === 402) {
-//             message.error(data.message, 1)
-//         }
-//         if (Number(data.code) === 403) {
-//             Modal.error(
-//                 {
-//                     title: '无访问权限',
-//                     content: data.message,
-//                     okText: '确认',
-//                     onOk: () => {
-//                         window.history.go(-1);
-//                     }
-//                 }
-//             );
-//         }
-//         if (Number(data.code) === 404) {
-//             Modal.error(
-//                 {
-//                     title: '资源不存在',
-//                     content: data.message,
-//                     okText: '确认',
-//                     onOk: () => {
-//                         window.history.go(-1);
-//                     }
-//                 }
-//             );
-//         }
-//         if (Number(data.code) === 500) {
-//             Modal.error(
-//                 {
-//                     title: '系统错误',
-//                     content: data.message,
-//                     okText: '确认',
-//                     onOk: () => {
-//                         window.history.go(-1);
-//                     }
-//                 }
-//             );
-//         }
-//         return data;
-//     }]
-// };
 
 
 //通知提醒
@@ -168,7 +101,7 @@ export function* requestData(config, succCallback = null, dispatchCallback = nul
             }
             // succCallback ? succCallback(data.message, action) : null;
 
-        }else{
+        } else {
             yield put({ type: type, ...data });
         }
         // dispatchCallback ? dispatchCallback(data, action) : null;
@@ -183,7 +116,7 @@ export function* requestData(config, succCallback = null, dispatchCallback = nul
         window.hasLoading = false;
         if (err.message === 'Network Error') {
             loginTimeout()
-        }else{
+        } else {
             alertModal('未知的错误', `${err}`, 'error', '确认', null);
         }
     }

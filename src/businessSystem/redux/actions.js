@@ -5,7 +5,7 @@
  * @Last Modified time: 2018-05-03 09:53:29
  */
 
-import { REQUEST_FUNDS_PUBLISH_LIST, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_LIST } from "./actionTypes";
+import { REQUEST_FUNDS_PUBLISH_LIST, REQUEST_FUNDS_OFFSHEF, REQUEST_FUNDS_PUBLISH_CREATE, REQUEST_PARENT_SC_FORFAITER_LIST, REQUEST_FORFAITER_LIST, REQUEST_SYNC_ALL_FORFAITER, REQUEST_FUNDS_RECEIVED_LIST, REQUEST_FUNDS_DETAIL_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_LIST, REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL, REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY } from "./actionTypes";
 
 /**---------fundsModule-资金-----------**/
 
@@ -61,6 +61,18 @@ export const requestSyncAllForfaiter = values => ({
 export const requestPreInquiryOurBankList = values => (
     {
         type: REQUEST_PRE_INQUIRY_OUR_BANK_LIST,
+        ...values
+    }
+)
+export const requestPreInquiryOurBankDetail = values => (
+    {
+        type: REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL,
+        ...values
+    }
+)
+export const requestPreInquiryOurBankDetailHistory = values => (
+    {
+        type: REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY,
         ...values
     }
 )

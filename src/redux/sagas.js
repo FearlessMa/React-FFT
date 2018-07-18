@@ -23,7 +23,8 @@ import {
 import {
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
     watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived, watchRequestFundsDetailList,
-    watchRequestPreInquiryOurBankList
+    //询价
+    watchRequestPreInquiryOurBankList,watchRequestPreInquiryOurBankDetail,watchRequestPreInquiryOurBankDetailHistory
 } from '../businessSystem/redux/sgags';
 
 export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgList, watchQueryAllOrgList,
@@ -44,7 +45,7 @@ export const sagas = createSagaMiddleware(...[watchLoginAction, watchQueryOrgLis
     watchRequestFundsPublish, watchRequestFundsOffshef, watchRequestPublishCreate, watchReuqestParentScForfaiterList,
     watchReuqestForfaiterList, watchReuqestSyncAllForfaiterList, watchRequestFundsReceived, watchRequestFundsDetailList,
     //询价
-    watchRequestPreInquiryOurBankList
+    watchRequestPreInquiryOurBankList,watchRequestPreInquiryOurBankDetail,watchRequestPreInquiryOurBankDetailHistory
 ]);
 //
 // export {
@@ -132,6 +133,8 @@ export const sagasRun = () => {
     sagas.run(watchRequestDictCreate);
     /* *-----------询价 ---------* */
     sagas.run(watchRequestPreInquiryOurBankList);
+    sagas.run(watchRequestPreInquiryOurBankDetail);
+    sagas.run(watchRequestPreInquiryOurBankDetailHistory);
 };
 
 

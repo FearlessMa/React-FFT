@@ -2,24 +2,27 @@
  * @Author: mhc 
  * @Date: 2018-06-28 15:20:16 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-06-29 17:07:06
+ * @Last Modified time: 2018-07-05 12:53:17
  */
 
 import React from 'react';
 import { CommonModuleIndexLayout, SearchFormExtend } from 'common'
-import { routerPath, searchComponentData, searchOtherData, formItemLayout, formSubBtnLayout, publicColumns, tableComponentConfigs, tableComponentTitleConfigs } from './config';
+import { routerPath, ourBankIndex } from './config';
 import { connect } from 'react-redux';
 import { requestPreInquiryOurBankList } from '../../redux/actions';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button,Form } from 'antd';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { OurBankCreateLayout } from './create';
+import { OurBankDetailLayout } from './detail';
 
+const { searchComponentData, searchOtherData, formItemLayout, formSubBtnLayout, publicColumns, tableComponentConfigs, tableComponentTitleConfigs } = ourBankIndex
 
 export const OurBankRouter = props => (
     <React.Fragment>
         <Switch>
             <Route exact path={routerPath.index} component={OurBankLayout} />
-            <Route exact path={routerPath.create} component={OurBankCreateLayout} />
+            <Route path={routerPath.create} component={OurBankCreateLayout} />
+            <Route path={routerPath.detail} component={OurBankDetailLayout} />
         </Switch>
     </React.Fragment>
 )
@@ -57,7 +60,7 @@ class OurBankLayout extends React.Component {
 
     //分页
     paginationOnChange = pagination => {
-        // this.props.requestOurBankListSaga({ current: pagination.current, pageSize: pagination.pageSize });
+        this.props.requestOurBankListSaga({ current: pagination.current, pageSize: pagination.pageSize });
         console.log(pagination)
     }
 
@@ -96,7 +99,11 @@ class OurBankLayout extends React.Component {
                     <Col offset={8} span={6}>
                         <div>
                             <Button type='primary' style={{ marginRight: '10px' }} onClick={this.toCreate}>{tableComponentTitleConfigs.btnName1}</Button>
-                            <Button type='primary' onClick={this.upLoadExcel}>{tableComponentTitleConfigs.btnName2}</Button>
+                            {/* <form id='f1'  method={'get'} action={'https://github.com/FearlessMa/vueProject/archive/master.zip'} style={{display:'none'}}>
+                            </form>
+                            <input form='f1' type='submit' value='1'/>
+                            <a href="https://github.com/FearlessMa/vueProject/archive/master.zip">11212</a> */}
+                            <Button  type='primary' onClick={this.upLoadExcel}>{tableComponentTitleConfigs.btnName2}</Button>
                         </div>
                     </Col>
                 </Row>
@@ -108,15 +115,13 @@ class OurBankLayout extends React.Component {
             loading: false,
             columns: publicColumns.call(this),
             dataSource: [],
-            // componentTitle: '我行询价',
-            // btnName: '资金发布',
-            // btnClick: () => { },
             title: titleFun,
             ...tableComponentConfigs
         }
 
         try {
-            tableComponentConfig.dataSource = this.props.ourBankList.data
+            tableComponentConfig.dataSource = this.props.ourBankList.data.enquiryList
+            tableComponentConfig.pagination = this.props.ourBankList.data.pagination
         } catch (e) { }
 
         return <React.Fragment>

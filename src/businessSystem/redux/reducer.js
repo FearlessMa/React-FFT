@@ -2,10 +2,10 @@
  * @Author: mhc 
  * @Date: 2018-04-24 16:42:41 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-05-03 09:58:22
+ * @Last Modified time: 2018-07-03 21:49:05
  */
 
-import { FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, FUNDS_PUBLISH_CREATE, PARENT_SC_FORFAITER_LIST, FORFAITER_LIST, SYNC_ALL_FORFAITER, FUNDS_RECEIVED_LIST, FUNDS_DETAIL_LIST, PRE_INQUIRY_OUR_BANK_LIST } from "./actionTypes";
+import { FUNDS_PUBLISH_LIST, FUNDS_OFFSHEF, FUNDS_PUBLISH_CREATE, PARENT_SC_FORFAITER_LIST, FORFAITER_LIST, SYNC_ALL_FORFAITER, FUNDS_RECEIVED_LIST, FUNDS_DETAIL_LIST, PRE_INQUIRY_OUR_BANK_LIST, PRE_INQUIRY_OUR_BANK_DETAIL, PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY } from "./actionTypes";
 import { REQUEST_ERR } from "../../login/redux/actionTypes";
 import { LOADING } from "../../systemManager/redux/actionTypes";
 
@@ -125,7 +125,7 @@ export const forfaiterModule = (state = forfaiterInitvalue, action) => {
 
 /**------------------询价-------------------------**/
 
-export const preInquiryPriceModule = (state={}, action) => {
+export const preInquiryPriceModule = (state = {}, action) => {
     switch (action.type) {
         //loading
         case LOADING:
@@ -143,6 +143,18 @@ export const preInquiryPriceModule = (state={}, action) => {
         case PRE_INQUIRY_OUR_BANK_LIST:
             return Object.assign({}, state, {
                 ourBankList: {
+                    ...action
+                }
+            })
+        case PRE_INQUIRY_OUR_BANK_DETAIL:
+            return Object.assign({}, state, {
+                ourBankDetail: {
+                    ...action
+                }
+            })
+        case PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY:
+            return Object.assign({}, state, {
+                ourBankDetailHistory: {
                     ...action
                 }
             })

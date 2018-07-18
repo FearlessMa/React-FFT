@@ -56,4 +56,10 @@ export const REQUEST_SYNC_ALL_FORFAITER = 'requestSyncAllForfaiter';
 /**---------我行询价 ------------**/
 export const PRE_INQUIRY_OUR_BANK_LIST = 'preInquiryOurBankList';
 export const REQUEST_PRE_INQUIRY_OUR_BANK_LIST = 'requestPreInquiryOurBankList';
+export const PRE_INQUIRY_OUR_BANK_DETAIL= 'preInquiryOurBankDetail';
+export const REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL= 'requestPreInquiryOurBankDetail';
+export const PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY= 'preInquiryOurBankDetailHistory';
+export const REQUEST_PRE_INQUIRY_OUR_BANK_DETAIL_HISTORY= 'RequestPreInquiryOurBankDetailHistory';
+
+
 

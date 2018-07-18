@@ -50,19 +50,19 @@ class PrivateRoute extends React.Component {
 
     componentWillMount() {
         const sessionAuth = sessionStorage.getItem('isAuthenticated');
+        let userData = sessionStorage.getItem('userData');
         //通过session验证身份
-        if (sessionAuth && this.props.login.userData.data === undefined) {
-            const userData = JSON.parse(sessionStorage.getItem('userData'));
-            this.props.authDispatch(sessionAuth);
+        if (sessionAuth && userData) {
+            userData = JSON.parse(userData);
             if (userData) {
+                this.props.authDispatch(Boolean(sessionAuth));
                 this.props.sessionUserDataToStore(userData);
             }
-            this.setState({
-                isAuthenticated: true
-            }
-            )
+            // this.setState({
+            //     isAuthenticated: true
+            // }
+            // )
         }
-
     }
 
     render() {

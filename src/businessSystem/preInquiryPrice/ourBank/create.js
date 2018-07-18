@@ -2,14 +2,15 @@
  * @Author: mhc 
  * @Date: 2018-06-29 16:39:19 
  * @Last Modified by: mhc
- * @Last Modified time: 2018-06-29 18:41:46
+ * @Last Modified time: 2018-07-11 19:47:14
  */
 
 import React from 'react';
 import { Row, Col, Divider, Upload, Switch, Button, Icon, Modal, Table } from 'antd';
 import { FormComponent } from 'common';
-import { fromComponentCreateConfig, TableComponent } from './config';
+import { ourBankCreate } from './config';
 
+const { fromComponentCreateConfig } = ourBankCreate
 export class OurBankCreateLayout extends React.Component {
 
 
@@ -17,15 +18,6 @@ export class OurBankCreateLayout extends React.Component {
         console.log(values)
     }
     render() {
-
-        // formList={formList}
-        // layout={'horizontal'}
-        // moreItemInRow={true}
-        // formItemLayout={formItemLayout}
-        // formSubBtnLayout={formSubBtnLayout}
-        // btn={{ sub: '提交', back: '返回' }}
-        // formSubmit={props.formSubmit}
-
         const formComponentConfig = {
             formSubmit: this.formSubmit,
             ...fromComponentCreateConfig
